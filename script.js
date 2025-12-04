@@ -1,150 +1,147 @@
-// LISTA DE PRODUTOS
+// LISTA DE PRODUTOS (com categoria)
 const produtos = [
-    { nome: "Alcatra com Picanha", preco: 59.90, img: "imagens/produtos/alcatra_com_picanha.png", categoria: "bovino" },
-    { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife-alcatra.png", categoria: "bovino" },
-    { nome: "Coxa de Frango", preco: 14.90, img: "imagens/produtos/frango.png", categoria: "frango" },
-    { nome: "Pernil Suíno", preco: 22.50, img: "imagens/produtos/suino.png", categoria: "suino" }
+  { nome: "Alcatra com Picanha", preco: 59.90, img: "", categoria: "bovino" },
+  { nome: "Bife de Alcatra", preco: 49.98, img: "", categoria: "bovino" },
+  { nome: "Coxão Mole", preco: 48.98, img: "", categoria: "bovino" },
+  { nome: "Coxa de Frango", preco: 14.90, img: "", categoria: "frango" },
+  { nome: "Pernil Suíno", preco: 22.50, img: "", categoria: "suino" },
+  { nome: "Linguiça Toscana", preco: 24.90, img: "", categoria: "linguica" },
+  { nome: "Arroz (1kg)", preco: 6.50, img: "", categoria: "acompanhamentos" }
 ];
 
+// referencia DOM
+const produtosContainer = document.getElementById('produtos-container');
+const listaCarrinhoEl = document.getElementById('lista-carrinho');
+const totalGeralEl = document.getElementById('total-geral');
 
-// PEGAR CONTAINER
-const produtosContainer = document.getElementById("produtos-container");
-
-
-// FUNÇÃO PARA RENDERIZAR PRODUTOS COM FILTRO
-function renderProdutos(filtro = "todos") {
-    produtosContainer.innerHTML = "";
-
-    const listaFiltrada =
-        filtro === "todos" ? produtos : produtos.filter(p => p.categoria === filtro);
-
-    listaFiltrada.forEach((p, index) => {
-        produtosContainer.innerHTML += `
-            <div class="produto">
-                <img src="${p.img}" alt="${p.nome}">
-                <h3>${p.nome}</h3>
-                <p class="preco">R$ ${p.preco.toFixed(2)}/kg</p>
-                <div class="produto-botoes">
-                <button onclick="addCarrinho(${produtos.indexOf(p)})">Adicionar</button>
-                <button onclick="removeFromCart('${p.nome}')">Remover</button>
-                </div>
-            </div>
-        `;
-    });
-}
-
-// render inicial
-renderProdutos();
-
-
-// CARRINHO
+// estado do carrinho
+// estrutura: [{ nome, preco, qtd }]
 let carrinho = [];
 
-function removeFromCart(nome) {
-const index = carrinho.findIndex(item => item.nome === nome);
-if (index !== -1) {
-carrinho.splice(index, 1);
-atualizarCarrinho();
+// --- renderizar produtos (leva em conta categoria) ---
+function renderProdutos(filtro = 'todos'){
+  produtosContainer.innerHTML = '';
+  const listaFiltrada = filtro === 'todos' ? produtos : produtos.filter(p => p.categoria === filtro);
+
+  listaFiltrada.forEach((p) =>{
+    const index = produtos.indexOf(p); // índice no array original
+    produtosContainer.innerHTML += `
+      <div class="produto">
+        <img src="${p.img}">
+        <h3>${p.nome}</h3>
+        <p class="preco">R$ ${p.preco.toFixed(2)}/kg</p>
+        <div class="produto-botoes">
+          <button class="btn-add" onclick="addCarrinho(${index})">Adicionar</button>
+          <button class="btn-remove" onclick="removeFromCart(${index})">Remover</button>
+        </div>
+      </div>
+    `;
+  });
 }
+
+// inicial
+renderProdutos();
+
+// --- funções do carrinho ---
+function addCarrinho(index){
+  const produto = produtos[index];
+  if(!produto) return;
+  const item = carrinho.find(i => i.nome === produto.nome);
+  if(item){
+    item.qtd++;
+  } else {
+    carrinho.push({ nome: produto.nome, preco: produto.preco, qtd: 1 });
+  }
+  atualizarCarrinho();
 }
 
-function addCarrinho(index) {
-    const produto = produtos[index];
-    const item = carrinho.find(i => i.nome === produto.nome);
+function removeFromCart(index){
+  const produto = produtos[index];
+  if(!produto) return;
+  const item = carrinho.find(i => i.nome === produto.nome);
+  if(!item) return; // nada a remover
 
-    if (item) {
-        item.qtd++;
-    } else {
-        carrinho.push({ nome: produto.nome, preco: produto.preco, qtd: 1 });
-    }
+  // diminuir apenas 1 unidade; se chegar a 0 remove do array
+  if(item.qtd > 1){
+    item.qtd--;
+  } else {
+    // remove o item por completo
+    carrinho = carrinho.filter(i => i.nome !== produto.nome);
+  }
 
-    atualizarCarrinho();
+  atualizarCarrinho();
 }
 
-function atualizarCarrinho() {
-    const lista = document.getElementById("lista-carrinho");
-    const totalTexto = document.getElementById("total-geral");
-    lista.innerHTML = "";
+function atualizarCarrinho(){
+  listaCarrinhoEl.innerHTML = '';
+  let total = 0;
 
-    let total = 0;
-
-    carrinho.forEach(item => {
-        const subtotal = item.preco * item.qtd;
-        total += subtotal;
-
-        lista.innerHTML += `
-            <div class="item-carrinho">
-                <p>${item.nome} (x${item.qtd})</p>
-                <p>R$ ${subtotal.toFixed(2)}</p>
-            </div>
-        `;
+  if(carrinho.length === 0){
+    
+  } else {
+    carrinho.forEach(item =>{
+      const subtotal = item.preco * item.qtd;
+      total += subtotal;
+      listaCarrinhoEl.innerHTML += `
+        <div class="item-carrinho">
+          <div>${item.nome} (x${item.qtd})</div>
+          <div>R$ ${subtotal.toFixed(2)}</div>
+        </div>
+      `;
     });
+  }
 
-    totalTexto.textContent = total.toFixed(2);
+  totalGeralEl.textContent = total.toFixed(2);
 }
 
+// --- filtros ---
+const botoesFiltro = document.querySelectorAll('.tipos');
+const botaoReset = document.querySelector('.tipos-delet');
 
-// BOTÕES DE FILTRO
-const botoesFiltro = document.querySelectorAll(".tipos");
-const botaoReset = document.querySelector(".tipos-delet");
-
-// Clicar em qualquer filtro normal
-botoesFiltro.forEach(btn => {
-    btn.addEventListener("click", () => {
-
-        // tirar ativo de todos
-        botoesFiltro.forEach(b => b.classList.remove("ativo"));
-        botaoReset.classList.remove("ativo");
-
-        // ativar o clicado
-        btn.classList.add("ativo");
-
-        // categoria
-        const categoria = btn.getAttribute("data-cat");
-
-        // atualizar lista filtrada
-        renderProdutos(categoria);
-    });
+botoesFiltro.forEach(btn =>{
+  btn.addEventListener('click', ()=>{
+    botoesFiltro.forEach(b => b.classList.remove('ativo'));
+    if(botaoReset) botaoReset.classList.remove('ativo');
+    btn.classList.add('ativo');
+    const cat = btn.getAttribute('data-cat');
+    renderProdutos(cat === 'todos' ? 'todos' : cat);
+  });
 });
 
-// Clicar no X → mostrar todos os produtos
-botaoReset.addEventListener("click", () => {
+if(botaoReset){
+  botaoReset.addEventListener('click', ()=>{
+    botoesFiltro.forEach(b => b.classList.remove('ativo'));
+    botaoReset.classList.add('ativo');
+    renderProdutos('todos');
+  });
+}
 
-    // remover ativo de todos os filtros
-    botoesFiltro.forEach(b => b.classList.remove("ativo"));
+// --- enviar pedido via WhatsApp ---
+const btnFinalizar = document.getElementById('btn-finalizar');
+if(btnFinalizar){
+  btnFinalizar.addEventListener('click', ()=>{
+    const rua = document.getElementById('rua').value.trim();
+    const numero = document.getElementById('numero').value.trim();
+    const bairro = document.getElementById('bairro').value.trim();
 
-    // ativar apenas o botão X
-    botaoReset.classList.add("ativo");
-
-    // mostrar todos os produtos
-    renderProdutos("todos");
-});
-
-
-
-// ENVIAR PEDIDO PELO WHATSAPP
-const btnFinalizar = document.getElementById("btn-finalizar");
-
-btnFinalizar.addEventListener("click", () => {
-    const rua = document.getElementById("rua").value.trim();
-    const numero = document.getElementById("numero").value.trim();
-    const bairro = document.getElementById("bairro").value.trim();
-
-    if (!rua || !numero || !bairro) {
-        return alert("Por favor, preencha Rua, Número e Bairro.");
+    if(!rua || !numero || !bairro){
+      alert('Por favor, preencha o endereço completo: Rua, Número e Bairro.');
+      return;
     }
 
-    if (carrinho.length === 0)
-        return alert("Seu carrinho está vazio!");
+    if(carrinho.length === 0){
+      alert('Seu carrinho está vazio!');
+      return;
+    }
 
-    let mensagem = "*Pedido:*%0A";
-
-    carrinho.forEach(item => {
-        mensagem += `${item.nome} - ${item.qtd}x - R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
+    let mensagem = '*Pedido:*%0A';
+    carrinho.forEach(item =>{
+      mensagem += `${item.nome} - ${item.qtd}x - R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
     });
 
-    mensagem += `%0A*Endereço:*%0A${rua}, nº ${numero}%0ABairro: ${bairro}%0A`;
-    mensagem += `%0ATotal: R$ ${document.getElementById("total-geral").textContent}`;
+    mensagem += `%0A*Endereço de entrega:*%0A${rua}, nº ${numero}%0ABairro: ${bairro}%0A`;
+    mensagem += `%0ATotal: R$ ${totalGeralEl.textContent}`;
 
     window.open(`https://wa.me/5545991120288?text=${mensagem}`);
-});
+  });
+}

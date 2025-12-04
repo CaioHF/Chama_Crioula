@@ -35,28 +35,12 @@ header img:hover{
     transition: all 0.3s ease;
 }
 
-header p {
-    font-family: Verdana;
-    font-size: 20px;
-    font-weight: lighter;
-    color: var(--cor-vermelha);
-}
-
-header a {
-    text-decoration: none;
-    color: var(--cor-vermelha);
-}
-
-a:hover {
-    transition: all 0.3s ease;
-    transform: scale(1.1);
-}
-
-.InputBusca {
+div.InputBusca {
     display: flex;
 }
 
 .InputBusca input[type="text"]{
+    display: flex;
     width: 100%;
     padding: 10px 10px 10px 10px;
     border: 1px solid #ccc;
@@ -71,12 +55,7 @@ a:hover {
     right: 30px;
     top: 10px;
     font-size: 18px;
-    color: var(--cor-vermelha);
-}
-
-i {
     cursor: pointer;
-    font-size: 30px;
     color: var(--cor-vermelha);
 }
 
@@ -87,6 +66,7 @@ i {
 
 .filtros {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 30px;
@@ -148,31 +128,28 @@ i {
 
 .tipos.ativo {
     background: var(--cor-marrom);
-    transform: scale(1.1);
-}
-
-main {
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    gap: 20px;
-    justify-content: space-evenly;
+    transform: scale(1.2);
 }
 
 .produto {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    height: auto;
-    width: 300px;
+    height: 100px;
+    width: 100%;
     background-color: var(--cor-marrom);
     border-radius: 4px;
+    margin-bottom: 10px;
+    background:#E6E1C7;
+    border-radius:4px;
+    padding:10px;
+    text-align:center;
+    box-shadow:2px 2px 5px rgba(0,0,0,0.2);
 }
 
-.produto img {
-    height: auto;
-    width: 100%;
-    object-fit: cover;
+div.produto-botoes {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
 }
 
 .produto button {
@@ -184,15 +161,6 @@ main {
     border-radius: 4px;
 }
 
-.divproduto-botoes{
-    display: flex;
-    flex-direction: row;  /* garante que fiquem lado a lado */
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 10px;
-}
-
 .produto button:hover {
     cursor: pointer;
     background-color:#7a1818;
@@ -201,20 +169,19 @@ main {
 }
 
 .btn-remove {
-background-color: #b32d2d;
-color: white;
-padding: 8px 12px;
-border: none;
-border-radius: 6px;
-cursor: pointer;
-font-weight: bold;
-margin-left: 6px;
-transition: 0.2s;
+    padding: 7px 10px 7px 10px;
+    margin-bottom: 7px;
+    background-color: var(--cor-vermelha);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    color:white;
+    border-radius: 4px;
 }
 
 .btn-remove:hover {
-transform: scale(1.05);
-background-color: #922323;
+    cursor: pointer;
+    background-color:#7a1818;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
 }
 
 .container { 
@@ -227,27 +194,9 @@ background-color: #922323;
 
 /* GRID */
 .grid-produtos {
-display:grid;
-grid-template-columns: repeat(3, 1fr);
-gap:20px;
-width:75%;
-}
-
-
-.produto {
-background:#E6E1C7;
-border-radius:4px;
-padding:10px;
-text-align:center;
-box-shadow:2px 2px 5px rgba(0,0,0,0.2);
-}
-
-
-.produto img { 
-    width:100%; 
-    height:150px; 
-    object-fit:cover; 
-    border-radius:4px; 
+display: flex;
+flex-wrap: wrap;
+width: 75%;
 }
 
 
@@ -294,3 +243,6 @@ box-shadow:2px 2px 5px rgba(0,0,0,0.2);
     border:1px solid #888; 
     border-radius:4px; 
 }
+
+@media (max-width:900px){ .grid-produtos{ grid-template-columns: repeat(2,1fr) } .container{ flex-direction:column } .carrinho{ width:100% } }
+@media (max-width:520px){ .grid-produtos{ grid-template-columns: 1fr } }
