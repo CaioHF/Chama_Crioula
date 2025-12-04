@@ -1,12 +1,11 @@
 // LISTA DE PRODUTOS (com categoria)
 const produtos = [
-  { nome: "Alcatra com Picanha", preco: 59.90, img: "", categoria: "bovino" },
-  { nome: "Bife de Alcatra", preco: 49.98, img: "", categoria: "bovino" },
-  { nome: "Coxão Mole", preco: 48.98, img: "", categoria: "bovino" },
-  { nome: "Coxa de Frango", preco: 14.90, img: "", categoria: "frango" },
-  { nome: "Pernil Suíno", preco: 22.50, img: "", categoria: "suino" },
-  { nome: "Linguiça Toscana", preco: 24.90, img: "", categoria: "linguica" },
-  { nome: "Arroz (1kg)", preco: 6.50, img: "", categoria: "acompanhamentos" }
+  { nome: "Bisteca Suina", preco: 23.98, img: "imagens/produtos/bisteca_suina.png", categoria: "ofertas" },
+  { nome: "Alcatra com Picanha", preco: 59.90, img: "imagens/produtos/alcatra.png", categoria: "bovino" },
+  { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife.png", categoria: "bovino" },
+  { nome: "Pernil Suíno", preco: 23.98, img: "imagens/produtos/pernil.png", categoria: "suino" },
+  { nome: "Meio da Asa", preco: 29.98, img: "imagens/produtos/meio_da_asa.png", categoria: "frango" },
+  { nome: "Carvão 4kg", preco: 29.98, img: "imagens/produtos/carvao4.png", categoria: "acompanhamentos" }
 ];
 
 // referencia DOM

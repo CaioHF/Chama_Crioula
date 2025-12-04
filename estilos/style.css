@@ -134,15 +134,12 @@ div.InputBusca {
 .produto {
     display: flex;
     align-items: center;
-    height: 100px;
+    height: 200px;
     width: 100%;
     background-color: var(--cor-marrom);
     border-radius: 4px;
     margin-bottom: 10px;
-    background:#E6E1C7;
-    border-radius:4px;
-    padding:10px;
-    text-align:center;
+    padding: 10px;
     box-shadow:2px 2px 5px rgba(0,0,0,0.2);
 }
 
