@@ -23,78 +23,35 @@
         <a href="https://wa.me/5545991120288" target="_blank" rel="noopener"><p>Fale conosco</p></a>
     </header>
     <section class="filtros">
-        <p class="tipos"><img src="imagens/oferta-limitada.png">Ofertas</p>
-        <p class="tipos"><img src="imagens/boi.png">Bovino</p>
-        <p class="tipos"><img src="imagens/suino.png">Suíno</p>
-        <p class="tipos"><img src="imagens/frango.png">Frango</p>
-        <p class="tipos"><img src="imagens/linguica.png">Linguiça</p>
-        <p class="tipos"><img src="imagens/carne.png">Acompanhamentos</p>
+        <p class="tipos" data-cat="ofertas"><img src="imagens/oferta-limitada.png">Ofertas</p>
+        <p class="tipos" data-cat="bovino"><img src="imagens/boi.png">Bovino</p>
+        <p class="tipos" data-cat="suino"><img src="imagens/suino.png">Suíno</p>
+        <p class="tipos" data-cat="frango"><img src="imagens/frango.png">Frango</p>
+        <p class="tipos" data-cat="linguica"><img src="imagens/linguica.png">Linguiça</p>
+        <p class="tipos" data-cat="acompanhamentos"><img src="imagens/carne.png">Acompanhamentos</p>
+        <p class="tipos-delet" data-cat="todos">X</p>
     </section>
-    <main>
-        <div class="produto">
-            <img src="imagens/produtos/alcatra_com_picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
+    <div class="container">
+    <!-- GRID DE PRODUTOS -->
+    <main id="produtos-container" class="grid-produtos"></main>
 
-        <div class="produto">
-            <img src="imagens/produtos/bife-alcatra.png" alt="Bife de Alcatra">
-            <h2>Bife de Alcatra</h2>
-            <p class="preco">R$ 49,98/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
 
-        <div class="produto">
-            <img src="imagens/produtos/alcatra-com-picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
+    <!-- CARRINHO LATERAL -->
+    <aside class="carrinho">
 
-        <div class="produto">
-            <img src="imagens/produtos/alcatra-com-picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
+    <h2>Pedido</h2>
+    <div id="lista-carrinho"></div>
+    
+    <div class="endereco">
+    <h3>Endereço de Entrega</h3>
+    <input type="text" id="rua" placeholder="Rua">
+    <input type="text" id="numero" placeholder="Número">
+    <input type="text" id="bairro" placeholder="Bairro">
+    </div>
 
-        <div class="produto">
-            <img src="imagens/produtos/alcatra-com-picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
-
-        <div class="produto">
-            <img src="imagens/produtos/alcatra-com-picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
-
-        <div class="produto">
-            <img src="imagens/produtos/alcatra-com-picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
-
-        <div class="produto">
-            <img src="imagens/produtos/alcatra-com-picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
-
-        <div class="produto">
-            <img src="imagens/produtos/alcatra-com-picanha.png" alt="Alcatra com Picanha">
-            <h2>Alcatra com Picanha</h2>
-            <p class="preco">R$ 59,90/kg</p>
-            <button class="adicionar-carrinho">Adicionar</button>
-        </div>
-
-    </main>
+    <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
+    <button id="btn-finalizar">Enviar Pedido no WhatsApp</button>
+    </aside>
 
     <footer>
 
