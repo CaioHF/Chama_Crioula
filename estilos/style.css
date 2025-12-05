@@ -484,9 +484,15 @@ aside > button > i {
 
     /* Caixa de autocomplete centralizada também */
     .autocomplete-box {
-        width: 90%;
+         position: absolute;
+        top: calc(100% + 5px);
         left: 50%;
         transform: translateX(-50%);
+        width: 90%;
+        max-height: 250px;
+        overflow-y: auto;
+        z-index: 999;
+        background: white;
+        border-radius: 6px;
     }
-
 }

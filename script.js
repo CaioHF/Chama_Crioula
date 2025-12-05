@@ -6,6 +6,7 @@ const categoriasUnidade = ['acompanhamentos']; // unidade (1 em 1) - carvão inc
 // LISTA DE PRODUTOS (com categoria)
 const produtos = [
   { nome: "Bisteca Suina", preco: 23.98, img: "imagens/produtos/bisteca_suina.png", categoria: "ofertas" },
+  { nome: "Picanha", preco: 49.98, img: "imagens/produtos/picanha.png", categoria: "bovino" },
   { nome: "Alcatra com Picanha", preco: 59.90, img: "imagens/produtos/alcatra.png", categoria: "bovino" },
   { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife.png", categoria: "bovino" },
   { nome: "Corte Americano", preco: 49.98, img: "imagens/produtos/americano.png", categoria: "bovino" },
@@ -17,7 +18,6 @@ const produtos = [
   { nome: "Maminha", preco: 49.98, img: "imagens/produtos/maminha.png", categoria: "bovino" },
   { nome: "Musculo", preco: 49.98, img: "imagens/produtos/musculo.png", categoria: "bovino" },
   { nome: "Patinho", preco: 49.98, img: "imagens/produtos/patinho.png", categoria: "bovino" },
-  { nome: "Picanha", preco: 49.98, img: "imagens/produtos/picanha.png", categoria: "bovino" },
   { nome: "Traseiro", preco: 49.98, img: "imagens/produtos/traseiro.png", categoria: "bovino" },
   { nome: "Filá Agulha", preco: 49.98, img: "imagens/produtos/file_agulha.png", categoria: "bovino" },
   { nome: "Acém", preco: 49.98, img: "imagens/produtos/acem.png", categoria: "bovino" },
