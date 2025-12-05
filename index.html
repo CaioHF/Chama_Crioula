@@ -1,71 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Casa de Carnes Chama Crioula</title>
     <link rel="stylesheet" href="estilos/style.css">
     <link rel="shortcut icon" href="imagens/Favicon.png" type="image/x-icon">
-
     <script src="https://kit.fontawesome.com/a13ae5a66e.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
-        <a href="https://www.instagram.com/casadecarneschamacrioula/" target="_blank"><img src="imagens/Logo-Chama-Crioula.png" alt="Logo Chama Crioula"></a>
+        <a href="https://www.instagram.com/casadecarneschamacrioula/" target="_blank">
+            <img src="imagens/icons/Logo-Chama-Crioula.png" alt="Logo Chama Crioula">
+        </a>
 
         <div class="InputBusca">
-        <input type="text" id="buscar" placeholder="Buscar Produto ...">
-        <i id="btn-buscar" class="fa-solid fa-magnifying-glass"></i>
-
-        <div id="autocomplete" class="autocomplete-box"></div>
+            <input type="text" id="buscar" placeholder="Buscar Produto ...">
+            <i id="btn-buscar" class="fa-solid fa-magnifying-glass"></i>
+            <div id="autocomplete" class="autocomplete-box"></div>
         </div>
-        <ul>
 
-            <li><i class="fa-solid fa-clock"></i><span class="tooltip-container" data-title="Pedidos
+        <ul>
+            <li>
+                <i class="fa-solid fa-clock"></i>
+                <span class="tooltip-container" data-title="Pedidos
   Segunda a Sábado : 9H às 16H 
 
-Entregas
+    Entregas
    Segunda a Sábado: 17H às 20H
-   Domingos: 7H às 12H">
-   Horários de Atendimento
-</span> </li>
+   Domingos: 7H às 12H">Horários de Atendimento</span>
+            </li>
             <li><i class="fa-solid fa-phone"></i><a href="https://wa.me/5545991120288" target="_blank">Fale Conosco</a></li>
         </ul>
     </header>
 
     <section class="filtros">
-        <p class="tipos-delet" data-cat="todos"><img src="imagens/carne.png">Todos</p>
-        <p class="tipos" data-cat="ofertas"><img src="imagens/oferta-limitada.png">Ofertas</p>
-        <p class="tipos" data-cat="bovino"><img src="imagens/bovino.png">Bovinos</p>
-        <p class="tipos" data-cat="suino"><img src="imagens/suino.png">Suínos</p>
-        <p class="tipos" data-cat="frango"><img src="imagens/frango.png">Frangos</p>
-        <!--<p class="tipos" data-cat="linguica"><img src="imagens/linguica.png">Linguiças</p><!-->
-        <p class="tipos" data-cat="acompanhamentos"><img src="imagens/carne.png">Acompanhamentos</p>
-        
+        <p class="tipos" data-cat="todos"><img src="imagens/icons/carne.png">Todos</p>
+        <p class="tipos" data-cat="ofertas"><img src="imagens/icons/oferta-limitada.png">Ofertas</p>
+        <p class="tipos" data-cat="bovino"><img src="imagens/icons/bovino.png">Bovinos</p>
+        <p class="tipos" data-cat="suino"><img src="imagens/icons/suino.png">Suínos</p>
+        <p class="tipos" data-cat="frango"><img src="imagens/icons/frango.png">Frangos</p>
+        <p class="tipos" data-cat="acompanhamentos"><img src="imagens/icons/carne.png">Acompanhamentos</p>
     </section>
 
-    
     <div class="container">
-    <!-- GRID DE PRODUTOS -->
-    <main id="produtos-container" class="grid-produtos"></main>
+        <!-- LISTA VERTICAL DE PRODUTOS -->
+        <main id="produtos-container" class="lista-produtos"></main>
 
+        <!-- CARRINHO LATERAL -->
+        <aside class="carrinho">
+            <h2>Pedido</h2>
+            <div id="lista-carrinho"></div>
 
-    <!-- CARRINHO LATERAL -->
-    <aside class="carrinho">
+            <div class="endereco">
+                <h3>Endereço de Entrega</h3>
+                <input type="text" id="rua" placeholder="Rua">
+                <input type="text" id="numero" placeholder="Número">
+                <input type="text" id="bairro" placeholder="Bairro">
+            </div>
 
-    <h2>Pedido</h2>
-    <div id="lista-carrinho"></div>
-    
-    <div class="endereco">
-    <h3>Endereço de Entrega</h3>
-    <input type="text" id="rua" placeholder="Rua">
-    <input type="text" id="numero" placeholder="Número">
-    <input type="text" id="bairro" placeholder="Bairro">
+            <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
+            <button id="btn-finalizar">Enviar Pedido no WhatsApp</button>
+        </aside>
     </div>
-
-    <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
-    <button id="btn-finalizar">Enviar Pedido no WhatsApp</button>
-    </aside>
 
     <script src="script.js"></script>
 </body>
