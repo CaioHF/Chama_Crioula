@@ -2,7 +2,7 @@
 
 :root {
   --cor-marrom: #E6E1C7;
-  --cor-marrom-forte: #c0beaa;
+  --cor-marrom-forte: #262626;
   --cor-vermelha: #D90404;
   --bg-card: #f4f1d9;
 }
@@ -113,26 +113,62 @@ a {
 /* =========================================
    FILTROS
    ========================================= */
-.filtros {
-  display: flex;
-  gap: 12px;
-  padding: 12px 20px;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
+.filtro-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;               
+    width: 100%;
+    margin-top: 15px;
 }
 
-.tipos{
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: var(--cor-marrom);
-  cursor: pointer;
-  border: 1px solid #aaa;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+/* Estilo das setas */
+.seta {
+    background: var(--cor-marrom);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seta-esq,
+.seta-dir {
+    display: none;
+}
+
+.seta:hover {
+    transform: scale(1.15);
+}
+
+/* A janelinha que mostra só parte dos filtros */
+.filtros-viewport {
+    overflow: hidden;
+    width: 45%;
+}
+
+/* Container que desliza */
+.filtros-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; 
+}
+
+.filtros-container::-webkit-scrollbar {
+    display: none;               /* Chrome / Edge */
+}
+
+/* Cada filtro */
+.tipos, .tipos-delet { display:flex; gap:8px; align-items:center; padding:8px 12px; border-radius:8px; background:var(--cor-marrom); cursor:pointer; border:1px solid #aaa; 
 
   &:hover {
     background-color:#e6ddad;
@@ -174,7 +210,7 @@ a {
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  background: var(--cor-marrom);
+  background: var(--bg-card);
   padding: 14px;
   border-radius: 8px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
@@ -365,7 +401,9 @@ a {
 
 aside > button > i {
   margin-left: 8px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  position: relative;
+  top: 2px;
 }
 
 /* =========================================
@@ -390,6 +428,12 @@ aside > button > i {
   .produto {
     flex-direction: row;
   }
+
+  .seta-esq,
+  .seta-dir {
+        display: block;
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -412,10 +456,39 @@ aside > button > i {
     display: none;
   }
 
-  header {
+  header, InputBusca{
     display: flex;
     justify-content: center;
     align-items: center;
-
   }
+
+  .filtros-container {
+        width: 60%;
+    }
+    .tipos {
+        width: 110px;
+        height: 60px;
+    }
+
+    .qtd-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;      /* CENTRALIZA */
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .input-qtd {
+        display: flex;
+        align-items: center;
+        justify-content: center;  /* CENTRALIZA OS BOTOES */
+        gap: 10px;
+    }
+
+    .btn-add-prod {
+        width: 80%;               /* OPCIONAL: deixar o botão maior */
+        text-align: center;
+    }
 }
