@@ -34,18 +34,32 @@ header {
 header img {
   height: 80px;
   object-fit: contain;
+
+  &:hover {
+    cursor: pointer;
+    scale: 1.05;
+  }
 }
 
 ul {
   list-style: none;
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
 }
 
 ul li {
   color: var(--cor-vermelha);
   font-weight: bold;
+}
+
+ul > li > i {
+  padding-right: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* =========================================
@@ -62,6 +76,7 @@ ul li {
   padding: 12px 40px 12px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .InputBusca i {
@@ -286,6 +301,7 @@ ul li {
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 #lista-carrinho {
@@ -344,6 +360,12 @@ ul li {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+aside > button > i {
+  margin-left: 8px;
+  font-size: 1.2rem;
 }
 
 /* =========================================
@@ -384,5 +406,16 @@ ul li {
 
   .cortes {
     justify-content: center;
+  }
+
+  ul li {
+    display: none;
+  }
+
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
   }
 }

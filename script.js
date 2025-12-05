@@ -96,7 +96,7 @@ function renderProdutos(filtro = 'todos'){
         <div class="thumb"><img src="${p.img || 'imagens/default.png'}" alt="${p.nome}"></div>
         <div class="info">
           <h3>${p.nome}</h3>
-          <div class="preco">R$ ${fmtMoney(p.preco)} ${isUnidade ? '/un' : '/kg'}</div>
+          <div class="preco">R$ ${fmtMoney(p.preco)} ${isUnidade ? '/un' : '/Kg'}</div>
 
           ${ isCorte ? `
             <div class="cortes" data-name="cortes-${index}">
@@ -106,9 +106,9 @@ function renderProdutos(filtro = 'todos'){
 
           <div class="qtd-box" data-name="qtd-${index}">
             <button class="menos" data-action="menos">-</button>
-            <input class="input-qtd" data-type="${isUnidade ? 'un' : 'kg'}" value="${defaultQty.toFixed(2)}">
+            <input class="input-qtd" data-type="${isUnidade ? 'un' : 'Kg'}" value="${defaultQty.toFixed(2)}">
             <button class="mais" data-action="mais">+</button>
-            <span>${isUnidade ? 'un' : 'kg'}</span>
+            <span>${isUnidade ? 'un' : 'Kg'}</span>
           </div>
 
           <button class="btn-add-prod" data-action="add">✔ Adicionar ao pedido</button>
@@ -309,7 +309,7 @@ if(btnFinalizar){
 
     let mensagem = '*Pedido:*%0A';
     carrinho.forEach(item => {
-      const unitLabel = categoriasUnidade.includes(item.categoria) ? 'un' : 'kg';
+      const unitLabel = categoriasUnidade.includes(item.categoria) ? 'un' : 'KG';
       mensagem += `Produto: ${item.nome}%0A`;
       if(item.corte) mensagem += `Corte: ${item.corte}%0A`;
       mensagem += `Quantidade: ${item.qtd} ${unitLabel}%0A`;
