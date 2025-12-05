@@ -322,39 +322,3 @@ if(btnFinalizar){
     window.open(`https://wa.me/5545991120288?text=${mensagem}`);
   });
 }
-
-const filtros = document.querySelector(".filtros-container");
-const setaEsq = document.querySelector(".seta-esq");
-const setaDir = document.querySelector(".seta-dir");
-
-function atualizarSetas() {
-    const podeScrollar = filtros.scrollWidth > filtros.clientWidth;
-
-    // só mostra as setas se o conteúdo NÃO couber
-    setaEsq.style.display = podeScrollar ? "flex" : "none";
-    setaDir.style.display = podeScrollar ? "flex" : "none";
-
-    // mostrar seta da esquerda somente quando já rolou
-    setaEsq.style.visibility = filtros.scrollLeft > 0 ? "visible" : "hidden";
-
-    // mostrar seta da direita somente se ainda tem pra onde rolar
-    setaDir.style.visibility = 
-        filtros.scrollLeft + filtros.clientWidth < filtros.scrollWidth
-        ? "visible"
-        : "hidden";
-}
-
-setaDir.addEventListener("click", () => {
-    filtros.scrollBy({ left: 200, behavior: "smooth" });
-});
-
-setaEsq.addEventListener("click", () => {
-    filtros.scrollBy({ left: -200, behavior: "smooth" });
-});
-
-// atualizar enquanto rola
-filtros.addEventListener("scroll", atualizarSetas);
-
-// atualizar ao carregar a página e ao redimensionar
-window.addEventListener("load", atualizarSetas);
-window.addEventListener("resize", atualizarSetas);
