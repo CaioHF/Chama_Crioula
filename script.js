@@ -1,45 +1,148 @@
 // LISTA DE PRODUTOS (com categoria)
 const produtos = [
-  { nome: "Bisteca Suina", preco: 23.98, img: "imagens/produtos/bisteca_suina.png", categoria: "ofertas" },
-  { nome: "Alcatra com Picanha", preco: 59.90, img: "imagens/produtos/alcatra.png", categoria: "bovino" },
-  { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife.png", categoria: "bovino" },
-  { nome: "Pernil Suíno", preco: 23.98, img: "imagens/produtos/pernil.png", categoria: "suino" },
-  { nome: "Meio da Asa", preco: 29.98, img: "imagens/produtos/meio_da_asa.png", categoria: "frango" },
-  { nome: "Carvão 4kg", preco: 29.98, img: "imagens/produtos/carvao4.png", categoria: "acompanhamentos" }
+  { nome: "Bisteca Suina", preco: 23.98, img: "", categoria: "ofertas" },
+  { nome: "Alcatra com Picanha", preco: 59.90, img: "", categoria: "bovino" },
+  { nome: "Bife de Alcatra", preco: 49.98, img: "", categoria: "bovino" },
+  { nome: "Pernil Suíno", preco: 23.98, img: "i", categoria: "suino" },
+  { nome: "Meio da Asa", preco: 29.98, img: "", categoria: "frango" },
+  { nome: "Carvão 4kg", preco: 29.98, img: "", categoria: "acompanhamentos" }
 ];
 
 // referencia DOM
 const produtosContainer = document.getElementById('produtos-container');
 const listaCarrinhoEl = document.getElementById('lista-carrinho');
 const totalGeralEl = document.getElementById('total-geral');
+const inputBusca = document.getElementById('buscar');
+const boxAuto = document.getElementById('autocomplete');
+const botaoLupa = document.getElementById('btn-buscar');
 
 // estado do carrinho
 // estrutura: [{ nome, preco, qtd }]
 let carrinho = [];
 
-// --- renderizar produtos (leva em conta categoria) ---
+// --- Renderizar Produtos ---
 function renderProdutos(filtro = 'todos'){
-  produtosContainer.innerHTML = '';
-  const listaFiltrada = filtro === 'todos' ? produtos : produtos.filter(p => p.categoria === filtro);
+produtosContainer.innerHTML = '';
 
-  listaFiltrada.forEach((p) =>{
-    const index = produtos.indexOf(p); // índice no array original
-    produtosContainer.innerHTML += `
-      <div class="produto">
-        <img src="${p.img}">
-        <h3>${p.nome}</h3>
-        <p class="preco">R$ ${p.preco.toFixed(2)}/kg</p>
-        <div class="produto-botoes">
-          <button class="btn-add" onclick="addCarrinho(${index})">Adicionar</button>
-          <button class="btn-remove" onclick="removeFromCart(${index})">Remover</button>
-        </div>
-      </div>
-    `;
-  });
+
+// Se filtro == 'todos' mostrar todos
+if(filtro === 'todos'){
+produtos.forEach(p => {
+const index = produtos.indexOf(p);
+produtosContainer.innerHTML += `
+<div class="produto">
+<img src="${p.img}" alt="${p.nome}">
+<h3>${p.nome}</h3>
+<p class="preco">R$ ${p.preco.toFixed(2)}/kg</p>
+<div class="produto-botoes">
+<button class="btn-add" onclick="addCarrinho(${index})">Adicionar</button>
+<button class="btn-remove" onclick="removeFromCart(${index})">Remover</button>
+</div>
+</div>
+`;
+});
+return;
 }
 
-// inicial
+
+// Se existe algum produto com essa categoria, filtra por categoria
+const existeCategoria = produtos.some(p => p.categoria && p.categoria.toLowerCase() === String(filtro).toLowerCase());
+
+
+let listaFiltrada = [];
+if(existeCategoria){
+listaFiltrada = produtos.filter(p => p.categoria && p.categoria.toLowerCase() === String(filtro).toLowerCase());
+} else {
+// Caso contrário, trata filtro como busca por nome (aceita includes, não só igualdade)
+const termo = String(filtro).toLowerCase().trim();
+listaFiltrada = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+}
+
+
+if(listaFiltrada.length === 0){
+produtosContainer.innerHTML = '<p style="text-align:center;font-size:1.2rem;margin-top:20px;">Produto não encontrado</p>';
+return;
+}
+
+
+listaFiltrada.forEach(p =>{
+const index = produtos.indexOf(p);
+produtosContainer.innerHTML += `
+<div class="produto">
+<img src="${p.img}" alt="${p.nome}">
+<h3>${p.nome}</h3>
+<p class="preco">R$ ${p.preco.toFixed(2)}/kg</p>
+<div class="produto-botoes">
+<button class="btn-add" onclick="addCarrinho(${index})">Adicionar</button>
+<button class="btn-remove" onclick="removeFromCart(${index})">Remover</button>
+</div>
+</div>
+`;
+});
+}
+
+
 renderProdutos();
+
+
+
+// --- Autocomplete ---
+inputBusca.addEventListener('input', ()=>{
+const texto = inputBusca.value.toLowerCase();
+boxAuto.innerHTML = '';
+
+
+if(texto.length === 0){
+boxAuto.style.display = 'none';
+return;
+}
+
+
+const sugestoes = produtos.filter(p => p.nome.toLowerCase().includes(texto));
+
+
+if(sugestoes.length === 0){
+boxAuto.innerHTML = '<div class="item-auto">Nenhum produto encontrado</div>';
+boxAuto.style.display = 'block';
+return;
+}
+
+
+sugestoes.forEach(p =>{
+const div = document.createElement('div');
+div.classList.add('item-auto');
+div.textContent = p.nome;
+div.onclick = ()=>{
+inputBusca.value = p.nome;
+boxAuto.style.display = 'none';
+filtrarProdutoPorNome();
+};
+boxAuto.appendChild(div);
+});
+
+
+boxAuto.style.display = 'block';
+});
+
+
+// --- Buscar ao apertar Enter ---
+inputBusca.addEventListener('keydown', e =>{
+if(e.key === 'Enter'){
+filtrarProdutoPorNome();
+}
+});
+
+
+// --- Buscar ao clicar na lupa ---
+botaoLupa.addEventListener('click', filtrarProdutoPorNome);
+
+
+function filtrarProdutoPorNome(){
+const nome = inputBusca.value.trim();
+if(nome === '') return;
+renderProdutos(nome); // usa o nome como filtro
+boxAuto.style.display = 'none';
+}
 
 // --- funções do carrinho ---
 function addCarrinho(index){

@@ -12,18 +12,39 @@
 <body>
     <header>
         <a href="https://www.instagram.com/casadecarneschamacrioula/" target="_blank"><img src="imagens/Logo-Chama-Crioula.png" alt="Logo Chama Crioula"></a>
-        <div class="InputBusca"><input type="text" id="" placeholder="Buscar Produto ..."> <i class="fa-solid fa-magnifying-glass"></i></div>
+
+        <div class="InputBusca">
+        <input type="text" id="buscar" placeholder="Buscar Produto ...">
+        <i id="btn-buscar" class="fa-solid fa-magnifying-glass"></i>
+
+        <div id="autocomplete" class="autocomplete-box"></div>
+        </div>
+        <ul>
+
+            <li><i class="fa-solid fa-clock"></i><span class="tooltip-container" data-title="Pedidos
+  Segunda a Sábado : 9H às 16H 
+
+Entregas
+   Segunda a Sábado: 17H às 20H
+   Domingos: 7H às 12H">
+   Horários de Atendimento
+</span> </li>
+            <li><i class="fa-solid fa-phone"></i><a href="https://wa.me/5545991120288" target="_blank">Fale Conosco</a></li>
+        </ul>
     </header>
 
     <section class="filtros">
+        <p class="tipos-delet" data-cat="todos"><img src="imagens/carne.png">Todos</p>
         <p class="tipos" data-cat="ofertas"><img src="imagens/oferta-limitada.png">Ofertas</p>
         <p class="tipos" data-cat="bovino"><img src="imagens/bovino.png">Bovinos</p>
         <p class="tipos" data-cat="suino"><img src="imagens/suino.png">Suínos</p>
         <p class="tipos" data-cat="frango"><img src="imagens/frango.png">Frangos</p>
         <!--<p class="tipos" data-cat="linguica"><img src="imagens/linguica.png">Linguiças</p><!-->
         <p class="tipos" data-cat="acompanhamentos"><img src="imagens/carne.png">Acompanhamentos</p>
-        <p class="tipos-delet" data-cat="todos">X</p>
+        
     </section>
+
+    
     <div class="container">
     <!-- GRID DE PRODUTOS -->
     <main id="produtos-container" class="grid-produtos"></main>
