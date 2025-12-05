@@ -423,4 +423,70 @@ aside > button > i {
     justify-content: center;
     align-items: center;
   }
+
+       /* Deixa a coluna centralizada */
+    .produto .info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Centraliza a box da quantidade */
+    .produto .qtd-box {
+        margin: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    /* Deixa o input mais centralizado e ajustado */
+    .produto .input-qtd {
+        width: 80px;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    /* Botão de adicionar ocupando boa parte da largura */
+    .produto .btn-add-prod {
+        width: 80%;
+        max-width: 300px;
+        margin-top: 12px;
+        padding: 10px;
+        text-align: center;
+        display: block;
+    }
+
+    .InputBusca {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        margin: 0 auto;
+    }
+
+    .InputBusca input {
+        width: 90%;
+        max-width: 350px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Ícone da lupa acompanha o input */
+    .InputBusca i {
+        position: absolute;
+        right: 8%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Caixa de autocomplete centralizada também */
+    .autocomplete-box {
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
 }
