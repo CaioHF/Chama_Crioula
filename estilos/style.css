@@ -395,6 +395,10 @@ aside > button > i {
 }
 
 @media (max-width: 480px) {
+
+  body {
+    background-color: var(--cor-marrom-forte);
+  }
   .produto {
     flex-direction: column;
     align-items: center;
