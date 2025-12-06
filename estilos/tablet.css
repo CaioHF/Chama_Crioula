@@ -1,0 +1,50 @@
+@media (max-width: 740px) {
+  .lista-produtos {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .produto {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .produto .thumb {
+    width: 100%;
+    height: 130px;
+  }
+
+  .produto .preco {
+    font-size: 1rem;
+  }
+
+  .produto h3 {
+    font-size: 0.95rem; /* texto menor para caber melhor */
+  }
+
+  .produto .info {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .btn-add-prod {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cortes {
+    justify-content: center;
+  }
+
+  .qtd-box {
+    justify-content: center;
+  }
+
+  ul li {
+    display: none;
+  }
+}
