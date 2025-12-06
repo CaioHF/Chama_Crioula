@@ -484,7 +484,6 @@ aside > button > i {
     width: 100%;
     justify-content: center;
   }
-}
 
   .cortes {
     justify-content: center;
@@ -498,13 +497,6 @@ aside > button > i {
     width: 100%;
     text-align: center;
   }
-
-
-
-
-
-
-
 
   ul li {
     display: none;
@@ -606,3 +598,4 @@ aside > button > i {
         background: white;
         border-radius: 6px;
   }
+}
