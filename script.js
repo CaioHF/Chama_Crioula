@@ -56,7 +56,7 @@ const botaoReset = document.querySelector('.tipos-delet');
 let carrinho = [];
 
 // cortes padrão
-const cortesPadrao = ['Bife fino','Bife grosso','Em cubos','Moído','Para churrasco'];
+const cortesPadrao = ['Corte fino','Corte grosso','Em cubos','Moído','Para churrasco'];
 
 // helper para formatar dinheiro
 function fmtMoney(v){ return Number(v).toFixed(2); }
@@ -96,7 +96,7 @@ function renderProdutos(filtro = 'todos'){
         <div class="thumb"><img src="${p.img || 'imagens/default.png'}" alt="${p.nome}"></div>
         <div class="info">
           <h3>${p.nome}</h3>
-          <div class="preco">R$ ${fmtMoney(p.preco)} ${isUnidade ? '/un' : '/Kg'}</div>
+          <div class="preco">R$ ${fmtMoney(p.preco)} ${isUnidade ? 'Und' : 'Kg'}</div>
 
           ${ isCorte ? `
             <div class="cortes" data-name="cortes-${index}">
@@ -106,9 +106,9 @@ function renderProdutos(filtro = 'todos'){
 
           <div class="qtd-box" data-name="qtd-${index}">
             <button class="menos" data-action="menos">-</button>
-            <input class="input-qtd" data-type="${isUnidade ? 'un' : 'Kg'}" value="${defaultQty.toFixed(2)}">
+            <input class="input-qtd" data-type="${isUnidade ? '' : ''}" value="${defaultQty.toFixed(2)}">
             <button class="mais" data-action="mais">+</button>
-            <span>${isUnidade ? 'un' : 'Kg'}</span>
+            <span>${isUnidade ? '' : ''}</span>
           </div>
 
           <button class="btn-add-prod" data-action="add">✔ Adicionar ao pedido</button>
