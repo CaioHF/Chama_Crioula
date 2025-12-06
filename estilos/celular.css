@@ -1,10 +1,10 @@
-@media (max-width: 468px) {
+@media (max-width: 480px) {
   body {
     background-color: var(--cor-marrom-forte);
   }
 
- .produto 
- { flex-direction: column;
+ .produto { 
+    flex-direction: column;
      align-items: center;
       text-align: center; 
     }
@@ -16,10 +16,30 @@
              justify-content: center; 
             }
 
+.produto .acoes {
+    display: flex;
+    flex-direction: column; /* Fica um embaixo do outro */
+    align-items: center;    /* Centraliza horizontalmente */
+    justify-content: center;
+    gap: 10px;              /* Espaço entre eles */
+    width: 100%;
+  }
+
+  .produto .quantidade {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .produto button.adicionar {
+    width: 80%; /* Para ficar bonito no celular */
+    max-width: 260px;
+  }
+
   ul li {
      display: none; 
     }
-    
+
   header, InputBusca{
     display: flex;
     justify-content: center;
@@ -44,40 +64,6 @@
         background: transparent;
     }
 }
-
-    .produto .info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    /* Centraliza a box da quantidade */
-    .produto .qtd-box {
-        margin: 10px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        width: 100%;
-    }
-
-    /* Deixa o input mais centralizado e ajustado */
-    .produto .input-qtd {
-        width: 80px;
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    /* Botão de adicionar ocupando boa parte da largura */
-    .produto .btn-add-prod {
-        width: 80%;
-        max-width: 300px;
-        margin-top: 12px;
-        padding: 10px;
-        text-align: center;
-        display: block;
-    }
 
     .InputBusca {
         width: 100%;
@@ -114,3 +100,38 @@
         border-radius: 6px;
   }
 }
+
+    /* Deixa a coluna centralizada */
+    .produto .info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Centraliza a box da quantidade */
+    .produto .qtd-box {
+        margin: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    /* Deixa o input mais centralizado e ajustado */
+    .produto .input-qtd {
+        width: 80px;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    /* Botão de adicionar ocupando boa parte da largura */
+    .produto .btn-add-prod {
+        width: 80%;
+        max-width: 300px;
+        margin-top: 12px;
+        padding: 10px;
+        text-align: center;
+        display: block;
+    }
