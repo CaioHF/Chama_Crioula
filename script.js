@@ -322,3 +322,22 @@ if(btnFinalizar){
     window.open(`https://wa.me/5545991120288?text=${mensagem}`);
   });
 }
+
+    const btn = document.getElementById("btn-horarios");
+    const modal = document.getElementById("modal-horarios");
+    const closeBtn = document.querySelector(".close");
+
+    btn.onclick = function() {
+        modal.style.display = "flex";
+    }
+
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Fechar clicando fora da caixa
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
