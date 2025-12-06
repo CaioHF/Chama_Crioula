@@ -1,4 +1,4 @@
-@media (max-width: 740px) {
+/*@media (max-width: 740px) {
   .lista-produtos {
     width: 100%;
     display: grid;
@@ -22,7 +22,7 @@
   }
 
   .produto h3 {
-    font-size: 0.95rem; /* texto menor para caber melhor */
+    font-size: 0.95rem;
   }
 
   .produto .info {
@@ -48,3 +48,4 @@
     display: none;
   }
 }
+*/
