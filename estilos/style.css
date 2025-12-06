@@ -14,6 +14,78 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.modal-info {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.modal-info.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-info-content {
+  background: #fff;
+  width: 90%;
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  animation: modalPop 0.3s ease;
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#modalInfo-img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+#modalInfo-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: var(--cor-vermelha);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 5000;
+}
+
+/* quando ativa */
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 body {
   background: var(--cor-marrom-forte);
   color: #111;
@@ -443,65 +515,23 @@ aside > button > i {
   }
 }
 
-@media (max-width: 600px) {
-
+@media (max-width: 468px) {
   body {
     background-color: var(--cor-marrom-forte);
   }
-  .lista-produtos {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
 
-  .produto {
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-  }
-
-  .produto .thumb {
-    width: 100%;
-    height: 130px;
-  }
-
-  .produto .preco {
-    font-size: 1rem;
-  }
-
-  .produto h3 {
-    font-size: 0.95rem; /* texto menor para caber melhor */
-  }
-
-  .produto .info {
-    width: 100%;
-    text-align: center;
-    align-items: center;
-  }
-
-  .btn-add-prod {
-    width: 100%;
-    justify-content: center;
-  }
-
+  .produto { 
+    flex-direction:column;
+    align-items:center;
+     text-align:center;
+}
+  .produto .thumb { 
+    width:100%;
+     height:200px; 
+    }
   .cortes {
-    justify-content: center;
-  }
-
-  .qtd-box {
-    justify-content: center;
-  }
-
-  .btn-add-prod {
-    width: 100%;
-    text-align: center;
-  }
-
-  ul li {
-    display: none;
-  }
-
+     justify-content:center; 
+    }
   header, InputBusca{
     display: flex;
     justify-content: center;
@@ -527,7 +557,6 @@ aside > button > i {
     }
 }
 
-       /* Deixa a coluna centralizada */
     .produto .info {
         display: flex;
         flex-direction: column;
@@ -577,7 +606,6 @@ aside > button > i {
         margin: 0 auto;
     }
 
-    /* Ícone da lupa acompanha o input */
     .InputBusca i {
         position: absolute;
         right: 8%;
@@ -585,7 +613,6 @@ aside > button > i {
         transform: translateY(-50%);
     }
 
-    /* Caixa de autocomplete centralizada também */
     .autocomplete-box {
          position: absolute;
         top: calc(100% + 5px);
@@ -597,5 +624,56 @@ aside > button > i {
         z-index: 999;
         background: white;
         border-radius: 6px;
+  }
+}
+
+@media (max-width: 740px) {
+  .lista-produtos {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .produto {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .produto .thumb {
+    width: 100%;
+    height: 130px;
+  }
+
+  .produto .preco {
+    font-size: 1rem;
+  }
+
+  .produto h3 {
+    font-size: 0.95rem; /* texto menor para caber melhor */
+  }
+
+  .produto .info {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .btn-add-prod {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cortes {
+    justify-content: center;
+  }
+
+  .qtd-box {
+    justify-content: center;
+  }
+
+  ul li {
+    display: none;
   }
 }

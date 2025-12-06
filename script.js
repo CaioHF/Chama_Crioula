@@ -212,6 +212,8 @@ produtosContainer.addEventListener('click', (ev) => {
       });
     }
     atualizarCarrinho();
+    showToast();
+
   }
 });
 
@@ -340,4 +342,66 @@ if(btnFinalizar){
         if (event.target === modal) {
             modal.style.display = "none";
         }
+      }
+
+      function showToast(msg = "Produto adicionado ao pedido") {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2000); // desaparece após 2 segundos
+}
+
+const modalInfo = document.getElementById("modalInfo");
+const modalInfoTitle = document.getElementById("modalInfo-title");
+const modalInfoImg = document.getElementById("modalInfo-img");
+const modalInfoDesc = document.getElementById("modalInfo-desc");
+const modalInfoPreco = document.getElementById("modalInfo-preco");
+const modalInfoClose = document.getElementById("modalInfo-close");
+
+// Abrir modal ao clicar no card
+document.addEventListener("click", e => {
+    const card = e.target.closest(".produto");
+
+    if (!card) return;
+
+    // ELEMENTOS QUE NÃO DEVEM ABRIR O MODAL
+    if (
+        e.target.closest(".btn-add-prod") ||      // Botão adicionar
+        e.target.closest(".qtd-box") ||          // Caixa de quantidade
+        e.target.closest(".cortes") ||           // Seletor de cortes
+        e.target.tagName === "INPUT" ||          // Inputs
+        e.target.tagName === "LABEL" ||          // Labels
+        e.target.tagName === "BUTTON"            // Qualquer botão
+    ) {
+        return;
     }
+
+    // --- ABRIR MODAL --- //
+    const nome = card.querySelector("h3")?.textContent || "";
+    const preco = card.querySelector(".preco")?.textContent || "";
+    const imgSrc = card.querySelector("img")?.src || "";
+
+    modalInfoTitle.textContent = nome;
+    modalInfoImg.src = imgSrc;
+    modalInfoDesc.textContent = "Aqui você coloca uma descrição do produto.";
+    modalInfoPreco.textContent = preco;
+
+    modalInfo.classList.add("show");
+});
+
+
+// Fechar no X
+modalInfoClose.addEventListener("click", () => {
+    modalInfo.classList.remove("show");
+});
+
+// Fechar clicando fora
+modalInfo.addEventListener("click", e => {
+    if (e.target === modalInfo) {
+        modalInfo.classList.remove("show");
+    }
+});
+
