@@ -452,18 +452,26 @@ aside > button > i {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 12px;
   }
 
-  /* Cada produto vira um card vertical */
   .produto {
     flex-direction: column;
     align-items: center;
+    padding: 10px;
   }
 
   .produto .thumb {
     width: 100%;
-    height: 150px;
+    height: 130px;
+  }
+
+  .produto .preco {
+    font-size: 1rem;
+  }
+
+  .produto h3 {
+    font-size: 0.95rem; /* texto menor para caber melhor */
   }
 
   .produto .info {
@@ -481,6 +489,22 @@ aside > button > i {
   .cortes {
     justify-content: center;
   }
+
+  .qtd-box {
+    justify-content: center;
+  }
+
+  .btn-add-prod {
+    width: 100%;
+    text-align: center;
+  }
+
+
+
+
+
+
+
 
   ul li {
     display: none;
@@ -581,5 +605,4 @@ aside > button > i {
         z-index: 999;
         background: white;
         border-radius: 6px;
-    }
-}
+  }
