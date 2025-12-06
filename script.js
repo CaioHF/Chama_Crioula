@@ -1,45 +1,44 @@
 // CONFIGURAÇÃO: categorias que usam corte e kg-step 0.5
-const categoriasComCorte = ['bovino','suino','ofertas']; // ofertas tratada como carne
-const categoriasKg05 = ['bovino','suino','frango','ofertas']; // frango em kg 0.5
-const categoriasUnidade = ['acompanhamentos']; // unidade (1 em 1) - carvão incluído aqui
+const categoriasComCorte = ['bovino','suino','ofertas']; 
+const categoriasKg05 = ['bovino','suino','frango','ofertas']; 
+const categoriasUnidade = ['acompanhamentos']; 
 
 // LISTA DE PRODUTOS (com categoria)
 const produtos = [
   { nome: "Bisteca Suina", preco: 23.98, img: "imagens/produtos/bisteca_suina.png", categoria: "ofertas" },
-  { nome: "Picanha", preco: 49.98, img: "imagens/produtos/picanha.png", categoria: "bovino" },
-  { nome: "Alcatra com Picanha", preco: 59.90, img: "imagens/produtos/alcatra.png", categoria: "bovino" },
+  { nome: "Picanha", preco: 0.00, img: "imagens/produtos/picanha.png", categoria: "bovino" },
+  { nome: "Alcatra com Picanha", preco: 49.98, img: "imagens/produtos/alcatra.png", categoria: "bovino" },
   { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife.png", categoria: "bovino" },
-  { nome: "Corte Americano", preco: 49.98, img: "imagens/produtos/americano.png", categoria: "bovino" },
-  { nome: "Bisteca com Filé", preco: 49.98, img: "imagens/produtos/bisteca_c_file.png", categoria: "bovino" },
-  { nome: "Bisteca sem Filé", preco: 49.98, img: "imagens/produtos/bisteca_s_mignon.png", categoria: "bovino" },
-  { nome: "Costela Minga", preco: 49.98, img: "imagens/produtos/costela_minga.png", categoria: "bovino" },
-  { nome: "Costela Ripa", preco: 49.98, img: "imagens/produtos/costela_ripa.png", categoria: "bovino" },
-  { nome: "Fraldinha", preco: 49.98, img: "imagens/produtos/fraldinha.png", categoria: "bovino" },
-  { nome: "Maminha", preco: 49.98, img: "imagens/produtos/maminha.png", categoria: "bovino" },
-  { nome: "Musculo", preco: 49.98, img: "imagens/produtos/musculo.png", categoria: "bovino" },
-  { nome: "Patinho", preco: 49.98, img: "imagens/produtos/patinho.png", categoria: "bovino" },
-  { nome: "Traseiro", preco: 49.98, img: "imagens/produtos/traseiro.png", categoria: "bovino" },
-  { nome: "Filá Agulha", preco: 49.98, img: "imagens/produtos/file_agulha.png", categoria: "bovino" },
-  { nome: "Acém", preco: 49.98, img: "imagens/produtos/acem.png", categoria: "bovino" },
-  { nome: "Carne moída 1º", preco: 49.98, img: "imagens/produtos/carne_moida1.png", categoria: "bovino" },
-  { nome: "Carne moída 2º", preco: 49.98, img: "imagens/produtos/carne_moida2.png", categoria: "bovino" },
-  { nome: "Coxão Mole", preco: 49.98, img: "imagens/produtos/coxao_mole.png", categoria: "bovino" },
-  { nome: "Posta Vermelha", preco: 49.98, img: "imagens/produtos/posta_vermelha.png", categoria: "bovino" },
-  { nome: "Ponta de Peito", preco: 49.98, img: "imagens/produtos/ponta_de_peito.png", categoria: "bovino" },
-
+  { nome: "Corte Americano", preco: 41.98, img: "imagens/produtos/americano.png", categoria: "bovino" },
+  { nome: "Bisteca com Filé", preco: 48.98, img: "imagens/produtos/bisteca_c_file.png", categoria: "bovino" },
+  { nome: "Bisteca sem Filé", preco: 38.98, img: "imagens/produtos/bisteca_s_mignon.png", categoria: "bovino" },
+  { nome: "Costela Minga", preco: 30.98, img: "imagens/produtos/costela_minga.png", categoria: "bovino" },
+  { nome: "Costela Ripa", preco: 34.98, img: "imagens/produtos/costela_ripa.png", categoria: "bovino" },
+  { nome: "Fraldinha", preco: 39.98, img: "imagens/produtos/fraldinha.png", categoria: "bovino" },
+  { nome: "Maminha", preco: 0.00, img: "imagens/produtos/maminha.png", categoria: "bovino" },
+  { nome: "Musculo", preco: 28.98, img: "imagens/produtos/musculo.png", categoria: "bovino" },
+  { nome: "Patinho", preco: 46.98, img: "imagens/produtos/patinho.png", categoria: "bovino" },
+  { nome: "Traseiro", preco: 39.98, img: "imagens/produtos/traseiro.png", categoria: "bovino" },
+  { nome: "Filá Agulha", preco: 31.98, img: "imagens/produtos/file_agulha.png", categoria: "bovino" },
+  { nome: "Acém", preco: 29.98, img: "imagens/produtos/acem.png", categoria: "bovino" },
+  { nome: "Carne moída 1º", preco: 44.98, img: "imagens/produtos/carne_moida1.png", categoria: "bovino" },
+  { nome: "Carne moída 2º", preco: 32.98, img: "imagens/produtos/carne_moida2.png", categoria: "bovino" },
+  { nome: "Coxão Mole", preco: 48.98, img: "imagens/produtos/coxao_mole.png", categoria: "bovino" },
+  { nome: "Posta Vermelha", preco: 36.95, img: "imagens/produtos/posta_vermelha.png", categoria: "bovino" },
+  { nome: "Ponta de Peito", preco: 30.98, img: "imagens/produtos/ponta_de_peito.png", categoria: "bovino" },
+  { nome: "Paleta 7", preco: 39.98, img: "imagens/produtos/paleta7.png", categoria: "bovino" },
+  { nome: "Paleta Simples", preco: 33.95, img: "imagens/produtos/paleta0.png", categoria: "bovino" },
   { nome: "Pernil Suíno", preco: 23.98, img: "imagens/produtos/pernil.png", categoria: "suino" },
   { nome: "Paleta Suíno", preco: 23.98, img: "imagens/produtos/paleta_suina.png", categoria: "suino" },
-  { nome: "Costela Suína", preco: 23.98, img: "imagens/produtos/costela_suina.png", categoria: "suino" },
+  { nome: "Costela Suína", preco: 29.98, img: "imagens/produtos/costela_suina.png", categoria: "suino" },
   { nome: "Panceta Suína", preco: 23.98, img: "imagens/produtos/panceta.png", categoria: "suino" },
   { nome: "Bisteca Suína", preco: 23.98, img: "imagens/produtos/bisteca_suina.png", categoria: "suino" },
-
   { nome: "Meio da Asa", preco: 29.98, img: "imagens/produtos/meio_da_asa.png", categoria: "frango" },
-  { nome: "Coxinha da Asa", preco: 29.98, img: "imagens/produtos/coxinha_asa.png", categoria: "frango" },
-  { nome: "Frango", preco: 29.98, img: "imagens/produtos/frango.png", categoria: "frango" },
-  { nome: "Coração", preco: 29.98, img: "imagens/produtos/coracao.png", categoria: "frango" },
-
+  { nome: "Coxinha da Asa", preco: 22.98, img: "imagens/produtos/coxinha_asa.png", categoria: "frango" },
+  { nome: "Frango Inteiro", preco: 14.98, img: "imagens/produtos/frango.png", categoria: "frango" },
+  { nome: "Coração", preco: 25.98, img: "imagens/produtos/coracao.png", categoria: "frango" },
   { nome: "Carvão 4kg", preco: 29.98, img: "imagens/produtos/carvao4.png", categoria: "acompanhamentos" },
-  { nome: "Pão de Alho", preco: 29.98, img: "imagens/produtos/pao.png", categoria: "acompanhamentos" },
+  { nome: "Pão de Alho", preco: 12.98, img: "imagens/produtos/pao.png", categoria: "acompanhamentos" },
 ];
 
 // DOM refs
@@ -52,8 +51,17 @@ const botaoLupa = document.getElementById('btn-buscar');
 const botoesFiltro = document.querySelectorAll('.tipos');
 const botaoReset = document.querySelector('.tipos-delet');
 
-// estado do carrinho: usar chave = nome|corte para diferenciar variações
+// --- MUDANÇA 1: Inicializar carrinho verificando o LocalStorage ---
 let carrinho = [];
+
+// Se existir algo salvo, carrega para a memória
+if (localStorage.getItem('carrinhoSalvo')) {
+    try {
+        carrinho = JSON.parse(localStorage.getItem('carrinhoSalvo'));
+    } catch (e) {
+        carrinho = []; // Se der erro ao ler, zera por segurança
+    }
+}
 
 // cortes padrão
 const cortesPadrao = ['Corte fino','Corte grosso','Em cubos','Moído','Para churrasco'];
@@ -65,7 +73,6 @@ function fmtMoney(v){ return Number(v).toFixed(2); }
 function renderProdutos(filtro = 'todos'){
   produtosContainer.innerHTML = '';
 
-  // escolher lista
   let lista = [];
   if(filtro === 'todos') lista = produtos;
   else {
@@ -85,7 +92,6 @@ function renderProdutos(filtro = 'todos'){
   lista.forEach((p, idx) => {
     const index = produtos.indexOf(p);
     const isCorte = categoriasComCorte.includes(p.categoria);
-    const isKg05 = categoriasKg05.includes(p.categoria);
     const isUnidade = categoriasUnidade.includes(p.categoria);
 
     // default qty
@@ -117,7 +123,7 @@ function renderProdutos(filtro = 'todos'){
     `;
   });
 
-  // after render: ensure inputs have correct initial formatting (for units, show integer)
+  // after render: ensure inputs have correct initial formatting
   document.querySelectorAll('.produto').forEach(prodEl => {
     const idx = prodEl.dataset.index;
     const p = produtos[idx];
@@ -130,6 +136,9 @@ function renderProdutos(filtro = 'todos'){
 
 // inicial
 renderProdutos();
+// Renderiza o carrinho logo de cara (para mostrar o que veio do localStorage)
+atualizarCarrinho();
+
 
 // --- autocomplete / busca ---
 inputBusca.addEventListener('input', ()=>{
@@ -161,7 +170,7 @@ function filtrarProdutoPorNome(){
   boxAuto.style.display = 'none';
 }
 
-// --- delegação de eventos na lista de produtos (mais/menos/add) ---
+// --- delegação de eventos na lista de produtos ---
 produtosContainer.addEventListener('click', (ev) => {
   const btn = ev.target.closest('button');
   if(!btn) return;
@@ -179,15 +188,12 @@ produtosContainer.addEventListener('click', (ev) => {
     if(btn.dataset.action === 'mais') val = +(val + step);
     else val = +(val - step);
     if(isUnit) val = Math.max(1, Math.round(val)); else val = Math.max(step, Math.round(val*100)/100);
-    // format
     input.value = isUnit ? String(Math.round(val)) : val.toFixed(2);
     return;
   }
 
   if(btn.dataset.action === 'add'){
-    // gather data
     const isUnit = categoriasUnidade.includes(p.categoria);
-    const isKg05 = categoriasKg05.includes(p.categoria);
     let qty = parseFloat(artigo.querySelector('.input-qtd').value.replace(',', '.')) || 0;
     if(isUnit) qty = Math.round(qty);
     else qty = +qty.toFixed(2);
@@ -196,7 +202,6 @@ produtosContainer.addEventListener('click', (ev) => {
       const radio = artigo.querySelector(`input[name="corte-${idx}"]:checked`);
       corte = radio ? radio.value : null;
     }
-    // add to cart with key = name|corte
     const key = `${p.nome}|${corte || ''}`;
     const existing = carrinho.find(i => i.key === key);
     if(existing){
@@ -213,7 +218,6 @@ produtosContainer.addEventListener('click', (ev) => {
     }
     atualizarCarrinho();
     showToast();
-
   }
 });
 
@@ -229,9 +233,7 @@ function atualizarCarrinho(){
       const subtotal = item.preco * item.qtd;
       total += subtotal;
 
-      // controls step
       const isUnit = categoriasUnidade.includes(item.categoria);
-      const step = isUnit ? 1 : 0.5;
 
       listaCarrinhoEl.innerHTML += `
         <div class="cart-item" data-key="${item.key}">
@@ -249,6 +251,10 @@ function atualizarCarrinho(){
   }
 
   totalGeralEl.textContent = total.toFixed(2);
+
+  // --- MUDANÇA 2: Salvar no LocalStorage TODA VEZ que atualizar o carrinho ---
+  // Isso cobre: adicionar item, remover item, aumentar quantidade, diminuir quantidade.
+  localStorage.setItem('carrinhoSalvo', JSON.stringify(carrinho));
 }
 
 // delega clicks no carrinho
@@ -322,86 +328,77 @@ if(btnFinalizar){
     mensagem += `*Total: R$ ${totalGeralEl.textContent}%0A`;
 
     window.open(`https://wa.me/5545991120288?text=${mensagem}`);
+
+    // --- MUDANÇA 3: Limpar o carrinho DEPOIS de enviar o pedido ---
+    carrinho = [];
+    localStorage.removeItem('carrinhoSalvo'); // Apaga do navegador
+    atualizarCarrinho(); // Zera a tela
   });
 }
 
-    const btn = document.getElementById("btn-horarios");
-    const modal = document.getElementById("modal-horarios");
-    const closeBtn = document.querySelector(".close");
+const btn = document.getElementById("btn-horarios");
+const modal = document.getElementById("modal-horarios");
+const closeBtn = document.querySelector(".close");
 
-    btn.onclick = function() {
-        modal.style.display = "flex";
-    }
-
-    closeBtn.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // Fechar clicando fora da caixa
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-      }
-
-      function showToast(msg = "Produto adicionado ao pedido") {
-    const toast = document.getElementById("toast");
-    toast.textContent = msg;
-    toast.classList.add("show");
-
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2000); // desaparece após 2 segundos
+if(btn && modal && closeBtn) {
+    btn.onclick = function() { modal.style.display = "flex"; }
+    closeBtn.onclick = function() { modal.style.display = "none"; }
+    window.onclick = function(event) { if (event.target === modal) modal.style.display = "none"; }
 }
 
+function showToast(msg = "Produto adicionado ao pedido") {
+  const toast = document.getElementById("toast");
+  if(toast){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => { toast.classList.remove("show"); }, 2000);
+  }
+}
+
+// Modal info
 const modalInfo = document.getElementById("modalInfo");
 const modalInfoTitle = document.getElementById("modalInfo-title");
 const modalInfoImg = document.getElementById("modalInfo-img");
 const modalInfoDesc = document.getElementById("modalInfo-desc");
-const modalInfoPreco = document.getElementById("modalInfo-preco");
 const modalInfoClose = document.getElementById("modalInfo-close");
 
 // Abrir modal ao clicar no card
 document.addEventListener("click", e => {
-    const card = e.target.closest(".produto");
+  const card = e.target.closest(".produto");
+  if (!card) return;
 
-    if (!card) return;
+  if (
+    e.target.closest(".btn-add-prod") || 
+    e.target.closest(".qtd-box") || 
+    e.target.closest(".cortes") || 
+    e.target.tagName === "INPUT" || 
+    e.target.tagName === "LABEL" || 
+    e.target.tagName === "BUTTON"
+  ) {
+    return;
+  }
 
-    // ELEMENTOS QUE NÃO DEVEM ABRIR O MODAL
-    if (
-        e.target.closest(".btn-add-prod") ||      // Botão adicionar
-        e.target.closest(".qtd-box") ||          // Caixa de quantidade
-        e.target.closest(".cortes") ||           // Seletor de cortes
-        e.target.tagName === "INPUT" ||          // Inputs
-        e.target.tagName === "LABEL" ||          // Labels
-        e.target.tagName === "BUTTON"            // Qualquer botão
-    ) {
-        return;
-    }
+  const nome = card.querySelector("h3")?.textContent || "";
+  const imgSrc = card.querySelector("img")?.src || "";
 
-    // --- ABRIR MODAL --- //
-    const nome = card.querySelector("h3")?.textContent || "";
-    const preco = card.querySelector(".preco")?.textContent || "";
-    const imgSrc = card.querySelector("img")?.src || "";
-
-    modalInfoTitle.textContent = nome;
-    modalInfoImg.src = imgSrc;
-    modalInfoDesc.textContent = "Corte Especial Leve para sua mesa o verdadeiro sabor do campo.Entregue resfriada (nunca congelada) para garantir a máxima suculência. Produto inspecionado e certificado, proveniente de pecuaristas regionais parceiros. Qualidade e frescor em cada pedaço.";
-    //modalInfoPreco.textContent = preco;//
-
-    modalInfo.classList.add("show");
+  if(modalInfo && modalInfoTitle && modalInfoImg && modalInfoDesc){
+      modalInfoTitle.textContent = nome;
+      modalInfoImg.src = imgSrc;
+      modalInfoDesc.textContent = "Corte Especial Leve para sua mesa o verdadeiro sabor do campo.Entregue resfriada (nunca congelada) para garantir a máxima suculência.";
+      modalInfo.classList.add("show");
+  }
 });
 
+if(modalInfoClose){
+    modalInfoClose.addEventListener("click", () => {
+      modalInfo.classList.remove("show");
+    });
+}
 
-// Fechar no X
-modalInfoClose.addEventListener("click", () => {
-    modalInfo.classList.remove("show");
-});
-
-// Fechar clicando fora
-modalInfo.addEventListener("click", e => {
-    if (e.target === modalInfo) {
+if(modalInfo){
+    modalInfo.addEventListener("click", e => {
+      if (e.target === modalInfo) {
         modalInfo.classList.remove("show");
-    }
-});
-
+      }
+    });
+}
