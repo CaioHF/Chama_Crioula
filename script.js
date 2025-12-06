@@ -386,8 +386,8 @@ document.addEventListener("click", e => {
 
     modalInfoTitle.textContent = nome;
     modalInfoImg.src = imgSrc;
-    modalInfoDesc.textContent = "Aqui você coloca uma descrição do produto.";
-    modalInfoPreco.textContent = preco;
+    modalInfoDesc.textContent = "Corte Especial Leve para sua mesa o verdadeiro sabor do campo.Entregue resfriada (nunca congelada) para garantir a máxima suculência. Produto inspecionado e certificado, proveniente de pecuaristas regionais parceiros. Qualidade e frescor em cada pedaço.";
+    //modalInfoPreco.textContent = preco;//
 
     modalInfo.classList.add("show");
 });
