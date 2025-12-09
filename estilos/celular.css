@@ -1,245 +1,181 @@
 @media (max-width: 732px) {
     
-    /* =========================================
-       AJUSTES GERAIS E HEADER
-       ========================================= */
+    /* 1. TRAVA DE SEGURANÇA (Impede rolagem lateral) */
+    html, body {
+        overflow-x: hidden; /* Corta qualquer coisa que tente vazar da tela */
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
     body {
         background-color: var(--cor-marrom-forte);
     }
-  
+
+    /* 2. CABEÇALHO (Ícones alinhados e sem vazar) */
     header {
         display: flex;
-        justify-content: center;
+        flex-direction: column; /* Logo em cima, busca no meio */
         align-items: center;
+        gap: 15px;
+        padding: 10px 15px; /* Padding reduzido para não estourar a tela */
+        width: 100%;
     }
-    
-    /* Container que segura o Input + Botão Carrinho */
+
+    /* Alinha Status, Horários e Contato em LINHA */
+    header ul {
+        display: flex;
+        flex-direction: row;     /* Força linha horizontal */
+        flex-wrap: wrap;         /* Permite quebrar linha se a tela for minúscula */
+        justify-content: center; /* Centraliza */
+        align-items: center;
+        gap: 15px;
+        padding: 0;
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    header ul li {
+        display: flex !important; /* Força aparecer */
+        align-items: center;
+        gap: 6px;
+        font-size: 0.9rem;
+    }
+
+    /* Container de Busca + Carrinho */
     .header-search-cart {
         display: flex;
-        align-items: center;
         justify-content: center;
-        width: 95%;
-        max-width: 400px;
-        margin: 10px auto;
+        align-items: center;
         gap: 10px;
+        width: 100%;
+        max-width: 100%; /* Garante que não ultrapasse */
+        padding: 0 10px; /* Margem de segurança */
     }
 
-    .header-search-cart > i {
-        display: block; /* Ícone extra se necessário */
-    }
-
-    /* Barra de busca flexível */
     .InputBusca {
         flex: 1;
-        margin: 0 !important;
         width: auto !important;
-    }
-
-    .InputBusca input {
-        width: 100%;
-    }
-
-    .InputBusca i {
-        position: absolute;
-        right: 8%;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .autocomplete-box {
-        top: calc(100% + 5px);
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-height: 250px;
-    }
-
-    /* Botão do carrinho Mobile (Ícone Topo) */
-    .btn-cart-mobile {
-        display: block;
-        position: static;
-        transform: none;
         margin: 0;
-        font-size: 24px;
-        color: var(--cor-vermelha);
-        padding: 8px;
     }
 
-    /* Mostra os links de horário/contato em bloco */
-    ul li {
-        display: block;
-    }
-
-
-    /* =========================================
-       FILTROS (SCROLL LATERAL)
-       ========================================= */
-    .filtros {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        justify-content: flex-start;
-        padding-bottom: 10px;
-    }
-
-    .filtros::-webkit-scrollbar {
-        height: 6px;
-    }
-    .filtros::-webkit-scrollbar-thumb {
-        background: var(--cor-marrom);
-        border-radius: 3px;
-    }
-    .filtros::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .tipos {
-        flex: 0 0 auto;
-        white-space: nowrap;
-    }
-
-
-    /* =========================================
-       GRID DE PRODUTOS (2 POR LINHA)
-       ========================================= */
+    /* 3. GRID DE PRODUTOS (Com efeito "mais distante") */
     .container {
+        display: flex;
         flex-direction: column;
-        padding: 10px;
-    }
-  
-    .lista-produtos {
+        padding: 5px;
         width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
     }
-  
+
+    .lista-produtos {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr)); 
+        gap: 8px; /* Espaço equilibrado entre os cartões */
+        width: 100%;
+    }
+
     .produto {
         width: 100%;
         margin: 0;
-        padding: 10px 6px;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        height: 100%;
-        justify-content: space-between;
-    }
-    
-    .produto .thumb {
-        width: 100%;
-        aspect-ratio: 1/1;
-        position: relative;
-        margin-bottom: 8px;
-    }
-
-    .produto .thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-    .produto .info {
-        width: 100%;
+        /* Padding maior (10px) cria uma moldura interna maior */
+        padding: 8px 5px; 
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        justify-content: space-between;
+        
+        /* Sombra suave ajuda a dar profundidade */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+        border-radius: 12px; /* Cantos mais arredondados */
     }
-    
-    .produto h3 {
-        min-height: 40px;
+
+    /* AQUI ESTÁ O TRUQUE DO "JOGAR PARA TRÁS" */
+    .produto .thumb {
+        width: 90%;
+        aspect-ratio: 1 / 1; 
+        height: auto;
+        
+        /* Margens automáticas centralizam e empurram o texto para baixo */
+        margin: 0 auto 5px auto; 
+        
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.9rem;
+        
+        /* Opcional: Se quiser que a imagem em si tenha uma bordinha ou sombra interna */
+        /* filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); */
+    }
+    
+    /* Garante que a imagem respeite o tamanho reduzido */
+    .produto .thumb img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* Garante que a carne inteira apareça sem cortes */
     }
 
-    /* ESCONDE BOLINHAS DE CORTE NO MOBILE */
-    .produto .cortes {
+    /* Esconde elementos de PC */
+    .carrinho, .header-search-cart > i {
         display: none !important;
     }
-  
-    /* MOSTRA BOTÃO DE MODAL NO MOBILE */
+
+    /* Botão Carrinho Mobile */
+    .btn-cart-mobile {
+        display: block;
+        font-size: 24px;
+        color: var(--cor-vermelha);
+        padding: 5px;
+    }
+
+    /* Ajustes Gerais Mobile */
+    .produto .cortes { display: none !important; }
+    
     .btn-select-corte {
         display: block;
         width: 100%;
-        padding: 10px;
-        margin: 8px 0;
-        background-color: #f8f8f8;
-        border: 1px solid #bbb;
+        padding: 8px;
+        font-size: 0.8rem;
+        background: #f8f8f8;
+        border: 1px solid #ccc;
         border-radius: 6px;
-        color: #333;
-        font-weight: bold;
-        cursor: pointer;
-        text-align: center;
-        font-size: 0.75rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-      
-    .btn-select-corte i {
-        margin-left: 5px;
+        margin: 5px 0;
     }
 
     .produto .qtd-box {
-        margin: 10px 0;
-        display: flex;
+        width: 100%;
         justify-content: center;
         gap: 5px;
-        width: 100%;
     }
-  
-    .qtd-box button {
-        width: 28px;
-        height: 28px;
-    }
-  
+
     .produto .input-qtd {
-        width: 45px;
-        font-size: 0.9rem;
+        width: 40px;
         padding: 4px;
         text-align: center;
     }
-  
+
     .produto .btn-add-prod {
         width: 100%;
-        max-width: 300px;
+        font-size: 0.85rem;
+        padding: 10px;
         margin-top: auto;
-        padding: 8px;
-        font-size: 0.8rem;
     }
 
-
-    /* =========================================
-       CARRINHO E SIDEBAR
-       ========================================= */
-    /* Esconde carrinho lateral fixo */
-    .carrinho {
-        display: none !important;
+    /* FILTROS (Rolagem lateral) */
+    .filtros {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 5px;
     }
-  
-    /* Ajustes Sidebar que desliza */
-    .sidebar-cart.show {
-        right: 0;
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-
-    /* =========================================
-       FOOTER MOBILE
-       ========================================= */
+    
+    /* FOOTER */
     .footer-content {
         flex-direction: column;
         text-align: center;
+        padding: 0 15px;
     }
-  
-    .footer-section h3::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-  
-    .social-links, .payment-icons {
-        justify-content: center;
-    }
+    .footer-section { margin-bottom: 20px; }
+    .footer-section h3::after { left: 50%; transform: translateX(-50%); }
+    .social-links, .payment-icons { justify-content: center; }
+    .footer-section ul { align-items: center; }
 }
