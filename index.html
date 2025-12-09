@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Casa de Carnes Chama Crioula - Delivery</title>
 
-    <!-- SEO -->
     <meta name="description" content="Peça as melhores carnes bovinas, suínas e frangos sem sair de casa. Delivery rápido e qualidade garantida na Chama Crioula.">
     <meta name="keywords" content="açougue, delivery de carne, churrasco, chama crioula, carnes nobres, entrega">
     <meta name="author" content="Caio HF">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://caiohf.github.io/Chama_Crioula/">
     <meta property="og:title" content="Chama Crioula - Seu churrasco começa aqui!">
@@ -18,8 +16,10 @@
     <meta property="og:image" content="https://caiohf.github.io/Chama_Crioula/imagens/metaWhats-Chama-Crioula.png">
 
     <link rel="shortcut icon" href="imagens/Favicon.png" type="image/x-icon">
+    
     <link rel="stylesheet" href="estilos/style.css">
     <link rel="stylesheet" href="estilos/celular.css" media="(max-width: 732px)">
+    
     <script src="https://kit.fontawesome.com/a13ae5a66e.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -29,7 +29,6 @@
         <img src="imagens/Logo-Chama-Crioula.png" alt="Logo Chama Crioula">
     </a>
 
-    <!-- BUSCA + CARRINHO MOBILE -->
     <div class="header-search-cart">
         <div class="InputBusca">
             <input type="text" id="buscar" placeholder="Buscar Produto ...">
@@ -37,7 +36,6 @@
             <div id="autocomplete" class="autocomplete-box"></div>
         </div>
 
-        <!-- Botão do carrinho mobile -->
         <i class="fa-solid fa-cart-shopping btn-cart-mobile"></i>
     </div>
 
@@ -54,21 +52,17 @@
     </ul>
 </header>
 
-<!-- MODAL HORÁRIOS -->
 <div id="modal-horarios" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-
         <h2>Horários de Atendimento</h2>
         <br>
         <h3>Pedidos</h3>
         <p>Segunda a Sábado: 09:00 - 16:00</p>
-
         <br>
         <h3>Entregas</h3>
         <p>Segunda a Sábado: 17:00 - 20:00</p>
         <p>Domingo: 07:00 - 12:00</p>
-
         <br>
         <h3>Observações</h3>
         <p>Pedidos devem observar quantidade mínima - Consulte</p>
@@ -76,7 +70,6 @@
     </div>
 </div>
 
-<!-- FILTROS -->
 <section class="filtros">
     <p class="tipos" data-cat="todos"><img src="imagens/quadrado.png">Todos</p>
     <p class="tipos" data-cat="ofertas"><img src="imagens/oferta-limitada.png">Ofertas</p>
@@ -87,34 +80,30 @@
 </section>
 
 <div class="container">
-    <!-- LISTA DE PRODUTOS -->
     <main id="produtos-container" class="lista-produtos"></main>
 
-    <!-- CARRINHO DESKTOP (fixo ao lado) -->
     <aside class="carrinho">
         <h2>Pedido</h2>
         <div id="lista-carrinho"></div>
 
-            <div class="endereco-box-desktop" style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
-        <h3>Endereço de Entrega:</h3>
-        
-        <input type="text" id="bairro-desk" placeholder="Bairro" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; text-transform: capitalize;">
-        
-        <div class="input-group">
-            <input type="text" id="rua-desk" placeholder="Rua" style="flex: 3; padding: 10px; border: 1px solid #ccc; border-radius: 6px; text-transform: capitalize;">
-            <input type="number" id="numero-desk" placeholder="Nº" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <div class="endereco-box-desktop" style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
+            <h3>Endereço de Entrega:</h3>
+            
+            <input type="text" id="bairro-desk" placeholder="Bairro">
+            
+            <div class="input-group">
+                <input type="text" id="rua-desk" placeholder="Rua">
+                <input type="number" id="numero-desk" placeholder="Nº">
+            </div>
         </div>
-    </div>
 
         <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
         <button id="btn-finalizar">Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i></button>
     </aside>
 </div>
 
-<!-- TOAST -->
 <div id="toast" class="toast">Produto adicionado ao pedido</div>
 
-<!-- MODAL INFO PRODUTO -->
 <div id="modalInfo" class="modal-info hidden">
     <div class="modal-info-content">
         <span id="modalInfo-close">&times;</span>
@@ -125,7 +114,6 @@
     </div>
 </div>
 
-<!-- SIDEBAR MOBILE DO CARRINHO -->
 <div id="sidebarCarrinho" class="sidebar-cart">
     <div class="sidebar-header">
         <h2>Seu Pedido</h2>
@@ -134,20 +122,18 @@
 
     <div id="cartItems"></div>
 
-    <div class="cart-total">
+    <div class="cart-total" style="margin-top:10px; font-weight:bold;">
         Total: R$ <span id="cartTotal">0,00</span>
     </div>
 
     <div class="endereco-box">
-    <h3>Endereço de Entrega:</h3>
-    
-    <input type="text" id="bairro" placeholder="Bairro" required>
-    
-    <div class="input-group">
-        <input type="text" id="rua" placeholder="Rua" required>
-        <input type="number" id="numero" placeholder="Nº" required>
+        <h3>Endereço de Entrega:</h3>
+        <input type="text" id="bairro" placeholder="Bairro" required>
+        <div class="input-group">
+            <input type="text" id="rua" placeholder="Rua" required>
+            <input type="number" id="numero" placeholder="Nº" required>
+        </div>
     </div>
-</div>
 
     <button id="sidebarFinalizar" class="sidebar-finalizar">
         Finalizar Pedido no WhatsApp<i class="fa-brands fa-whatsapp"></i>
@@ -158,14 +144,9 @@
     <div class="modal-content" style="max-width: 320px; text-align: center;">
         <span class="close" id="close-modal-cortes">&times;</span>
         <h3>Escolha o Corte</h3>
-        
         <div id="lista-opcoes-cortes" class="cortes-mobile-list"></div>
-        
     </div>
 </div>
-
-
-
 
 
 <footer id="rodape">
@@ -215,7 +196,7 @@
 
     <div class="footer-bottom">
         <p>&copy; 2025 Casa de Carnes Chama Crioula. Todos os direitos reservados.</p>
-        <p>Desenvolvido por <a href="https://www.linkedin.com/in/caio-ferencine/" target="_blank"><strong>Caio Ferencine</strong></p></a>
+        <p>Desenvolvido por <a href="https://www.linkedin.com/in/caio-ferencine/" target="_blank"><strong>Caio Ferencine</strong></a></p>
     </div>
 </footer>
 

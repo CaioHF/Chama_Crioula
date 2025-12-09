@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+/* ==========================================================================
+   1. VARIÁVEIS E RESET GLOBAL
+   ========================================================================== */
 :root {
   --cor-marrom: #E6E1C7;
   --cor-marrom-forte: #1C1C1C;
@@ -14,118 +17,24 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#rua, #bairro {
-    text-transform: capitalize;
-}
-
-.btn-select-corte {
-    display: none; /* Escondido no PC */
-}
-
-/* Opções do modal */
-.cortes-mobile-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.cortes-mobile-list button {
-    padding: 12px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.cortes-mobile-list button:hover {
-    background: var(--cor-marrom);
-}
-
-
-
-.modal-info {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.25s ease;
-}
-
-.modal-info.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-info-content {
-  background: #fff;
-  width: 90%;
-  max-width: 420px;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  position: relative;
-  animation: modalPop 0.3s ease;
-}
-
-@keyframes modalPop {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-#modalInfo-img {
-  width: 100%;
-  border-radius: 10px;
-  margin: 12px 0;
-}
-
-#modalInfo-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-
-.toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(40px);
-    background: var(--cor-vermelha);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 1rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s ease;
-    z-index: 5000;
-}
-
-/* quando ativa */
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
 body {
   background: var(--cor-marrom-forte);
   color: #111;
 }
 
-/* =========================================
-   HEADER & NAVEGAÇÃO
-   ========================================= */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Utilitários de Texto */
+#rua, #bairro, #rua-desk, #bairro-desk {
+    text-transform: capitalize;
+}
+
+/* ==========================================================================
+   2. HEADER (CABEÇALHO)
+   ========================================================================== */
 header {
   display: flex;
   align-items: center;
@@ -134,92 +43,41 @@ header {
   background: var(--cor-marrom);
   flex-wrap: wrap;
   position: relative;
-    z-index: 10;
+  z-index: 10;
 }
 
 header img {
   height: 80px;
   object-fit: contain;
-
-  &:hover {
-    cursor: pointer;
-    scale: 1.05;
-  }
+  transition: scale 0.2s;
 }
 
-ul {
+header img:hover {
+  cursor: pointer;
+  scale: 1.05;
+}
+
+header ul {
   list-style: none;
   display: flex;
   gap: 15px;
   align-items: center;
 }
 
-ul li {
+header ul li {
   color: var(--cor-vermelha);
   font-weight: bold;
 }
 
-ul > li > i {
+header ul > li > i {
   padding-right: 10px;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(3px);
-    justify-content: center;
-    align-items: center;
-    font-family: arial;
-    font-weight: lighter;
-}
-
-.modal-content {
-    background: #fff;
-    padding: 20px 25px;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 12px;
-    position: relative;
-    animation: aparecer 0.25s ease;
-}
-
-.modal-content p {
-    padding: 4px;;
-    margin-left: 10px;
-    color: #111;
-}
-
-@keyframes aparecer {
-    from { transform: scale(0.8); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 25px;
-    cursor: pointer;
 }
 
 .btn-horarios {
   cursor: pointer;
 }
 
-/* =========================================
-   BUSCA (SEARCH)
-   ========================================= */
+/* Área de Busca */
 .InputBusca {
   position: relative;
   flex: 1;
@@ -242,7 +100,7 @@ a {
   cursor: pointer;
 }
 
-/* Autocomplete Dropdown */
+/* Autocomplete (Sugestões de busca) */
 .autocomplete-box {
   position: absolute;
   left: 0;
@@ -265,9 +123,14 @@ a {
   background: #eee;
 }
 
-/* =========================================
-   FILTROS
-   ========================================= */
+/* Elementos do Header Mobile (Escondidos no Desktop) */
+.header-search-cart > i { display: none; }
+.btn-cart-mobile { display: none; }
+
+
+/* ==========================================================================
+   3. FILTROS (BOTÕES DE CATEGORIA)
+   ========================================================================== */
 .filtros {
   display: flex;
   gap: 12px;
@@ -278,7 +141,7 @@ a {
   background: transparent;
 }
 
-.tipos{
+.tipos {
   display: flex;
   gap: 8px;
   align-items: center;
@@ -288,11 +151,11 @@ a {
   cursor: pointer;
   border: 1px solid #aaa;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: 0.2s;
+}
 
-  &:hover {
-    background-color:#e6ddad;
-    cursor: pointer;
-  }
+.tipos:hover {
+  background-color:#e2d68f;
 }
 
 .tipos img {
@@ -301,13 +164,14 @@ a {
 
 .tipos.ativo {
   transform: scale(1.03);
-  background: #e6ddad;
+  background: #e2d68f;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* =========================================
-   LAYOUT GERAL
-   ========================================= */
+
+/* ==========================================================================
+   4. LAYOUT PRINCIPAL E PRODUTOS
+   ========================================================================== */
 .container {
   display: flex;
   gap: 24px;
@@ -315,9 +179,6 @@ a {
   align-items: flex-start;
 }
 
-/* =========================================
-   LISTA DE PRODUTOS
-   ========================================= */
 .lista-produtos {
   width: 70%;
   display: flex;
@@ -325,6 +186,7 @@ a {
   gap: 16px;
 }
 
+/* Card do Produto */
 .produto {
   display: flex;
   gap: 16px;
@@ -363,12 +225,26 @@ a {
   font-size: 1.1rem;
 }
 
+/* Preços */
 .produto .preco {
   font-weight: bold;
   color: #222;
 }
 
-/* Controles do Produto (Cortes/Qtd/Botão) */
+.preco-antigo {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.85rem;
+    margin-right: 6px;
+}
+
+.preco-novo {
+    color: var(--cor-vermelha);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Controles (Cortes, Quantidade, Botão Adicionar) */
 .cortes {
   display: flex;
   gap: 8px;
@@ -388,8 +264,8 @@ a {
   font-size: 0.95rem;
 }
 
-.cortes input {
-  transform: scale(1.0);
+.btn-select-corte {
+    display: none; /* Escondido no Desktop */
 }
 
 .qtd-box {
@@ -432,9 +308,10 @@ a {
   background: #b21818;
 }
 
-/* =========================================
-   CARRINHO LATERAL
-   ========================================= */
+
+/* ==========================================================================
+   5. SIDEBAR (CARRINHO DESKTOP)
+   ========================================================================== */
 .carrinho {
   width: 30%;
   background: var(--bg-card);
@@ -444,19 +321,6 @@ a {
   top: 18px;
   align-self: flex-start;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.endereco {
-    display: flex;
-    flex-direction: column;
-}
-
-.endereco input {
-    margin-top: 6px;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 #lista-carrinho {
@@ -525,13 +389,43 @@ aside > button > i {
   top: 2px;
 }
 
-/* =========================================
-   SIDEBAR LATERAL DO CARRINHO
-   ========================================= */
+/* Campos de Endereço Desktop e Geral */
+.endereco-box-desktop input, 
+.endereco-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.input-group input {
+  width: auto !important;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-bottom: 0 !important;
+} 
+
+.input-group input[id^="rua"] { flex: 3; }
+.input-group input[id^="numero"] { flex: 1; }
+
+
+/* ==========================================================================
+   6. SIDEBAR MOBILE (GAVETA DO CARRINHO)
+   ========================================================================== */
 .sidebar-cart {
   position: fixed;
   top: 0;
-  right: -100%;
+  right: -100%; /* Começa escondido */
   width: 85%;
   max-width: 360px;
   height: 100vh;
@@ -554,125 +448,176 @@ aside > button > i {
   align-items: center;
 }
 
-.sidebar-header h2 {
-  font-size: 1.3rem;
-  color: #111;
-}
-
 .btn-close-sidebar {
   font-size: 26px;
   cursor: pointer;
 }
 
-/* conteúdo do carrinho dentro da sidebar */
-.sidebar-content {
-  flex: 1;
-  overflow-y: auto;
-  margin-top: 12px;
-}
-
-/* Substitua a classe .sidebar-finalizar antiga por esta: */
 .sidebar-finalizar {
   width: 100%;
-  padding: 14px; /* Mais espaço para o dedo (touch friendly) */
+  padding: 14px;
   margin-top: 20px;
-  
-  background-color: var(--cor-vermelha); /* Verde oficial do WhatsApp */
+  background-color: var(--cor-vermelha);
   color: #fff;
-  
   border: none;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  
-  /* Centralizar texto e ícone */
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px; /* Espaço entre texto e ícone */
-  
+  gap: 10px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: background 0.3s, transform 0.2s;
-
-  &:hover {
-     background-color: #128C7E; /* Verde mais escuro */
-    transform: scale(1.02);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
 }
 
-.endereco-box h3 {
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #333;
+.sidebar-finalizar:hover {
+  background-color: #128C7E; /* Verde WhatsApp */
+  transform: scale(1.02);
 }
 
-.endereco-box {
-    margin-top: 20px;
+
+/* ==========================================================================
+   7. MODAIS (INFO, HORÁRIOS, CORTES) E TOAST
+   ========================================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px 25px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 12px;
+    position: relative;
+    animation: aparecer 0.25s ease;
+}
+
+@keyframes aparecer {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* Modal de Cortes Mobile (Lista interna) */
+.cortes-mobile-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-}
-
-.endereco-box input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px; /* Espaço entre os campos */
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    outline: none;
-}
-
-.input-group {
-    display: flex;
     gap: 10px;
-    width: 100%;
+    margin-top: 15px;
 }
 
-.input-group input {
-  width: auto !important;
-  min-width: 0;
-  box-sizing: border-box;
-  margin-bottom: 0 !important;
-} 
-
-/* O input da Rua ocupa o espaço restante */
-.input-group input[id^="rua"] {
-    flex: 3;
-}
-
-/* O input do Número fica menorzinho */
-.input-group input[id^="numero"] {
-    flex: 1; 
-}
-
-.endereco-box, .endereco-desktop {
-  width: 100%;
-  overflow: hidden;
-}
-
-.header-search-cart > i {
-  display: none;
-}
-.btn-cart-mobile {
-    display:none;
-    font-size: 26px;
+.cortes-mobile-list button {
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
     cursor: pointer;
-    margin-left: 10px;
-    z-index: 9999 !important;
+    transition: 0.2s;
 }
 
-/* =========================================
-   RODAPÉ (FOOTER)
-   ========================================= */
+.cortes-mobile-list button:hover {
+    background: var(--cor-marrom);
+}
+
+/* Modal Info Produto */
+.modal-info {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.modal-info.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-info-content {
+  background: #fff;
+  width: 90%;
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  animation: modalPop 0.3s ease;
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#modalInfo-img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+#modalInfo-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: var(--cor-vermelha);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 5000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+/* ==========================================================================
+   8. FOOTER (RODAPÉ)
+   ========================================================================== */
 footer {
-    background-color: #151515; /* Um pouco mais escuro que o marrom forte para destaque */
+    background-color: #151515;
     color: var(--cor-marrom);
     padding-top: 40px;
     margin-top: 40px;
@@ -691,7 +636,7 @@ footer {
 
 .footer-section {
     flex: 1;
-    min-width: 220px; /* Garante que não fique muito espremido */
+    min-width: 220px;
 }
 
 .footer-section h3 {
@@ -702,7 +647,6 @@ footer {
     padding-bottom: 8px;
 }
 
-/* Detalhe embaixo do título */
 .footer-section h3::after {
     content: '';
     position: absolute;
@@ -713,33 +657,19 @@ footer {
     background-color: #fff;
 }
 
-.footer-section p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 10px;
-    color: #ccc;
-}
-
 .footer-section ul {
     list-style: none;
-    flex-direction: column; /* Muda a direção da lista para vertical */
+    flex-direction: column;
     align-items: flex-start;
     gap: 8px;
     padding: 0;
 }
 
-.footer-section ul li a {
-    color: #000000;
-    font-size: 0.95rem;
-    transition: 0.3s;
-}
-
 .footer-section ul li a:hover {
     color: var(--cor-vermelha);
-    padding-left: 5px; /* Efeitinho de movimento */
+    padding-left: 5px;
 }
 
-/* Ícones Sociais */
 .social-links {
     margin-top: 15px;
     display: flex;
@@ -763,7 +693,6 @@ footer {
     transform: translateY(-3px);
 }
 
-/* Ícones de Pagamento */
 .payment-icons {
     display: flex;
     gap: 10px;
@@ -772,7 +701,6 @@ footer {
     margin-top: 10px;
 }
 
-/* Barra inferior */
 .footer-bottom {
     background-color: #0f0f0f;
     text-align: center;
@@ -786,111 +714,3 @@ footer {
 .footer-bottom strong {
     color: var(--cor-vermelha);
 }
-
-/* =========================================
-   RESPONSIVO (MÉDIO E PEQUENO)
-   ========================================= */
-@media (max-width: 732px) {
-  
-  /* Ajuste geral do container */
-  .container {
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  .lista-produtos {
-    width: 100%;
-  }
-
-  /* Esconde sidebar fixa do PC */
-  .carrinho {
-    display: none; 
-  }
-
-  /* Mostra botão do carrinho no topo */
-  .btn-cart-mobile {
-      display: block;
-      color: var(--cor-vermelha);
-      padding: 8px;
-      border-radius: 50%;
-  }
-
-  /* Ajuste do Header para alinhar Busca e Carrinho */
-  header {
-      justify-content: center;
-      gap: 10px;
-  }
-  
-  .InputBusca {
-      flex: 1; /* Busca ocupa o espaço todo */
-      margin: 0;
-  }
-  
-  /* ESCONDER BOLINHAS E MOSTRAR BOTÃO DE CORTES */
-  .produto .cortes {
-      display: none !important; /* Esconde radio buttons */
-  }
-
-  .btn-select-corte {
-      display: block; /* Mostra o botão cinza */
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      background-color: #f8f8f8;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      color: #333;
-      font-weight: bold;
-      cursor: pointer;
-      text-align: center;
-  }
-
-  /* Produto em coluna no celular */
-  .produto {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .produto .thumb {
-      width: 100%;
-      height: auto;
-      max-height: 250px;
-  }
-  
-  .produto .info {
-      width: 100%;
-  }
-  
-  /* Centralizar botão de adicionar */
-  .btn-add-prod {
-      width: 100%;
-      text-align: center;
-      margin-top: 15px;
-  }
-  
-  .qtd-box {
-      justify-content: center;
-  }
-
-  .filtros {
-      flex-wrap: nowrap;          /* Não deixa quebrar linha */
-      overflow-x: auto;           /* Permite rolar para o lado */
-      justify-content: flex-start; /* Começa da esquerda */
-      padding-bottom: 10px;       /* Espaço para a barra de rolagem não colar */
-      
-      /* Esconder barra de rolagem feia (opcional) */
-      -webkit-overflow-scrolling: touch; 
-      scrollbar-width: none; /* Firefox */
-  }
-  
-  .filtros::-webkit-scrollbar { 
-      display: none; /* Chrome/Safari */ 
-  }
-
-  .tipos {
-      flex: 0 0 auto; /* Impede que os botões encolham */
-      white-space: nowrap; /* Texto em uma linha só */
-  }
-}
-
