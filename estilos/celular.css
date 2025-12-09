@@ -1,24 +1,86 @@
-@media (max-width: 460px) {
+@media (max-width: 600px) {
   body {
     background-color: var(--cor-marrom-forte);
   }
-  .produto {
+  /* =========================================
+   GRID DE PRODUTOS MOBILE (2 POR LINHA)
+   ========================================= */
+
+/* 1. Transformar a lista em Grid */
+.lista-produtos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Divide em 2 frações iguais */
+    gap: 10px; /* Espaço entre os cards */
+    width: 100%;
+}
+
+/* 2. Ajustar o Card do Produto para caber na grade */
+.produto {
+    width: 100%;       /* Ocupa toda a largura da célula do grid */
+    margin: 0;         /* Remove margens extras */
+    padding: 10px 6px; /* Padding reduzido para ganhar espaço */
     flex-direction: column;
     align-items: center;
     text-align: center;
-  }
+    height: 100%;      /* Garante que todos tenham a mesma altura base */
+    justify-content: space-between; /* Espalha o conteúdo verticalmente */
+}
 
-  .produto .thumb {
+/* 3. Reduzir a imagem para não ficar gigante */
+.produto .thumb {
     width: 100%;
-    height: 200px;
-  }
+    height: 120px; /* Altura menor (antes era 200px ou mais) */
+    margin-bottom: 8px;
+}
+
+/* 4. Ajustes de Texto e Fontes (para não quebrar linha errado) */
+.produto h3 {
+    min-height: 40px;  /* Altura mínima para alinhar títulos de 2 linhas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 5. Ajustar Botões e Inputs para o espaço apertado */
+.btn-select-corte {
+    font-size: 0.75rem; /* Texto menor no botão de corte */
+    padding: 8px 4px;
+    white-space: nowrap; /* Evita quebra de linha feia */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Coloca "..." se o texto for muito longo */
+}
+
+.produto .qtd-box {
+    margin: 8px 0;
+    gap: 5px; /* Menos espaço entre os botões + e - */
+}
+
+.qtd-box button {
+    width: 28px; /* Botões +/- menores */
+    height: 28px;
+}
+
+.qtd-box input {
+    width: 45px; /* Input de quantidade menor */
+    font-size: 0.9rem;
+    padding: 4px;
+}
+
+/* Botão de adicionar ocupando largura total */
+.produto .btn-add-prod {
+    width: 100%;
+    font-size: 0.8rem;
+    padding: 8px;
+    margin-top: auto; /* Empurra para o final do card */
+}
 
   .cortes {
     justify-content: center;
   }
 
   ul li {
-    display: none;
+    display: block;
   }
   
   header{
@@ -182,5 +244,23 @@
     
     .btn-select-corte i {
         margin-left: 5px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-section h3::after {
+        left: 50%;
+        transform: translateX(-50%); /* Centraliza o detalhe do título */
+    }
+
+    .footer-section ul {
+        align-items: center; /* Centraliza lista no mobile */
+    }
+
+    .social-links, .payment-icons {
+        justify-content: center;
     }
 }

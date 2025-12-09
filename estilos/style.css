@@ -625,21 +625,36 @@ aside > button > i {
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
 }
 
 .input-group {
     display: flex;
     gap: 10px;
+    width: 100%;
 }
 
+.input-group input {
+  width: auto !important;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-bottom: 0 !important;
+} 
+
 /* O input da Rua ocupa o espaço restante */
-.input-group input[id="rua"] {
-    flex: 3; 
+.input-group input[id^="rua"] {
+    flex: 3;
 }
 
 /* O input do Número fica menorzinho */
-.input-group input[id="numero"] {
+.input-group input[id^="numero"] {
     flex: 1; 
+}
+
+.endereco-box, .endereco-desktop {
+  width: 100%;
+  overflow: hidden;
 }
 
 .header-search-cart > i {
@@ -652,27 +667,230 @@ aside > button > i {
     margin-left: 10px;
     z-index: 9999 !important;
 }
+
 /* =========================================
-   RESPONSIVO
+   RODAPÉ (FOOTER)
    ========================================= */
-@media (max-width: 900px) {
+footer {
+    background-color: #151515; /* Um pouco mais escuro que o marrom forte para destaque */
+    color: var(--cor-marrom);
+    padding-top: 40px;
+    margin-top: 40px;
+    border-top: 4px solid var(--cor-vermelha);
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 220px; /* Garante que não fique muito espremido */
+}
+
+.footer-section h3 {
+    color: var(--cor-vermelha);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* Detalhe embaixo do título */
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #fff;
+}
+
+.footer-section p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.footer-section ul {
+    list-style: none;
+    flex-direction: column; /* Muda a direção da lista para vertical */
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0;
+}
+
+.footer-section ul li a {
+    color: #000000;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: var(--cor-vermelha);
+    padding-left: 5px; /* Efeitinho de movimento */
+}
+
+/* Ícones Sociais */
+.social-links {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: #333;
+    color: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.social-links a:hover {
+    background: var(--cor-vermelha);
+    transform: translateY(-3px);
+}
+
+/* Ícones de Pagamento */
+.payment-icons {
+    display: flex;
+    gap: 10px;
+    font-size: 24px;
+    color: #ccc;
+    margin-top: 10px;
+}
+
+/* Barra inferior */
+.footer-bottom {
+    background-color: #0f0f0f;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+    font-size: 0.85rem;
+    color: #888;
+    border-top: 1px solid #222;
+}
+
+.footer-bottom strong {
+    color: var(--cor-vermelha);
+}
+
+/* =========================================
+   RESPONSIVO (MÉDIO E PEQUENO)
+   ========================================= */
+@media (max-width: 601px) {
+  
+  /* Ajuste geral do container */
   .container {
     flex-direction: column;
-    padding: 12px;
+    padding: 10px;
   }
 
   .lista-produtos {
     width: 100%;
   }
 
+  /* Esconde sidebar fixa do PC */
   .carrinho {
-    width: 100%;
-    position: static;
-    margin-top: 10px;
+    display: none; 
   }
 
+  /* Mostra botão do carrinho no topo */
+  .btn-cart-mobile {
+      display: block;
+      color: var(--cor-vermelha);
+      padding: 8px;
+      border-radius: 50%;
+  }
+
+  /* Ajuste do Header para alinhar Busca e Carrinho */
+  header {
+      justify-content: center;
+      gap: 10px;
+  }
+  
+  .InputBusca {
+      flex: 1; /* Busca ocupa o espaço todo */
+      margin: 0;
+  }
+  
+  /* ESCONDER BOLINHAS E MOSTRAR BOTÃO DE CORTES */
+  .produto .cortes {
+      display: none !important; /* Esconde radio buttons */
+  }
+
+  .btn-select-corte {
+      display: block; /* Mostra o botão cinza */
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background-color: #f8f8f8;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+  }
+
+  /* Produto em coluna no celular */
   .produto {
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .produto .thumb {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+  }
+  
+  .produto .info {
+      width: 100%;
+  }
+  
+  /* Centralizar botão de adicionar */
+  .btn-add-prod {
+      width: 100%;
+      text-align: center;
+      margin-top: 15px;
+  }
+  
+  .qtd-box {
+      justify-content: center;
+  }
+
+  .filtros {
+      flex-wrap: nowrap;          /* Não deixa quebrar linha */
+      overflow-x: auto;           /* Permite rolar para o lado */
+      justify-content: flex-start; /* Começa da esquerda */
+      padding-bottom: 10px;       /* Espaço para a barra de rolagem não colar */
+      
+      /* Esconder barra de rolagem feia (opcional) */
+      -webkit-overflow-scrolling: touch; 
+      scrollbar-width: none; /* Firefox */
+  }
+  
+  .filtros::-webkit-scrollbar { 
+      display: none; /* Chrome/Safari */ 
+  }
+
+  .tipos {
+      flex: 0 0 auto; /* Impede que os botões encolham */
+      white-space: nowrap; /* Texto em uma linha só */
   }
 }
 
