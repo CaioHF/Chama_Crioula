@@ -276,9 +276,19 @@ function formatarTexto(texto) {
 function showToast(msg = "Produto adicionado ao pedido") {
   const toast = document.getElementById("toast");
   if(toast){
+      // Reseta a animação (truque para piscar se clicar varias vezes rapido)
+      toast.classList.remove("show");
+      void toast.offsetWidth; // Força o navegador a notar a mudança
+
       toast.textContent = msg;
       toast.classList.add("show");
-      setTimeout(() => { toast.classList.remove("show"); }, 2000);
+      
+      // Some depois de 3 segundos
+      setTimeout(() => { 
+          toast.classList.remove("show"); 
+      }, 3000);
+  } else {
+      console.log("ERRO: Elemento toast não encontrado no HTML");
   }
 }
 

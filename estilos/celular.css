@@ -2,7 +2,7 @@
     
     /* 1. TRAVA DE SEGURANÇA (Impede rolagem lateral) */
     html, body {
-        overflow-x: hidden; /* Corta qualquer coisa que tente vazar da tela */
+        overflow-x: hidden;
         width: 100%;
         margin: 0;
         padding: 0;
@@ -15,19 +15,19 @@
     /* 2. CABEÇALHO (Ícones alinhados e sem vazar) */
     header {
         display: flex;
-        flex-direction: column; /* Logo em cima, busca no meio */
+        flex-direction: column;
         align-items: center;
         gap: 15px;
-        padding: 10px 15px; /* Padding reduzido para não estourar a tela */
+        padding: 10px 15px;
         width: 100%;
     }
 
     /* Alinha Status, Horários e Contato em LINHA */
     header ul {
         display: flex;
-        flex-direction: row;     /* Força linha horizontal */
-        flex-wrap: wrap;         /* Permite quebrar linha se a tela for minúscula */
-        justify-content: center; /* Centraliza */
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
         gap: 15px;
         padding: 0;
@@ -36,7 +36,7 @@
     }
 
     header ul li {
-        display: flex !important; /* Força aparecer */
+        display: flex !important;
         align-items: center;
         gap: 6px;
         font-size: 0.9rem;
@@ -49,8 +49,7 @@
         align-items: center;
         gap: 10px;
         width: 100%;
-        max-width: 100%; /* Garante que não ultrapasse */
-        padding: 0 10px; /* Margem de segurança */
+        padding: 0 5px;
     }
 
     .InputBusca {
@@ -59,105 +58,141 @@
         margin: 0;
     }
 
-    /* 3. GRID DE PRODUTOS (Com efeito "mais distante") */
+    /* --- CORREÇÃO DO BOTÃO DO CARRINHO --- */
+    /* Força o ícone a aparecer, vencendo o bloqueio do desktop */
+    .header-search-cart > i, 
+    .btn-cart-mobile {
+        display: block !important; 
+        font-size: 24px;
+        color: var(--cor-vermelha);
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    /* Esconde a barra lateral (sidebar) do desktop, mas deixa o ícone */
+    .carrinho {
+        display: none !important;
+    }
+
+
+    /* 3. GRID DE PRODUTOS (Visual Compacto e "Profundo") */
     .container {
         display: flex;
         flex-direction: column;
-        padding: 5px;
+        padding: 10px;
         width: 100%;
     }
 
     .lista-produtos {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr)); 
-        gap: 8px; /* Espaço equilibrado entre os cartões */
+        gap: 10px;
         width: 100%;
     }
 
     .produto {
         width: 100%;
         margin: 0;
-        /* Padding maior (10px) cria uma moldura interna maior */
-        padding: 10px; 
+        padding: 10px 5px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         justify-content: space-between;
         
-        /* Sombra suave ajuda a dar profundidade */
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-        border-radius: 12px; /* Cantos mais arredondados */
+        box-shadow: 0 3px 8px rgba(0,0,0,0.06); 
+        border-radius: 10px;
     }
 
-    /* AQUI ESTÁ O TRUQUE DO "JOGAR PARA TRÁS" */
     .produto .thumb {
-        width: 90%; /* Reduzi para 75% (antes era 85% ou 100%) */
+        width: 100%; 
         aspect-ratio: 1 / 1; 
         height: auto;
-        
-        /* Margens automáticas centralizam e empurram o texto para baixo */
-        margin: 5px auto 15px auto; 
-        
+        margin: 5px auto 10px auto; 
         display: flex;
         align-items: center;
         justify-content: center;
-        
-        /* Opcional: Se quiser que a imagem em si tenha uma bordinha ou sombra interna */
-        /* filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); */
     }
     
-    /* Garante que a imagem respeite o tamanho reduzido */
     .produto .thumb img {
         max-width: 100%;
         max-height: 100%;
-        object-fit: contain; /* Garante que a carne inteira apareça sem cortes */
+        object-fit: contain;
     }
 
-    /* Esconde elementos de PC */
-    .carrinho, .header-search-cart > i {
-        display: none !important;
+    /* Títulos e Textos ajustados */
+    .produto h3 {
+        font-size: 1.1rem;
+        /* Define uma altura fixa para o título. 
+           Assim, nomes de 1 linha ocupam o mesmo espaço de nomes de 2 linhas */
+        height: 38px; 
+        display: flex;
+        align-items: center;       /* Centraliza verticalmente */
+        justify-content: center;   /* Centraliza horizontalmente */
+        margin-bottom: 4px;
+        line-height: 1.1;
+        overflow: hidden;          /* Corta texto se for gigante demais */
     }
 
-    /* Botão Carrinho Mobile */
-    .btn-cart-mobile {
-        display: block;
-        font-size: 24px;
-        color: var(--cor-vermelha);
-        padding: 5px;
+    .produto .preco-box {
+        /* Define altura mínima para caber preço antigo + novo.
+           Se tiver só preço novo, ele centraliza nesse espaço. */
+        min-height: 40px; 
+        
+        display: flex;
+        flex-direction: column; /* Um preço embaixo do outro */
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 6px;
     }
 
-    /* Ajustes Gerais Mobile */
+    .preco-novo { 
+        font-size: 0.95rem; 
+        line-height: 1.2;
+    }
+    .preco-antigo { 
+        font-size: 1rem; 
+        margin-right: 0; /* Remove margem lateral pois agora está em coluna */
+        margin-bottom: 2px;
+    }
+
+    /* Elementos Internos do Card */
     .produto .cortes { display: none !important; }
     
     .btn-select-corte {
         display: block;
         width: 100%;
-        padding: 8px;
-        font-size: 0.8rem;
+        padding: 8px 4px;
+        font-size: 0.75rem;
         background: #f8f8f8;
         border: 1px solid #ccc;
         border-radius: 6px;
         margin: 5px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .produto .qtd-box {
         width: 100%;
         justify-content: center;
         gap: 5px;
+        margin: 5px 0;
     }
 
     .produto .input-qtd {
         width: 40px;
         padding: 4px;
         text-align: center;
+        font-size: 0.9rem;
     }
 
     .produto .btn-add-prod {
         width: 100%;
-        font-size: 0.85rem;
-        padding: 10px;
+        font-size: 0.8rem;
+        padding: 10px 5px;
         margin-top: auto;
+        border-radius: 6px;
     }
 
     /* FILTROS (Rolagem lateral) */
@@ -178,4 +213,14 @@
     .footer-section h3::after { left: 50%; transform: translateX(-50%); }
     .social-links, .payment-icons { justify-content: center; }
     .footer-section ul { align-items: center; }
+
+    /* =========================================
+       CORREÇÃO DO TOAST (MENSAGEM DE CONFIRMAÇÃO)
+       ========================================= */
+    .toast {
+        bottom: 80px; /* Bem mais alto para fugir da barra do navegador */
+        width: 90%;   /* Ocupa a largura quase toda */
+        font-size: 0.9rem;
+        padding: 14px 20px;
+    }
 }

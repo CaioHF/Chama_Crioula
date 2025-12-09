@@ -696,29 +696,45 @@ aside > button > i {
   cursor: pointer;
 }
 
-/* Toast Notification */
+/* =========================================
+   TOAST (NOTIFICAÇÃO FLUTUANTE) - FINAL
+   ========================================= */
 .toast {
+    /* Posicionamento Fixo na Tela */
     position: fixed;
-    bottom: 30px;
     left: 50%;
-    transform: translateX(-50%) translateY(40px);
-    background: var(--cor-vermelha);
+    /* Começa invisível e um pouco pra baixo */
+    transform: translateX(-50%) translateY(50px); 
+    
+    background: #D90404; /* Vermelho forte */
     color: white;
-    padding: 12px 20px;
-    border-radius: 6px;
+    padding: 12px 24px;
+    border-radius: 50px; /* Borda bem redonda estilo App */
     font-weight: bold;
     font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4); /* Sombra forte para destacar */
+    text-align: center;
+
     opacity: 0;
-    pointer-events: none;
-    transition: all 0.4s ease;
-    z-index: 5000;
+    pointer-events: none; /* Não atrapalha o clique quando invisível */
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Efeito elástico */
+
+    /* Z-INDEX MÁXIMO: Fica na frente da Sidebar (99999) e de tudo */
+    z-index: 2147483647 !important; 
 }
 
+/* Posição Padrão (PC) */
+.toast {
+    bottom: 30px;
+    min-width: 250px;
+}
+
+/* Quando a classe .show é adicionada pelo JS */
 .toast.show {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0); /* Sobe para a posição correta */
+    pointer-events: auto;
 }
-
 
 /* ==========================================================================
    8. FOOTER (RODAPÉ)
