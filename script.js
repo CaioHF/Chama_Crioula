@@ -1,10 +1,12 @@
 // ==========================================================================
 // 1. CONFIGURAÇÕES GERAIS E DADOS
 // ==========================================================================
+const VALOR_MINIMO_PEDIDO = 50.00;
 const categoriasComCorte = ['bovino','suino','ofertas'];
 const categoriasKg05 = ['bovino','suino','frango','ofertas'];
 const categoriasUnidade = ['acompanhamentos'];
 const cortesPadrao = ['Corte fino','Corte grosso','Em cubos','Moído','Para churrasco'];
+
 
 // LISTA DE PRODUTOS (Banco de Dados)
 const produtos = [
@@ -257,6 +259,8 @@ const botaoReset = document.querySelector('.tipos-delet');
 // 2. ESTADO DO APLICATIVO (CARRINHO)
 // ==========================================================================
 let carrinho = [];
+let taxaEntrega = 0;
+
 if (localStorage.getItem('carrinhoSalvo')) {
   try { carrinho = JSON.parse(localStorage.getItem('carrinhoSalvo')) || []; }
   catch(e){ carrinho = []; }
@@ -374,16 +378,15 @@ function renderProdutos(filtro = 'todos'){
   });
 }
 
-
-// ==========================================================================
+// =========================================
 // 4. CARRINHO: ATUALIZAÇÃO E RENDERIZAÇÃO
-// ==========================================================================
+// =========================================
 function atualizarCarrinho(){
   let html = '';
   let total = 0;
 
   if(!carrinho || carrinho.length === 0){
-    html = '<p>Seu carrinho está vazio.</p>';
+    html = '<p style="text-align:center; padding: 20px;">Seu carrinho está vazio.</p>';
   } else {
     carrinho.forEach((item, i) => {
       const subtotal = item.preco * item.qtd;
@@ -405,23 +408,63 @@ function atualizarCarrinho(){
     });
   }
 
-  // Atualiza Desktop
+  // === CÁLCULO FINAL COM A TAXA ===
+  const totalComTaxa = total + taxaEntrega;
+
+  // Atualiza HTML das listas
   const listaDesktop = document.querySelector("#lista-carrinho");
   if (listaDesktop) listaDesktop.innerHTML = html;
 
-  // Atualiza Mobile
   const listaMobile = document.querySelector("#cartItems");
   if (listaMobile) listaMobile.innerHTML = html;
 
-  // Atualiza Totais
+  // Atualiza Totais Visuais
   const totalMobile = document.querySelector("#cartTotal");
-  if (totalMobile) totalMobile.textContent = fmtMoney(total);
-  if(totalGeralEl) totalGeralEl.textContent = fmtMoney(total);
+  if (totalMobile) totalMobile.textContent = fmtMoney(totalComTaxa);
+  
+  if(totalGeralEl) totalGeralEl.textContent = fmtMoney(totalComTaxa);
 
-  // Salva no Navegador
+
+  // === LÓGICA DE VALOR MÍNIMO (CORRIGIDA) ===
+  const btnFinalizarDesk = document.getElementById('btn-finalizar');
+  const btnFinalizarMobile = document.getElementById('sidebarFinalizar');
+  
+  if(carrinho.length > 0) {
+      // MUDANÇA AQUI: Agora verificamos o totalComTaxa, não apenas o total
+      if (totalComTaxa < VALOR_MINIMO_PEDIDO) {
+          const falta = VALOR_MINIMO_PEDIDO - totalComTaxa;
+          const textoAviso = `Mínimo R$ ${VALOR_MINIMO_PEDIDO},00 (Faltam R$ ${fmtMoney(falta)})`;
+          
+          if(btnFinalizarDesk) {
+              btnFinalizarDesk.classList.add('btn-disabled');
+              btnFinalizarDesk.innerHTML = textoAviso;
+          }
+          if(btnFinalizarMobile) {
+              btnFinalizarMobile.classList.add('btn-disabled');
+              btnFinalizarMobile.innerHTML = textoAviso;
+          }
+      } else {
+          // Se passou do mínimo, libera
+          if(btnFinalizarDesk) {
+              btnFinalizarDesk.classList.remove('btn-disabled');
+              btnFinalizarDesk.innerHTML = 'Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
+          }
+          if(btnFinalizarMobile) {
+              btnFinalizarMobile.classList.remove('btn-disabled');
+              btnFinalizarMobile.innerHTML = 'Finalizar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
+          }
+      }
+  } else {
+     // Carrinho vazio
+     if(btnFinalizarDesk) btnFinalizarDesk.innerHTML = 'Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
+     if(btnFinalizarMobile) btnFinalizarMobile.innerHTML = 'Finalizar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
+  }
+
+  // Verifica horário da loja (essa função tem prioridade de bloqueio)
+  verificarStatusLoja();
+  
   try { localStorage.setItem('carrinhoSalvo', JSON.stringify(carrinho)); } catch(e){}
 }
-
 
 // ==========================================================================
 // 5. EVENTOS: INTERAÇÃO COM PRODUTOS (Delegation)
@@ -547,27 +590,97 @@ function filtrarProdutoPorNome(){
   if(boxAuto) boxAuto.style.display = 'none';
 }
 
+// =========================================
+// LÓGICA DE TAXA DE ENTREGA (Faltava isso!)
+// =========================================
+const bairroDesk = document.getElementById('bairro-desk');
+const bairroMobile = document.getElementById('bairro');
 
-// ==========================================================================
-// 7. ENVIO PARA WHATSAPP
-// ==========================================================================
-function enviarPedidoWhatsApp(idRua, idNumero, idBairro) {
+function atualizarTaxa(evento) {
+    const select = evento.target;
+    // Pega o valor do option (ex: "5.00") e transforma em número
+    const valor = parseFloat(select.value) || 0; 
+    
+    // Atualiza a variável global que criamos lá em cima
+    taxaEntrega = valor;
+    
+    // Sincroniza: se mudou no PC, muda no celular também (e vice-versa)
+    if(bairroDesk && bairroDesk !== select) bairroDesk.value = select.value;
+    if(bairroMobile && bairroMobile !== select) bairroMobile.value = select.value;
+
+    // Manda recalcular o carrinho agora com a taxa nova
+    atualizarCarrinho();
+}
+
+// Adiciona o "ouvidor" de eventos nos selects
+// Isso diz: "Quando mudar (change), rode a função atualizarTaxa"
+if(bairroDesk) bairroDesk.addEventListener('change', atualizarTaxa);
+if(bairroMobile) bairroMobile.addEventListener('change', atualizarTaxa);
+
+
+// =========================================
+// 7. ENVIO PARA WHATSAPP (CORRIGIDO PARA SOMAR TAXA NA VALIDAÇÃO)
+// =========================================
+function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idObs) {
+    console.log("Tentando enviar pedido...");
+
+    // 1. SEGURANÇA: Pega o valor mínimo
+    let minimo = 0;
+    try {
+        if (typeof VALOR_MINIMO_PEDIDO !== 'undefined') {
+            minimo = VALOR_MINIMO_PEDIDO;
+        }
+    } catch (e) { minimo = 0; }
+
+    // 2. CÁLCULO DO TOTAL (PRODUTOS + TAXA)
+    let totalCalculado = 0;
+    carrinho.forEach(item => {
+        totalCalculado += item.preco * item.qtd;
+    });
+
+    // Pega a taxa do bairro selecionado AGORA
+    const elBairro = document.getElementById(idBairroSelect);
+    let taxaNoMomento = 0;
+    if(elBairro && elBairro.value) {
+        taxaNoMomento = parseFloat(elBairro.value) || 0;
+    }
+
+    // SOMA A TAXA AO TOTAL PARA A VERIFICAÇÃO
+    totalCalculado += taxaNoMomento;
+
+    console.log(`Total com Taxa: ${totalCalculado}, Mínimo: ${minimo}`);
+
+    // 3. VERIFICAÇÃO DO MÍNIMO
+    if (totalCalculado < minimo) {
+        const falta = minimo - totalCalculado;
+        alert(`O pedido mínimo é de R$ ${minimo.toFixed(2)}.\nFaltam R$ ${falta.toFixed(2)} para completar.`);
+        return; 
+    }
+
+    // --- CÓDIGO NORMAL DE ENVIO ---
+    
     const ruaEl = document.getElementById(idRua);
     const numeroEl = document.getElementById(idNumero);
-    const bairroEl = document.getElementById(idBairro);
+    const bairroEl = document.getElementById(idBairroSelect);
+    const pagamentoEl = document.getElementById(idPagamento);
+    const obsEl = document.getElementById(idObs);
 
     const rua = ruaEl ? formatarTexto(ruaEl.value.trim()) : '';
     const numero = numeroEl ? numeroEl.value.trim() : '';
-    const bairro = bairroEl ? formatarTexto(bairroEl.value.trim()) : '';
+    const pagamento = pagamentoEl ? pagamentoEl.value : '';
+    const observacao = obsEl ? obsEl.value.trim() : '';
 
-    if(!rua || !numero || !bairro){
-      alert('Por favor, preencha o endereço completo: Rua, Número e Bairro.');
-      return;
+    let bairroNome = '';
+    if(bairroEl && bairroEl.tagName === 'SELECT' && bairroEl.selectedIndex >= 0) {
+        bairroNome = bairroEl.options[bairroEl.selectedIndex].text;
+    } else if (bairroEl) {
+        bairroNome = bairroEl.value; 
     }
-    if(carrinho.length === 0){
-      alert('Seu carrinho está vazio!');
-      return;
-    }
+
+    if(!rua || !numero){ alert('Por favor, preencha o endereço completo.'); return; }
+    if(bairroEl && bairroEl.value === "") { alert('Por favor, selecione seu Bairro/Região.'); return; }
+    if(!pagamento){ alert('Por favor, selecione uma forma de pagamento.'); return; }
+    if(carrinho.length === 0){ alert('Seu carrinho está vazio!'); return; }
 
     let mensagem = '*Pedido:*%0A';
     carrinho.forEach(item => {
@@ -578,39 +691,33 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairro) {
       mensagem += `Subtotal: R$ ${(item.preco * item.qtd).toFixed(2)}%0A%0A`;
     });
 
-    const totalTexto = document.getElementById('total-geral') ? document.getElementById('total-geral').textContent : '0,00';
+    // Usa o total calculado (Produtos + Taxa)
+    const totalTexto = totalCalculado.toFixed(2);
 
-    mensagem += `*Endereço de entrega:*%0A${rua}, nº ${numero}%0ABairro: ${bairro}%0A%0A`;
-    mensagem += `*Total: R$ ${ totalTexto }%0A`;
+    mensagem += `*Endereço de entrega:*%0A${rua}, nº ${numero}%0A`;
+    mensagem += `Bairro: ${bairroNome}%0A`; 
+    mensagem += `*Pagamento:* ${pagamento}%0A`;
+    
+    if(observacao) {
+        mensagem += `*Observação:* ${observacao}%0A`;
+    }
+    
+    mensagem += `%0A*Total com Entrega: R$ ${ totalTexto }%0A`;
 
     window.open(`https://wa.me/5545991120288?text=${mensagem}`);
 
-    // Reset após envio
     carrinho = [];
+    taxaEntrega = 0; 
     try { localStorage.removeItem('carrinhoSalvo'); } catch(e){}
     atualizarCarrinho();
+    
     if(ruaEl) ruaEl.value = '';
     if(numeroEl) numeroEl.value = '';
-    if(bairroEl) bairroEl.value = '';
+    if(typeof bairroDesk !== 'undefined' && bairroDesk) bairroDesk.selectedIndex = 0;
+    if(typeof bairroMobile !== 'undefined' && bairroMobile) bairroMobile.selectedIndex = 0;
+    if(pagamentoEl) pagamentoEl.value = '';
+    if(obsEl) obsEl.value = '';
 }
-
-// Eventos dos Botões de Finalizar
-const btnFinalizar = document.getElementById('btn-finalizar');
-if(btnFinalizar){
-  btnFinalizar.addEventListener('click', ()=>{
-    enviarPedidoWhatsApp('rua-desk', 'numero-desk', 'bairro-desk');
-  });
-}
-
-const btnMobileFinalizar = document.getElementById('sidebarFinalizar');
-if(btnMobileFinalizar){
-  btnMobileFinalizar.addEventListener('click', ()=>{
-    enviarPedidoWhatsApp('rua', 'numero', 'bairro');
-    const sidebar = document.getElementById("sidebarCarrinho");
-    if(sidebar) sidebar.classList.remove("show");
-  });
-}
-
 
 // ==========================================================================
 // 8. CONTROLE DE MODAIS (Horários, Info, Cortes)
@@ -728,3 +835,149 @@ if(btnFecharX && sidebar){
 // INICIALIZAÇÃO
 renderProdutos();
 atualizarCarrinho();
+// =========================================
+// 10. VERIFICADOR DE HORÁRIO (ABERTO/FECHADO)
+// =========================================
+function verificarStatusLoja() {
+    const data = new Date();
+    const diaSemana = data.getDay(); // 0 = Domingo
+    const hora = data.getHours();    // 0 a 23
+
+    // Elementos da tela
+    const statusContainer = document.getElementById('status-container');
+    const statusTexto = document.getElementById('status-texto');
+    const btnFinalizarDesk = document.getElementById('btn-finalizar');
+    const btnFinalizarMobile = document.getElementById('sidebarFinalizar');
+
+    // REGRA DE NEGÓCIO:
+    // Aberto: Segunda(1) a Sábado(6) | Horário: 08:00 às 18:59
+    let estaAberto = false;
+    if (diaSemana !== 0 && (hora >= 8 && hora < 19)) {
+        estaAberto = true;
+    }
+
+    if (estaAberto) {
+        // LOJA ABERTA
+        if(statusContainer) {
+            statusContainer.classList.remove('status-fechado');
+            statusContainer.classList.add('status-aberto');
+            statusTexto.textContent = "Aberto agora";
+        }
+        
+        // IMPORTANTE: Só removemos o 'disabled' SE não estiver bloqueado pelo valor mínimo
+        // Verificamos se o texto do botão NÃO é o aviso de valor mínimo
+        if(btnFinalizarDesk && !btnFinalizarDesk.textContent.includes("Mínimo R$")) {
+            btnFinalizarDesk.classList.remove('btn-disabled');
+            // Só reseta o texto se não for aviso de preço
+            btnFinalizarDesk.innerHTML = 'Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
+        }
+
+        if(btnFinalizarMobile && !btnFinalizarMobile.textContent.includes("Mínimo R$")) {
+            btnMobileFinalizar.classList.remove('btn-disabled');
+            btnMobileFinalizar.innerHTML = 'Finalizar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
+        }
+
+    } else {
+        // LOJA FECHADA (Aqui bloqueia tudo, sem choro)
+        if(statusContainer) {
+            statusContainer.classList.remove('status-aberto');
+            statusContainer.classList.add('status-fechado');
+            statusTexto.textContent = "Fechado agora";
+        }
+
+        if(btnFinalizarDesk) {
+            btnFinalizarDesk.classList.add('btn-disabled');
+            btnFinalizarDesk.innerHTML = 'Loja Fechada (Abre às 08:00)';
+        }
+        if(btnFinalizarMobile) {
+            btnMobileFinalizar.classList.add('btn-disabled');
+            btnMobileFinalizar.innerHTML = 'Loja Fechada (Abre às 08:00)';
+        }
+    }
+}
+// =========================================
+// 11. SALVAR ENDEREÇO E DADOS (LOCALSTORAGE)
+// =========================================
+
+// Lista dos campos que queremos salvar
+const camposParaSalvar = [
+    { idMobile: 'rua', idDesk: 'rua-desk', chave: 'endereco_rua' },
+    { idMobile: 'numero', idDesk: 'numero-desk', chave: 'endereco_numero' },
+    { idMobile: 'bairro', idDesk: 'bairro-desk', chave: 'endereco_bairro' },
+    { idMobile: 'pagamento', idDesk: 'pagamento-desk', chave: 'user_pagamento' },
+    { idMobile: 'obs', idDesk: 'obs-desk', chave: 'user_obs' }
+];
+
+// Função que salva no navegador
+function salvarDadosFormulario() {
+    const dados = {};
+    
+    camposParaSalvar.forEach(campo => {
+        // Tenta pegar o valor do Mobile, se não tiver, pega do Desk
+        const elMobile = document.getElementById(campo.idMobile);
+        const elDesk = document.getElementById(campo.idDesk);
+        
+        let valor = '';
+        if(elMobile && elMobile.value) valor = elMobile.value;
+        else if(elDesk && elDesk.value) valor = elDesk.value;
+        
+        dados[campo.chave] = valor;
+    });
+
+    localStorage.setItem('dadosClienteChamaCrioula', JSON.stringify(dados));
+}
+
+// Função que recupera os dados quando abre o site
+function carregarDadosFormulario() {
+    const dadosSalvos = localStorage.getItem('dadosClienteChamaCrioula');
+    if(!dadosSalvos) return;
+
+    const dados = JSON.parse(dadosSalvos);
+
+    camposParaSalvar.forEach(campo => {
+        const elMobile = document.getElementById(campo.idMobile);
+        const elDesk = document.getElementById(campo.idDesk);
+        const valorSalvo = dados[campo.chave];
+
+        if(valorSalvo) {
+            if(elMobile) elMobile.value = valorSalvo;
+            if(elDesk) elDesk.value = valorSalvo;
+
+            // CASO ESPECIAL: BAIRRO
+            // Se recuperarmos o bairro, precisamos avisar o sistema para somar a taxa de novo!
+            if(campo.idMobile === 'bairro') {
+                // Simula um evento de "mudança" para ativar a função atualizarTaxa()
+                if(elMobile) elMobile.dispatchEvent(new Event('change'));
+            }
+        }
+    });
+}
+
+// Configura os "ouvidores" para salvar assim que digitar
+camposParaSalvar.forEach(campo => {
+    const elMobile = document.getElementById(campo.idMobile);
+    const elDesk = document.getElementById(campo.idDesk);
+    
+    // Lista de eventos para monitorar (digitação e seleção)
+    const eventos = ['input', 'change', 'blur'];
+
+    eventos.forEach(evento => {
+        if(elMobile) {
+            elMobile.addEventListener(evento, () => {
+                // Sincroniza visualmente com o Desktop
+                if(elDesk) elDesk.value = elMobile.value; 
+                salvarDadosFormulario();
+            });
+        }
+        if(elDesk) {
+            elDesk.addEventListener(evento, () => {
+                // Sincroniza visualmente com o Mobile
+                if(elMobile) elMobile.value = elDesk.value;
+                salvarDadosFormulario();
+            });
+        }
+    });
+});
+
+// Executa o carregamento assim que o site abrir
+document.addEventListener('DOMContentLoaded', carregarDadosFormulario);

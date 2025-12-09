@@ -77,6 +77,52 @@ header ul > li > i {
   cursor: pointer;
 }
 
+/* =========================================
+   STATUS DA LOJA (ABERTO/FECHADO)
+   ========================================= */
+.status-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+/* Loja Aberta */
+.status-aberto i {
+    color: #2ecc70cb; /* Verde vibrante */
+    animation: pulse 2s infinite;
+}
+.status-aberto span {
+    color: #2ecc70cb;
+}
+
+/* Loja Fechada */
+.status-fechado i {
+    color: #e74c3c; /* Vermelho */
+}
+.status-fechado span {
+    color: #e74c3c;
+}
+
+/* Animação da bolinha verde pulsando */
+@keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Estilo para Botão Desativado (Loja Fechada) */
+.btn-disabled {
+    background-color: #999 !important; /* Cinza */
+    color: #ccc !important;
+    cursor: not-allowed !important;
+    pointer-events: none; /* Impede o clique */
+    box-shadow: none !important;
+}
+
 /* Área de Busca */
 .InputBusca {
   position: relative;
@@ -390,6 +436,24 @@ aside > button > i {
 }
 
 /* Campos de Endereço Desktop e Geral */
+
+/* Estilo para o Seletor de Bairro */
+.input-bairro {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.input-bairro:focus {
+    border-color: var(--cor-vermelha);
+}
+
 .endereco-box-desktop input, 
 .endereco-box input {
     width: 100%;
@@ -417,6 +481,44 @@ aside > button > i {
 
 .input-group input[id^="rua"] { flex: 3; }
 .input-group input[id^="numero"] { flex: 1; }
+
+/* Estilo do Dropdown de Pagamento */
+.input-pagamento {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+/* Focar na cor da marca ao clicar */
+.input-pagamento:focus {
+    border-color: var(--cor-vermelha);
+}
+
+/* Estilo do Campo de Observações */
+.input-obs {
+    width: 100%;
+    min-height: 80px; /* Altura inicial boa para escrever */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: Arial, sans-serif; /* Garante a mesma fonte do site */
+    font-size: 0.95rem;
+    resize: vertical; /* Permite o usuário aumentar a altura se quiser */
+    outline: none;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.input-obs:focus {
+    border-color: var(--cor-vermelha);
+    background-color: #fffafa; /* Fundo levemente rosado para destacar o foco */
+}
 
 
 /* ==========================================================================
@@ -639,6 +741,10 @@ footer {
     min-width: 220px;
 }
 
+.footer-section p {
+  margin-bottom: 10px;
+}
+
 .footer-section h3 {
     color: var(--cor-vermelha);
     margin-bottom: 15px;
@@ -657,18 +763,6 @@ footer {
     background-color: #fff;
 }
 
-.footer-section ul {
-    list-style: none;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 0;
-}
-
-.footer-section ul li a:hover {
-    color: var(--cor-vermelha);
-    padding-left: 5px;
-}
 
 .social-links {
     margin-top: 15px;

@@ -127,10 +127,16 @@
     
     .produto .thumb {
         width: 100%;
-        height: 120px;
+        aspect-ratio: 1/1;
+        position: relative;
         margin-bottom: 8px;
     }
-    
+
+    .produto .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
     .produto .info {
         width: 100%;
         display: flex;
@@ -231,10 +237,6 @@
     .footer-section h3::after {
         left: 50%;
         transform: translateX(-50%);
-    }
-  
-    .footer-section ul {
-        align-items: center;
     }
   
     .social-links, .payment-icons {
