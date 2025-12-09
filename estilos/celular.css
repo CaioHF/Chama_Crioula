@@ -78,7 +78,7 @@
         width: 100%;
         margin: 0;
         /* Padding maior (10px) cria uma moldura interna maior */
-        padding: 8px 5px; 
+        padding: 10px; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -92,12 +92,12 @@
 
     /* AQUI ESTÁ O TRUQUE DO "JOGAR PARA TRÁS" */
     .produto .thumb {
-        width: 90%;
+        width: 90%; /* Reduzi para 75% (antes era 85% ou 100%) */
         aspect-ratio: 1 / 1; 
         height: auto;
         
         /* Margens automáticas centralizam e empurram o texto para baixo */
-        margin: 0 auto 5px auto; 
+        margin: 5px auto 15px auto; 
         
         display: flex;
         align-items: center;
