@@ -257,6 +257,11 @@ header ul > li > i {
   width: 100%;
   height: 100%;
   object-fit: contain;
+
+  &:hover{
+    transform: scale(1.03);
+    cursor: pointer;
+  }
 }
 
 .produto .info {
