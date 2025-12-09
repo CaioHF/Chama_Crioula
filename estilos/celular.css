@@ -1,4 +1,4 @@
-@media (max-width: 600px) {
+@media (max-width: 732px) {
   body {
     background-color: var(--cor-marrom-forte);
   }
@@ -9,7 +9,7 @@
 /* 1. Transformar a lista em Grid */
 .lista-produtos {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* Divide em 2 frações iguais */
+    grid-template-columns: 1fr 1fr; /* Divide em 2 frações iguais */
     gap: 10px; /* Espaço entre os cards */
     width: 100%;
 }

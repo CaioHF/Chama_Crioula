@@ -790,7 +790,7 @@ footer {
 /* =========================================
    RESPONSIVO (MÉDIO E PEQUENO)
    ========================================= */
-@media (max-width: 601px) {
+@media (max-width: 732px) {
   
   /* Ajuste geral do container */
   .container {
