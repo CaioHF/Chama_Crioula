@@ -14,6 +14,36 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+#rua, #bairro {
+    text-transform: capitalize;
+}
+
+.btn-select-corte {
+    display: none; /* Escondido no PC */
+}
+
+/* Opções do modal */
+.cortes-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.cortes-mobile-list button {
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cortes-mobile-list button:hover {
+    background: var(--cor-marrom);
+}
+
 
 
 .modal-info {
@@ -103,6 +133,8 @@ header {
   padding: 12px 28px;
   background: var(--cor-marrom);
   flex-wrap: wrap;
+  position: relative;
+    z-index: 10;
 }
 
 header img {
@@ -493,6 +525,133 @@ aside > button > i {
   top: 2px;
 }
 
+/* =========================================
+   SIDEBAR LATERAL DO CARRINHO
+   ========================================= */
+.sidebar-cart {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 85%;
+  max-width: 360px;
+  height: 100vh;
+  background: var(--bg-card);
+  box-shadow: -3px 0 10px rgba(0,0,0,0.3);
+  padding: 16px;
+  transition: right 0.3s ease;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-cart.show {
+  right: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header h2 {
+  font-size: 1.3rem;
+  color: #111;
+}
+
+.btn-close-sidebar {
+  font-size: 26px;
+  cursor: pointer;
+}
+
+/* conteúdo do carrinho dentro da sidebar */
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 12px;
+}
+
+/* Substitua a classe .sidebar-finalizar antiga por esta: */
+.sidebar-finalizar {
+  width: 100%;
+  padding: 14px; /* Mais espaço para o dedo (touch friendly) */
+  margin-top: 20px;
+  
+  background-color: var(--cor-vermelha); /* Verde oficial do WhatsApp */
+  color: #fff;
+  
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  
+  /* Centralizar texto e ícone */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Espaço entre texto e ícone */
+  
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background 0.3s, transform 0.2s;
+
+  &:hover {
+     background-color: #128C7E; /* Verde mais escuro */
+    transform: scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.endereco-box h3 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.endereco-box {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.endereco-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px; /* Espaço entre os campos */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* O input da Rua ocupa o espaço restante */
+.input-group input[id="rua"] {
+    flex: 3; 
+}
+
+/* O input do Número fica menorzinho */
+.input-group input[id="numero"] {
+    flex: 1; 
+}
+
+.header-search-cart > i {
+  display: none;
+}
+.btn-cart-mobile {
+    display:none;
+    font-size: 26px;
+    cursor: pointer;
+    margin-left: 10px;
+    z-index: 9999 !important;
+}
 /* =========================================
    RESPONSIVO
    ========================================= */

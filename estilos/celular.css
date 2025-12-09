@@ -21,7 +21,7 @@
     display: none;
   }
   
-  header, .InputBusca{
+  header{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,21 +46,6 @@
     }
 }
 
-    .InputBusca {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        position: relative;
-        margin: 0 auto;
-    }
-
-    .InputBusca input {
-        width: 90%;
-        max-width: 350px;
-        display: block;
-        margin: 0 auto;
-    }
-
     .InputBusca i {
         position: absolute;
         right: 8%;
@@ -80,7 +65,7 @@
         background: white;
         border-radius: 6px;
   }
-}
+
 
     /* Deixa a coluna centralizada */
     .produto .info {
@@ -116,3 +101,86 @@
         text-align: center;
         display: block;
     }
+
+    /* =========================================
+   BOTÃO DE CARRINHO (MOBILE)
+   ========================================= */
+
+
+  /* Esconder carrinho tradicional */
+  .carrinho {
+    display: none !important;
+  }
+
+  /* Sidebar visível */
+.sidebar-cart.show {
+    right: 0;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =========================================
+   ALINHAMENTO BUSCA + CARRINHO (MOBILE)
+   ========================================= */
+
+/* O container que segura o input e o carrinho */
+.header-search-cart {
+    display: flex;       /* Coloca um ao lado do outro */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center;
+    width: 95%;          /* Largura quase total */
+    max-width: 400px;    /* Limite para não ficar gigante */
+    margin: 10px auto;   /* Centraliza na tela */
+    gap: 10px;           /* Espaço entre o input e o carrinho */
+}
+
+/* Ajuste na barra de busca para ela não ocupar 100% sozinha */
+.InputBusca {
+    flex: 1;             /* Ocupa todo o espaço disponível */
+    margin: 0 !important; /* Remove margens antigas que atrapalham */
+    width: auto !important;
+}
+
+.InputBusca input {
+    width: 100%;        /* O input preenche o espaço dele */
+}
+
+.header-search-cart > i {
+  display: block;
+}
+/* O botão do carrinho */
+.btn-cart-mobile {
+    display: block;    /* Mostra o botão */
+    position: static;    /* Remove o 'absolute' que deixava ele voando */
+    transform: none;     /* Remove ajustes de posição antigos */
+    margin: 0;
+    
+    /* Estilo do ícone */
+    font-size: 24px;
+    color: var(--cor-vermelha);
+    padding: 8px;        /* Opcional: área de clique maior */
+}
+
+.produto .cortes {
+        display: none !important; 
+    }
+
+    /* Mostra o botão de abrir o modal */
+    .btn-select-corte {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        background-color: #f8f8f8;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        color: #333;
+        font-weight: bold;
+        cursor: pointer;
+        text-align: center;
+    }
+    
+    .btn-select-corte i {
+        margin-left: 5px;
+    }
+}
