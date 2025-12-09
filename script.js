@@ -487,62 +487,66 @@ if(btnFecharX && sidebar){
 atualizarCarrinho();
 
 // =========================================
-// LÓGICA DO MODAL DE CORTES (MOBILE)
+// LÓGICA DO MODAL DE CORTES (MOBILE) - VERSÃO FINAL
 // =========================================
 const modalCortes = document.getElementById('modal-cortes-mobile');
 const listaCortesEl = document.getElementById('lista-opcoes-cortes');
 const closeModalCortes = document.getElementById('close-modal-cortes');
-let produtoAtualIndex = null; // Para saber qual produto estamos editando
+let produtoAtualIndex = null; 
 
-// Fechar modal
+// Fechar modal no X
 if(closeModalCortes) {
     closeModalCortes.onclick = () => modalCortes.style.display = "none";
 }
+// Fechar modal clicando fora
 window.addEventListener('click', (e) => {
     if(e.target === modalCortes) modalCortes.style.display = "none";
 });
 
-// Delegação de evento para abrir o modal ao clicar no botão "Corte: ..."
+// Delegação de evento no container de produtos
 if(produtosContainer){
     produtosContainer.addEventListener('click', (ev) => {
+        // Verifica se clicou no botão de abrir o modal de cortes
         const btn = ev.target.closest('.btn-select-corte');
         if(!btn) return;
         
-        // Pega o índice do produto
         const index = btn.dataset.index;
         produtoAtualIndex = index;
         
-        // Limpa e popula o modal
-        listaCortesEl.innerHTML = '';
-        
-        cortesPadrao.forEach(corte => {
-            const btnOpcao = document.createElement('button');
-            btnOpcao.textContent = corte;
+        // 1. LIMPEZA SEGURA: Garante que a lista comece vazia
+        if(listaCortesEl) {
+            listaCortesEl.innerHTML = ''; 
+
+            // 2. CRIAÇÃO DOS BOTÕES (Apenas uma vez)
+            cortesPadrao.forEach(corte => {
+                const btnOpcao = document.createElement('button');
+                btnOpcao.textContent = corte;
+                
+                // Ao clicar na opção, seleciona e fecha
+                btnOpcao.onclick = () => {
+                    selecionarCorteMobile(index, corte);
+                };
+                
+                listaCortesEl.appendChild(btnOpcao);
+            });
             
-            // Ao clicar em uma opção no modal
-            btnOpcao.onclick = () => {
-                selecionarCorteMobile(index, corte);
-            };
-            
-            listaCortesEl.appendChild(btnOpcao);
-        });
-        
-        modalCortes.style.display = 'flex';
+            // 3. ABRE O MODAL
+            modalCortes.style.display = 'flex';
+        } else {
+            console.error('Erro: Elemento lista-opcoes-cortes não encontrado.');
+        }
     });
 }
 
+// Função que atualiza o botão e marca o radio invisível
 function selecionarCorteMobile(index, corteNome) {
-    // 1. Atualiza visualmente o texto do botão no produto
     const btnMobile = document.querySelector(`.btn-select-corte[data-index="${index}"]`);
     if(btnMobile) {
         btnMobile.innerHTML = `Corte: ${corteNome} <i class="fa-solid fa-chevron-down"></i>`;
     }
 
-    // 2. Marca o radio button original (que está escondido)
-    // Isso garante que a função "Adicionar ao Pedido" continue funcionando igual!
     const radio = document.querySelector(`input[name="corte-${index}"][value="${corteNome}"]`);
     if(radio) radio.checked = true;
 
-    // 3. Fecha o modal
-    modalCortes.style.display = 'none';
+    if(modalCortes) modalCortes.style.display = 'none';
 }
