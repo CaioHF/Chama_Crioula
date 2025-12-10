@@ -273,25 +273,31 @@ function formatarTexto(texto) {
     return texto.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 }
 
+// =========================================
+// FUNÇÃO TOAST CORRIGIDA (Coloque isso no script.js)
+// =========================================
+
+let toastTimer;
+
 function showToast(msg = "Produto adicionado ao pedido") {
   const toast = document.getElementById("toast");
-  if(toast){
-      // Reseta a animação (truque para piscar se clicar varias vezes rapido)
+  
+  if (toast) {
+
+      clearTimeout(toastTimer);
+
       toast.classList.remove("show");
-      void toast.offsetWidth; // Força o navegador a notar a mudança
+      
+      void toast.offsetWidth; 
 
       toast.textContent = msg;
       toast.classList.add("show");
-      
-      // Some depois de 3 segundos
-      setTimeout(() => { 
+ 
+      toastTimer = setTimeout(() => { 
           toast.classList.remove("show"); 
-      }, 3000);
-  } else {
-      console.log("ERRO: Elemento toast não encontrado no HTML");
+      }, 1000);
   }
 }
-
 
 // ==========================================================================
 // 3. FUNÇÃO PRINCIPAL: RENDERIZAR PRODUTOS
@@ -349,7 +355,7 @@ function renderProdutos(filtro = 'todos'){
 
     produtosContainer.innerHTML += `
       <article class="produto" data-index="${index}" data-desc="${textoDescricao}">
-        <div class="thumb"><img src="${p.img || 'imagens/default.png'}" alt="${p.nome}"></div>
+        <div class="thumb"><img loading="lazy" src="${p.img || 'imagens/default.png'}" alt="${p.nome}"></div>
         <div class="info">
           <h3>${p.nome}</h3>
           
@@ -470,9 +476,21 @@ function atualizarCarrinho(){
      if(btnFinalizarMobile) btnFinalizarMobile.innerHTML = 'Finalizar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
   }
 
-  // Verifica horário da loja (essa função tem prioridade de bloqueio)
-  verificarStatusLoja();
-  
+  // === ATUALIZA O CONTADOR (BOLINHA VERMELHA) ===
+  const cartCountEl = document.getElementById('cart-count');
+  if(cartCountEl) {
+      // Conta quantos itens diferentes tem na lista
+      const qtdItens = carrinho.length; 
+      
+      cartCountEl.textContent = qtdItens;
+
+      if(qtdItens > 0){
+          cartCountEl.style.display = 'flex'; // Mostra a bolinha
+      } else {
+          cartCountEl.style.display = 'none'; // Esconde se for zero
+      }
+  }
+
   try { localStorage.setItem('carrinhoSalvo', JSON.stringify(carrinho)); } catch(e){}
 }
 
@@ -821,7 +839,7 @@ function selecionarCorteMobile(index, corteNome) {
 // ==========================================================================
 // 9. SIDEBAR CARRINHO (MOBILE)
 // ==========================================================================
-const btnCartMobile = document.querySelector(".btn-cart-mobile");
+const btnCartMobile = document.querySelector(".cart-icon-wrap"); 
 const sidebar = document.getElementById("sidebarCarrinho");
 const sidebarFinalizar = document.getElementById("sidebarFinalizar");
 const btnFecharX = document.getElementById("fecharX");
@@ -989,5 +1007,21 @@ camposParaSalvar.forEach(campo => {
     });
 });
 
-// Executa o carregamento assim que o site abrir
+// =========================================
+// INICIALIZAÇÃO (O "Chute Inicial")
+// =========================================
+
+// 1. Carrega dados salvos do cliente
 document.addEventListener('DOMContentLoaded', carregarDadosFormulario);
+
+// 2. Desenha os produtos na tela
+renderProdutos();
+
+// 3. Verifica se a loja está aberta (ISSO QUE FALTAVA RODAR)
+verificarStatusLoja();
+
+// 4. Atualiza o carrinho e os botões
+atualizarCarrinho();
+
+// 5. Configura para verificar o horário a cada 60 segundos automaticamente
+setInterval(verificarStatusLoja, 60000);

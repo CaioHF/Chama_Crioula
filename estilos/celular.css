@@ -10,16 +10,29 @@
 
     body {
         background-color: var(--cor-marrom-forte);
+        padding-top: 120px;
     }
 
     /* 2. CABEÇALHO (Ícones alinhados e sem vazar) */
     header {
+        position: fixed; /* Cola na tela independente de qualquer coisa */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999; /* Fica acima de tudo (menos do Toast e Sidebar) */
+        
+        background-color: var(--cor-marrom);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra para destacar */
+        
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 15px;
+        gap: 10px; /* Diminuí um pouco o espaço para caber melhor */
         padding: 10px 15px;
-        width: 100%;
+    }
+
+    header img {
+        display: none;
     }
 
     /* Alinha Status, Horários e Contato em LINHA */
@@ -74,7 +87,47 @@
         display: none !important;
     }
 
+    /* =========================================
+   CONTADOR DE ITENS NO CARRINHO (BADGE)
+   ========================================= */
 
+/* O container agora é quem recebe o clique */
+.cart-icon-wrap {
+    position: relative; /* Necessário para segurar a bolinha */
+    display: flex !important; /* Força aparecer */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* O ícone do carrinho */
+.cart-icon-wrap i {
+    font-size: 24px;
+    color: var(--cor-vermelha);
+}
+
+/* A bolinha vermelha com o número */
+#cart-count {
+    position: absolute;
+    top: -5px;   /* Sobe um pouquinho */
+    right: -5px; /* Vai para a direita */
+    
+    background-color: var(--cor-vermelha);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; /* Deixa redonda */
+    border: 2px solid #E6E1C7; /* Borda da cor do fundo para destacar */
+    
+    display: none; /* Começa escondido (só aparece se tiver produto) */
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
     /* 3. GRID DE PRODUTOS (Visual Compacto e "Profundo") */
     .container {
         display: flex;
