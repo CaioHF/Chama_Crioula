@@ -1008,6 +1008,55 @@ camposParaSalvar.forEach(campo => {
 });
 
 // =========================================
+// 12. BOTÃO VOLTAR AO TOPO
+// =========================================
+const btnTopo = document.getElementById('btn-topo');
+
+if(btnTopo) {
+    // Monitora a rolagem da tela
+    window.addEventListener('scroll', () => {
+        // Se rolar mais de 400px, mostra o botão
+        if (window.scrollY > 400) {
+            btnTopo.classList.add('show');
+        } else {
+            btnTopo.classList.remove('show');
+        }
+    });
+
+    // Quando clicar, sobe suavemente
+    btnTopo.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Rolar suave
+        });
+    });
+}
+
+// =========================================
+// 13. AUTO-PLAY DO CARROSSEL
+// =========================================
+const track = document.querySelector('.banner-track');
+let slideIndex = 0;
+
+if(track) {
+    setInterval(() => {
+        slideIndex++;
+        // Se chegou no fim, volta para o começo
+        if (slideIndex >= 3) { // Temos 3 slides
+            slideIndex = 0;
+        }
+        
+        // Calcula a largura do slide para saber quanto rolar
+        const width = track.offsetWidth;
+        
+        track.scrollTo({
+            left: width * slideIndex,
+            behavior: 'smooth'
+        });
+    }, 4000); // Muda a cada 4000ms (4 segundos)
+}
+
+// =========================================
 // INICIALIZAÇÃO (O "Chute Inicial")
 // =========================================
 

@@ -248,6 +248,14 @@
         border-radius: 6px;
     }
 
+    .btn-topo {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
     /* FILTROS (Rolagem lateral) */
     .filtros {
         flex-wrap: nowrap;
@@ -275,5 +283,37 @@
         width: 90%;   /* Ocupa a largura quase toda */
         font-size: 0.9rem;
         padding: 14px 20px;
+    }
+
+    /* =========================================
+       CARROSSEL NO MOBILE
+       ========================================= */
+    .banner-carousel {
+        padding: 0 10px; /* Menos margem lateral */
+        margin-top: 10px;
+    }
+
+    .banner-track {
+        border-radius: 10px;
+    }
+
+    .banner-slide {
+        height: 160px; /* Altura menor para celular */
+    }
+
+    .banner-texto h2 {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+    }
+
+    .banner-texto p {
+        font-size: 0.8rem;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    /* Esconde as setas no mobile */
+    .banner-btn {
+        display: none;
     }
 }

@@ -241,6 +241,7 @@ header ul > li > i {
   padding: 14px;
   border-radius: 8px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.08);
+  
 }
 
 .produto .thumb {
@@ -736,6 +737,47 @@ aside > button > i {
     pointer-events: auto;
 }
 
+/* =========================================
+   BOTÃO VOLTAR AO TOPO
+   ========================================= */
+.btn-topo {
+    position: fixed;
+    bottom: 30px;       /* Distância do fundo */
+    right: 30px;        /* Distância da direita */
+    width: 50px;
+    height: 50px;
+    background-color: var(--cor-vermelha);
+    color: white;
+    border: none;
+    border-radius: 50%; /* Deixa redondinho */
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Sombra para destacar do fundo */
+    z-index: 9990;      /* Fica acima dos produtos, mas abaixo do modal/toast */
+    
+    /* Efeito de aparecer/sumir suave */
+    opacity: 0;
+    pointer-events: none; /* Não atrapalha o clique quando invisível */
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-topo:hover {
+    background-color: #b21818; /* Cor mais escura ao passar o mouse */
+    transform: translateY(-3px); /* Leve pulinho */
+}
+
+/* Classe que o JS vai adicionar para mostrar o botão */
+.btn-topo.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
 /* ==========================================================================
    8. FOOTER (RODAPÉ)
    ========================================================================== */
@@ -829,3 +871,92 @@ footer {
 .footer-bottom strong {
     color: var(--cor-vermelha);
 }
+
+/* =========================================
+   CARROSSEL (SLIDER) - DESKTOP
+   ========================================= */
+.banner-carousel {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto 10px auto;
+    padding: 0 20px;
+    overflow: hidden;
+    position: relative; /* <--- IMPORTANTE: Segura os botões dentro da área */
+}
+
+.banner-track {
+    display: flex;
+    overflow-x: auto; /* Permite rolar para o lado */
+    scroll-snap-type: x mandatory; /* Obriga a parar certinho na foto */
+    scroll-behavior: smooth;
+    
+    /* Esconde a barra de rolagem feia */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE/Edge */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Esconde barra de rolagem no Chrome/Safari */
+.banner-track::-webkit-scrollbar {
+    display: none;
+}
+
+.banner-slide {
+    /* Ocupa 100% da largura do pai */
+    flex: 0 0 100%; 
+    scroll-snap-align: center; /* Centraliza ao soltar */
+    
+    height: 300px; /* Altura do Banner PC */
+    background-size: cover;
+    background-position: center;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.banner-texto h2 {
+    color: #E6E1C7;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
+    margin-bottom: 5px;
+}
+
+.banner-texto p {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+}
+
+/* Estilo das Setas */
+.banner-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente exato */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto transparente */
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10; /* Fica em cima da foto */
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-btn:hover {
+    background-color: var(--cor-vermelha); /* Fica vermelho ao passar o mouse */
+}
+
+/* Posicionamento */
+.prev-btn { left: 30px; }  /* Canto esquerdo */
+.next-btn { right: 30px; } /* Canto direito */
