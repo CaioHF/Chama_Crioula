@@ -54,8 +54,8 @@
         </li>
 
         <li>
-            <i class="fa-solid fa-phone"></i>
-            <a href="https://wa.me/5545991120288" target="_blank">Contato</a>
+            <i class="fa-solid fa-circle-info"></i>
+            <span id="btn-sobre" class="btn-sobre">Sobre</span>
         </li>
     </ul>
 </header>
@@ -78,12 +78,31 @@
     </div>
 </div>
 
+<div id="modal-sobre" class="modal">
+    <div class="modal-content">
+        <span class="close-sobre" style="position: absolute; top: 10px; right: 15px; font-size: 25px; cursor: pointer;">&times;</span>
+        
+        <h2 style="color: var(--cor-vermelha); text-align: center; margin-bottom: 15px;">A Chama Crioula</h2>
+        
+        <p style="text-align: justify; margin-bottom: 10px;">
+            Fundada com o compromisso de levar o verdadeiro sabor do churrasco para a sua mesa, a <strong>Casa de Carnes Chama Crioula</strong> é referência em qualidade e procedência.
+        </p>
+
+        <p style="text-align: justify; margin-bottom: 15px;">
+            Trabalhamos apenas com carnes selecionadas, cortes nobres e um atendimento que entende do assunto. Seja para o dia a dia ou para aquele churrasco especial, nós garantimos a maciez e o sabor.
+        </p>
+
+        <div style="background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px;">
+            <h3 style="font-size: 1rem; margin-bottom: 5px;"><i class="fa-solid fa-location-dot" style="color: var(--cor-vermelha);"></i> Onde Estamos:</h3>
+            <p>Rua Rio de Janeiro, 334<br> Ouro Verde do Oeste-PR</p>
+            <a href="https://maps.app.goo.gl/FdUtRmN5GcnuxiLK8" target="_blank" style="color: var(--cor-vermelha); font-weight: bold; font-size: 0.9rem;">Ver no Google Maps</a>
+        </div>
+    </div>
+</div>
+
 <section class="banner-carousel">
-
-    <button class="banner-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
-
     <div class="banner-track">
-
+        
         <div class="banner-slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1544025162-d76690b6d015?q=80&w=1920&auto=format&fit=crop');">
             <div class="banner-texto">
                 <h2>Qualidade Premium</h2>
@@ -106,7 +125,12 @@
         </div>
 
     </div>
-    <button class="banner-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+
+    <div class="banner-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+    </div>
 </section>
 
 <section class="filtros">
@@ -184,16 +208,45 @@
 
 <div id="toast" class="toast">Produto adicionado ao pedido</div>
 
-<div id="modalInfo" class="modal-info hidden">
-    <div class="modal-info-content">
-        <span id="modalInfo-close">&times;</span>
-        <h2 id="modalInfo-title"></h2>
-        <img id="modalInfo-img">
-        <p id="modalInfo-desc"></p>
-        <p id="modalInfo-preco"></p>
+<div id="modal-produto-detalhe" class="modal-produto-overlay">
+    <div class="modal-produto-content">
+        
+        <span id="fechar-modal-produto" class="btn-fechar-modal">&times;</span>
+
+        <div class="modal-produto-header">
+            <img id="detalhe-img" src="" alt="Imagem do Produto">
+        </div>
+
+        <div class="modal-produto-body">
+            <h2 id="detalhe-nome">Nome do Produto</h2>
+            <p id="detalhe-descricao">Descrição completa do produto.</p>
+            
+            <div class="detalhe-preco-box">
+                <span id="detalhe-preco">R$ 0,00</span>
+                <span id="detalhe-unidade">Kg</span>
+            </div>
+
+            <div id="detalhe-cortes-container" class="opcao-box hidden">
+                <h3>Escolha o Corte:</h3>
+                <div id="lista-cortes-detalhe" class="cortes-grid">
+                    </div>
+            </div>
+
+            <div class="modal-produto-footer">
+                <div class="qtd-control-large">
+                    <button id="btn-menos-detalhe"><i class="fa-solid fa-minus"></i></button>
+                    <input type="number" id="detalhe-qtd" value="1.00" readonly>
+                    <button id="btn-mais-detalhe"><i class="fa-solid fa-plus"></i></button>
+                </div>
+
+                <button id="btn-adicionar-modal" class="btn-zao-adicionar">
+                    <span>Adicionar</span>
+                    <span id="btn-preco-total">R$ 0,00</span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
-
 <div id="sidebarCarrinho" class="sidebar-cart">
     <div class="sidebar-header">
         <h2 style="margin-bottom: 10px;">Seu Pedido</h2>

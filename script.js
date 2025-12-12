@@ -298,9 +298,8 @@ function showToast(msg = "Produto adicionado ao pedido") {
       }, 1000);
   }
 }
-
 // ==========================================================================
-// 3. FUNÇÃO PRINCIPAL: RENDERIZAR PRODUTOS
+// 3. RENDERIZAR PRODUTOS (Versão Híbrida: Card Completo + Modal na Foto)
 // ==========================================================================
 function renderProdutos(filtro = 'todos'){
   if(!produtosContainer) return;
@@ -308,18 +307,15 @@ function renderProdutos(filtro = 'todos'){
 
   let lista = [];
 
-  // 1. Filtragem
+  // 1. Filtragem (Igual)
   if(filtro === 'todos') {
       lista = produtos;
   } 
   else if (filtro === 'ofertas') {
-      // Pega tudo que tem preço original maior que preço atual
       lista = produtos.filter(p => p.precoOriginal && p.precoOriginal > p.preco);
   }
   else {
-      // Busca por Categoria OU Texto (Barra de busca)
       const existeCategoria = produtos.some(p => p.categoria && p.categoria.toLowerCase() === String(filtro).toLowerCase());
-      
       if(existeCategoria) {
           lista = produtos.filter(p => p.categoria.toLowerCase() === String(filtro).toLowerCase());
       } else {
@@ -340,9 +336,9 @@ function renderProdutos(filtro = 'todos'){
     const isCorte = categoriasComCorte.includes(p.categoria);
     const isUnidade = categoriasUnidade.includes(p.categoria);
     const defaultQty = isUnidade ? 1 : 1.0;
-    const textoDescricao = p.descricao || "Corte especial selecionado e de alta qualidade.";
+    const textoDescricao = p.descricao || "Corte especial selecionado.";
 
-    // Lógica do Preço Riscado (Oferta)
+    // Preço
     let htmlPreco;
     if(p.precoOriginal && p.precoOriginal > p.preco) {
         htmlPreco = `
@@ -353,19 +349,25 @@ function renderProdutos(filtro = 'todos'){
         htmlPreco = `<div class="preco">R$ ${fmtMoney(p.preco)} ${isUnidade ? 'Und' : 'Kg'}</div>`;
     }
 
+    // --- AQUI ESTÁ A MÁGICA ---
+    // 1. Trouxemos de volta toda a estrutura antiga (cortes, qtd, botões).
+    // 2. Colocamos o onclick="abrirModalProduto(${index})" APENAS NA DIV DA THUMB (FOTO).
+    
     produtosContainer.innerHTML += `
       <article class="produto" data-index="${index}" data-desc="${textoDescricao}">
-        <div class="thumb"><img loading="lazy" src="${p.img || 'imagens/default.png'}" alt="${p.nome}"></div>
+        
+        <div class="thumb" onclick="abrirModalProduto(${index})" style="cursor: pointer;">
+            <img loading="lazy" src="${p.img || 'imagens/default.png'}" alt="${p.nome}">
+        </div>
+
         <div class="info">
           <h3>${p.nome}</h3>
-          
           <div class="preco-box">${htmlPreco}</div>
 
           ${ isCorte ? `
             <div class="cortes" data-name="cortes-${index}">
               ${cortesPadrao.map((c, i) => `<label><input type="radio" name="corte-${index}" value="${c}" ${i===0? 'checked':''}> ${c}</label>`).join('')}
             </div>
-
             <button class="btn-select-corte" data-index="${index}">
                Corte: ${cortesPadrao[0]} <i class="fa-solid fa-chevron-down"></i>
             </button>
@@ -383,7 +385,7 @@ function renderProdutos(filtro = 'todos'){
     `;
   });
 
-  // Ajusta inputs de quantidade
+  // VOLTOU: Reinicia os inputs para 1.00 ou 1
   document.querySelectorAll('.produto').forEach(prodEl => {
     const idx = prodEl.dataset.index;
     const p = produtos[idx];
@@ -392,6 +394,9 @@ function renderProdutos(filtro = 'todos'){
     if(categoriasUnidade.includes(p.categoria)) input.value = '1';
     else input.value = '1.00';
   });
+  
+  // (Se estiver usando a animação de scroll, mantenha a linha abaixo, senão pode ignorar)
+  // ativarAnimacaoScroll(); 
 }
 
 // =========================================
@@ -835,6 +840,34 @@ function selecionarCorteMobile(index, corteNome) {
     if(modalCortes) modalCortes.style.display = 'none';
 }
 
+// ... (Código do modal de horários está acima) ...
+
+// =========================================
+// MODAL SOBRE A LOJA (NOVO)
+// =========================================
+const btnSobre = document.getElementById("btn-sobre");
+const modalSobre = document.getElementById("modal-sobre");
+const closeSobre = document.querySelector(".close-sobre");
+
+if(btnSobre && modalSobre && closeSobre) {
+    // Abrir ao clicar no botão "Sobre"
+    btnSobre.onclick = function() { 
+        modalSobre.style.display = "flex"; 
+    }
+    
+    // Fechar ao clicar no X
+    closeSobre.onclick = function() { 
+        modalSobre.style.display = "none"; 
+    }
+    
+    // Fechar ao clicar fora da janela (fundo escuro)
+    window.addEventListener('click', function(event) {
+        if (event.target === modalSobre) {
+            modalSobre.style.display = "none";
+        }
+    });
+}
+
 
 // ==========================================================================
 // 9. SIDEBAR CARRINHO (MOBILE)
@@ -1033,29 +1066,195 @@ if(btnTopo) {
 }
 
 // =========================================
-// 13. AUTO-PLAY DO CARROSSEL
+// 13. CARROSSEL COM BOLINHAS E AUTOPLAY
 // =========================================
 const track = document.querySelector('.banner-track');
-let slideIndex = 0;
+const dots = document.querySelectorAll('.dot');
+let autoPlayInterval;
 
-if(track) {
-    setInterval(() => {
-        slideIndex++;
-        // Se chegou no fim, volta para o começo
-        if (slideIndex >= 3) { // Temos 3 slides
-            slideIndex = 0;
+if(track && dots.length > 0) {
+    
+    // Função para atualizar qual bolinha está acesa
+    function atualizarBolinhas() {
+        // Calcula qual slide está visível (baseado na rolagem)
+        const slideWidth = track.offsetWidth;
+        const scrollPos = track.scrollLeft;
+        const indexAtual = Math.round(scrollPos / slideWidth);
+
+        // Remove 'active' de todas e coloca só na atual
+        dots.forEach(dot => dot.classList.remove('active'));
+        if(dots[indexAtual]) {
+            dots[indexAtual].classList.add('active');
         }
-        
-        // Calcula a largura do slide para saber quanto rolar
-        const width = track.offsetWidth;
-        
-        track.scrollTo({
-            left: width * slideIndex,
-            behavior: 'smooth'
+    }
+
+    // 1. Evento de Clique nas Bolinhas
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index);
+            const slideWidth = track.offsetWidth;
+            
+            // Rola suavemente até o slide escolhido
+            track.scrollTo({
+                left: slideWidth * index,
+                behavior: 'smooth'
+            });
         });
-    }, 4000); // Muda a cada 4000ms (4 segundos)
+    });
+
+    // 2. Evento de Rolagem (Atualiza a bolinha se arrastar com o dedo)
+    track.addEventListener('scroll', atualizarBolinhas);
+
+    // 3. Auto-Play (Passa sozinho a cada 4 segundos)
+    function iniciarAutoPlay() {
+        autoPlayInterval = setInterval(() => {
+            const slideWidth = track.offsetWidth;
+            const scrollPos = track.scrollLeft;
+            let index = Math.round(scrollPos / slideWidth) + 1; // Próximo slide
+
+            // Se chegou no fim, volta para o zero
+            if (index >= dots.length) index = 0;
+
+            track.scrollTo({
+                left: slideWidth * index,
+                behavior: 'smooth'
+            });
+        }, 4000);
+    }
+
+    // Para o autoplay se o usuário tocar no banner (para não brigar com ele)
+    track.addEventListener('touchstart', () => clearInterval(autoPlayInterval));
+    
+    // Reinicia quando ele soltar (opcional, ou pode deixar parado)
+    // track.addEventListener('touchend', iniciarAutoPlay);
+
+    // Começa rodando
+    iniciarAutoPlay();
 }
 
+// =========================================
+// 16. LÓGICA DO NOVO MODAL DE PRODUTO
+// =========================================
+const modalProduto = document.getElementById('modal-produto-detalhe');
+let produtoSelecionadoIndex = null;
+let qtdAtualModal = 1;
+
+function abrirModalProduto(index) {
+    const p = produtos[index];
+    produtoSelecionadoIndex = index;
+    
+    // 1. Preenche as informações
+    document.getElementById('detalhe-img').src = p.img || 'imagens/default.png';
+    document.getElementById('detalhe-nome').textContent = p.nome;
+    document.getElementById('detalhe-descricao').textContent = p.descricao || "Produto selecionado de alta qualidade.";
+    document.getElementById('detalhe-preco').textContent = `R$ ${p.preco.toFixed(2)}`;
+    
+    const isUnit = categoriasUnidade.includes(p.categoria);
+    document.getElementById('detalhe-unidade').textContent = isUnit ? 'Unidade' : 'Kg';
+
+    // 2. Reseta Quantidade
+    qtdAtualModal = isUnit ? 1 : 1.0;
+    atualizarInputModal(isUnit);
+
+    // 3. Gera Opções de Corte (Se tiver)
+    const boxCortes = document.getElementById('detalhe-cortes-container');
+    const listaCortes = document.getElementById('lista-cortes-detalhe');
+    listaCortes.innerHTML = ''; // Limpa anterior
+
+    if (categoriasComCorte.includes(p.categoria)) {
+        boxCortes.classList.remove('hidden');
+        cortesPadrao.forEach((corte, i) => {
+            const label = document.createElement('label');
+            label.className = `radio-corte-label ${i === 0 ? 'selecionado' : ''}`;
+            label.innerHTML = `
+                <input type="radio" name="corte-modal" value="${corte}" class="radio-corte-input" ${i === 0 ? 'checked' : ''}>
+                ${corte}
+            `;
+            // Lógica visual de seleção
+            label.onclick = () => {
+                document.querySelectorAll('.radio-corte-label').forEach(l => l.classList.remove('selecionado'));
+                label.classList.add('selecionado');
+                label.querySelector('input').checked = true;
+            };
+            listaCortes.appendChild(label);
+        });
+    } else {
+        boxCortes.classList.add('hidden');
+    }
+
+    // 4. Mostra o Modal
+    modalProduto.style.display = 'flex';
+    atualizarBotaoPreco();
+}
+
+// Funções de Controle do Modal
+function atualizarInputModal(isUnit) {
+    const input = document.getElementById('detalhe-qtd');
+    if(isUnit) input.value = qtdAtualModal;
+    else input.value = qtdAtualModal.toFixed(2);
+    atualizarBotaoPreco();
+}
+
+function atualizarBotaoPreco() {
+    if(produtoSelecionadoIndex === null) return;
+    const p = produtos[produtoSelecionadoIndex];
+    const total = p.preco * qtdAtualModal;
+    document.getElementById('btn-preco-total').textContent = `R$ ${total.toFixed(2)}`;
+}
+
+// Botões Mais/Menos do Modal
+document.getElementById('btn-mais-detalhe').onclick = () => {
+    const p = produtos[produtoSelecionadoIndex];
+    const isUnit = categoriasUnidade.includes(p.categoria);
+    if(isUnit) qtdAtualModal++;
+    else qtdAtualModal += 0.5;
+    atualizarInputModal(isUnit);
+};
+
+document.getElementById('btn-menos-detalhe').onclick = () => {
+    const p = produtos[produtoSelecionadoIndex];
+    const isUnit = categoriasUnidade.includes(p.categoria);
+    const min = isUnit ? 1 : 0.5;
+    if(qtdAtualModal > min) {
+        if(isUnit) qtdAtualModal--;
+        else qtdAtualModal -= 0.5;
+    }
+    atualizarInputModal(isUnit);
+};
+
+// Fechar Modal
+document.getElementById('fechar-modal-produto').onclick = () => {
+    modalProduto.style.display = 'none';
+};
+
+// ADICIONAR AO CARRINHO (Ação Principal)
+document.getElementById('btn-adicionar-modal').onclick = () => {
+    const p = produtos[produtoSelecionadoIndex];
+    
+    // Pega o corte selecionado
+    let corteEscolhido = null;
+    if (!document.getElementById('detalhe-cortes-container').classList.contains('hidden')) {
+        const radio = document.querySelector('input[name="corte-modal"]:checked');
+        if(radio) corteEscolhido = radio.value;
+    }
+
+    // Adiciona ao carrinho (Lógica padrão)
+    const key = `${p.nome}|${corteEscolhido || ''}`;
+    const existing = carrinho.find(i => i.key === key);
+      
+    if(existing){
+        existing.qtd = +(existing.qtd + qtdAtualModal).toFixed(2);
+    } else {
+        carrinho.push({ 
+            key, nome: p.nome, preco: p.preco, categoria: p.categoria, 
+            corte: corteEscolhido, qtd: qtdAtualModal 
+        });
+    }
+    
+    atualizarCarrinho();
+    modalProduto.style.display = 'none'; // Fecha a tela
+    showToast(`Adicionado: ${p.nome}`); // Mostra confirmação
+};
 // =========================================
 // INICIALIZAÇÃO (O "Chute Inicial")
 // =========================================

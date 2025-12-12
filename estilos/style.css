@@ -626,6 +626,18 @@ aside > button > i {
     cursor: pointer;
 }
 
+/* Botão Sobre no Header */
+.btn-sobre {
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-sobre:hover {
+    color: #b21818; /* Um tom mais escuro de vermelho */
+    text-decoration: underline;
+}
+
 /* Modal de Cortes Mobile (Lista interna) */
 .cortes-mobile-list {
     display: flex;
@@ -933,30 +945,170 @@ footer {
     text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
 }
 
-/* Estilo das Setas */
-.banner-btn {
+/* =========================================
+   ESTILO DAS BOLINHAS (PAGINAÇÃO)
+   ========================================= */
+.banner-dots {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%); /* Centraliza verticalmente exato */
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto transparente */
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.2rem;
+    bottom: 15px;      /* Fica na parte de baixo do banner */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza perfeitamente */
+    display: flex;
+    gap: 10px;         /* Espaço entre as bolinhas */
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.5); /* Branco meio transparente */
+    border-radius: 50%; /* Faz virar bolinha */
     cursor: pointer;
-    z-index: 10; /* Fica em cima da foto */
     transition: 0.3s;
+    border: 2px solid transparent; /* Prepara para não pular tamanho */
+}
+
+/* Quando a bolinha estiver ativa ou passar o mouse */
+.dot.active, .dot:hover {
+    background-color: var(--cor-vermelha); /* Fica vermelho */
+    transform: scale(1.2); /* Cresce um pouquinho */
+    border: 2px solid #fff; /* Borda branca para destacar no fundo escuro */
+}
+
+/* =========================================
+   TELA DE DETALHES DO PRODUTO (MODAL FULL)
+   ========================================= */
+.modal-produto-overlay {
+    display: none; /* Começa escondido */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 10000; /* Fica na frente de tudo */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-produto-content {
+    background: #fff;
+    width: 100%;
+    max-width: 500px; /* No PC não fica gigante */
+    height: 90vh;     /* Ocupa quase toda altura */
+    max-height: 800px;
+    border-radius: 15px;
+    overflow-y: auto; /* Permite rolar se o conteúdo for grande */
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Foto Grande no Topo */
+.modal-produto-header {
+    width: 100%;
+    height: 250px;
+    background: #f4f4f4;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-.banner-btn:hover {
-    background-color: var(--cor-vermelha); /* Fica vermelho ao passar o mouse */
+.modal-produto-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Posicionamento */
-.prev-btn { left: 30px; }  /* Canto esquerdo */
-.next-btn { right: 30px; } /* Canto direito */
+/* Corpo do Conteúdo */
+.modal-produto-body {
+    padding: 20px;
+    flex: 1; /* Empurra o rodapé para baixo */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-fechar-modal {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#detalhe-nome { font-size: 1.5rem; color: var(--cor-marrom-forte); margin: 0; }
+#detalhe-descricao { color: #666; font-size: 0.95rem; line-height: 1.5; }
+.detalhe-preco-box { font-size: 1.4rem; color: var(--cor-vermelha); font-weight: bold; }
+
+/* Opções de Corte (Botões Bonitos) */
+.opcao-box h3 { font-size: 1rem; margin-bottom: 10px; color: #333; }
+.cortes-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.radio-corte-label {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s;
+    background: #fff;
+}
+/* Quando selecionado (o JS vai por essa classe) */
+.radio-corte-label.selecionado {
+    background-color: var(--cor-vermelha);
+    color: #fff;
+    border-color: var(--cor-vermelha);
+}
+.radio-corte-input { display: none; } /* Esconde a bolinha feia do radio */
+
+/* Footer: Controles de Quantidade e Botão */
+.modal-produto-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.qtd-control-large {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.qtd-control-large button {
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+#detalhe-qtd {
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    width: 80px;
+    text-align: center;
+}
+
+.btn-zao-adicionar {
+    width: 100%;
+    padding: 15px;
+    background: var(--cor-vermelha);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex; justify-content: space-between;
+}
+.btn-zao-adicionar:active { transform: scale(0.98); }
+.hidden { display: none; }
