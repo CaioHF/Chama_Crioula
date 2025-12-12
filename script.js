@@ -286,6 +286,7 @@ if(produtosContainer){
     if(btn.dataset.action === 'add'){
       const isUnit = categoriasUnidade.includes(p.categoria);
       let qty = parseFloat(String(artigo.querySelector('.input-qtd').value).replace(',', '.')) || 0;
+      
       if(isUnit) qty = Math.round(qty);
       else qty = +qty.toFixed(2);
       
@@ -301,10 +302,15 @@ if(produtosContainer){
       if(existing){
         existing.qtd = +(existing.qtd + qty).toFixed(2);
       } else {
-        carrinho.push({ key, nome: p.nome, preco: p.preco, categoria: p.categoria, corte: corte, qtd: qty });
+        carrinho.push({
+          key, nome: p.nome, preco: p.preco, categoria: p.categoria, corte: corte, qtd: qty
+        });
       }
+      
       atualizarCarrinho();
-      showToast();
+      
+      // AQUI ESTÁ A MUDANÇA:
+      showToast(`Adicionado: ${p.nome}`); 
     }
   });
 }
@@ -540,7 +546,13 @@ function fecharCarrinho() {
 if(btnFecharX) btnFecharX.addEventListener("click", fecharCarrinho);
 
 document.addEventListener('click', (event) => {
+
     if (sidebar && sidebar.classList.contains('show')) {
+        
+        if(!document.body.contains(event.target)) {
+            return; 
+        }
+
         if (!sidebar.contains(event.target) && !btnCartMobile.contains(event.target)) {
             fecharCarrinho();
         }
