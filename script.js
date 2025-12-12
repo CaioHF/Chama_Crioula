@@ -5,7 +5,7 @@ const VALOR_MINIMO_PEDIDO = 50.00;
 const categoriasComCorte = ['bovino','suino','ofertas'];
 const categoriasKg05 = ['bovino','suino','frango','ofertas'];
 const categoriasUnidade = ['acompanhamentos'];
-const cortesPadrao = ['Corte fino','Corte grosso','Em cubos','Moído','Para churrasco'];
+const cortesPadrao = ['Corte fino','Corte grosso','Em cubos','Moído','Para churrasco', 'Em tiras'];
 
 
 // LISTA DE PRODUTOS (Banco de Dados)
@@ -26,6 +26,13 @@ const produtos = [
     descricao: "Peça nobre selecionada. A união perfeita da maciez da alcatra com a capa de gordura saborosa da picanha. Excelente para churrascos em família ou assados ao forno." 
   },
   { 
+    nome: "Bacon", 
+    preco: 49.98, 
+    img: "imagens/produtos/bacon.png", 
+    categoria: "suino", 
+    descricao: "Corte irresistível, com equilíbrio perfeito entre carne e gordura, garantindo crocância e sabor defumado inconfundível. Ideal para acompanhar cafés da manhã, incrementar receitas, ou deixar qualquer prato mais saboroso. Praticidade e aroma marcante para o dia a dia."
+  },
+  { 
     nome: "Bife de Alcatra", 
     preco: 49.98, 
     img: "imagens/produtos/bife.png", 
@@ -33,14 +40,21 @@ const produtos = [
     descricao: "Corte resfriado de altíssima maciez e pouca gordura. Ideal para bifes acebolados, à milanesa ou grelhados rápidos na chapa. Praticidade e sabor para o dia a dia." 
   },
   { 
-    nome: "Bisteca com Filé", 
+    nome: "Bife Ancho", 
+    preco: 59.98, 
+    img: "imagens/produtos/bife_ancho.png", 
+    categoria: "bovino", 
+    descricao: "Corte nobre, extremamente suculento e marmorizado, garantindo maciez e sabor marcante. Ideal para grelhar ou preparar na churrasqueira, mantendo a carne bem úmida e saborosa. Uma escolha perfeita para quem busca praticidade com um toque de sofisticação no dia a dia."
+  },
+  { 
+    nome: "Bisteca com Mingon", 
     preco: 48.98, 
     img: "imagens/produtos/bisteca_c_file.png", 
     categoria: "bovino", 
     descricao: "Também conhecida como T-Bone. Reúne o sabor do contrafilé e a maciez do filé mignon separados pelo osso. Carne selecionada, perfeita para churrasco ou grelha." 
   },
   { 
-    nome: "Bisteca sem Filé", 
+    nome: "Bisteca", 
     preco: 38.98, 
     img: "imagens/produtos/bisteca_s_mignon.png", 
     categoria: "bovino", 
@@ -83,7 +97,7 @@ const produtos = [
     descricao: "Coraçãozinho de frango limpo e resfriado. O aperitivo indispensável do churrasco brasileiro. Fica ótimo no espeto ou acebolado na frigideira." 
   },
   { 
-    nome: "Corte Americano", 
+    nome: "Steak Americano", 
     preco: 41.98, 
     img: "imagens/produtos/americano.png", 
     categoria: "bovino", 
@@ -102,6 +116,13 @@ const produtos = [
     img: "imagens/produtos/costela_ripa.png", 
     categoria: "bovino", 
     descricao: "Corte selecionado com ossos largos e achatados. Carne fibrosa e extremamente saborosa, cozinha um pouco mais rápido que a Minga. Perfeita para churrasco." 
+  },
+  { 
+    nome: "Costela Janelão", 
+    preco: 35.98, 
+    img: "imagens/produtos/costela_janela.png", 
+    categoria: "bovino", 
+    descricao: "Corte tradicional e extremamente saboroso, com boa camada de gordura que garante maciez e suculência durante o preparo. Ideal para assados longos, churrasco ou preparo no fogo lento, proporcionando carne desmanchando e cheia de sabor. Uma escolha perfeita para quem busca intensidade e excelência no churrasco."
   },
   { 
     nome: "Costela Suína", 
@@ -125,11 +146,18 @@ const produtos = [
     descricao: "O famoso Drumet. Parte mais carnuda da asa, resfriada e suculenta. As crianças adoram! Ótima assada, frita ou na AirFryer." 
   },
   { 
-    nome: "Filá Agulha", 
+    nome: "Filé Agulha", 
     preco: 31.98, 
     img: "imagens/produtos/file_agulha.png", 
     categoria: "bovino", 
     descricao: "Corte da costela desossada, entremeado de gordura. Extremamente saboroso para grelhar em tiras ou fazer cozidos ricos em sabor." 
+  },
+  { 
+    nome: "Filé Mignon", 
+    preco: 0.00, 
+    img: "imagens/produtos/file_mignon.png", 
+    categoria: "bovino", 
+    descricao: "Corte premium de maciez incomparável e sabor delicado. Possui baixíssima gordura e textura suave, garantindo preparo rápido e resultados sempre elegantes. Ideal para medalhões, grelhados e receitas especiais que pedem um toque de refinamento no dia a dia."
   },
   { 
     nome: "Fraldinha", 
@@ -146,6 +174,13 @@ const produtos = [
     descricao: "Frango resfriado de primeira linha. Ideal para o assado de domingo em família, recheado ou cortado à passarinho." 
   },
   { 
+    nome: "Linguiça Toscana", 
+    preco: 21.98, 
+    img: "imagens/produtos/linguica_toscana.png", 
+    categoria: "acompanhamentos", 
+    descricao: "Clássica e muito saborosa, a linguiça toscana combina suculência e tempero na medida certa. Ideal para churrascos, assados ou preparo na frigideira, oferecendo praticidade e um sabor marcante que agrada a todos. Perfeita para o dia a dia ou para reunir a família." 
+  },
+  { 
     nome: "Maminha", 
     preco: 0.00, 
     img: "imagens/produtos/maminha.png", 
@@ -160,7 +195,7 @@ const produtos = [
     descricao: "A famosa Tulipa. É a parte mais nobre e saborosa da asa. Selecionada e resfriada, fica crocante por fora e suculenta por dentro. Indispensável no churrasco." 
   },
   { 
-    nome: "Músculo", 
+    nome: "Músculo com Osso", 
     preco: 28.98, 
     img: "imagens/produtos/musculo.png", 
     categoria: "bovino", 
@@ -868,94 +903,56 @@ if(btnSobre && modalSobre && closeSobre) {
     });
 }
 
-
 // ==========================================================================
-// 9. SIDEBAR CARRINHO (MOBILE)
+// 9. SIDEBAR CARRINHO (MOBILE) - Com fechar ao clicar fora
 // ==========================================================================
 const btnCartMobile = document.querySelector(".cart-icon-wrap"); 
 const sidebar = document.getElementById("sidebarCarrinho");
 const sidebarFinalizar = document.getElementById("sidebarFinalizar");
 const btnFecharX = document.getElementById("fecharX");
 
+// 1. Abrir Carrinho
 if(btnCartMobile && sidebar){
-  btnCartMobile.addEventListener("click", () => { sidebar.classList.add("show"); });
-}
-if(sidebar){
-  sidebar.addEventListener("click", (e) => { if (e.target === sidebar) sidebar.classList.remove("show"); });
-}
-if(sidebarFinalizar){
-  sidebarFinalizar.addEventListener("click", () => {
-    if(btnFinalizar) btnFinalizar.click(); // Chama a lógica principal
-    if(sidebar) sidebar.classList.remove("show");
+  btnCartMobile.addEventListener("click", (e) => { 
+      // Impede que o clique no botão já feche o carrinho imediatamente
+      e.stopPropagation(); 
+      sidebar.classList.add("show"); 
   });
 }
+
+// 2. Fechar com o "X"
 if(btnFecharX && sidebar){
   btnFecharX.addEventListener("click", () => sidebar.classList.remove("show"));
 }
 
-// INICIALIZAÇÃO
-renderProdutos();
-atualizarCarrinho();
-// =========================================
-// 10. VERIFICADOR DE HORÁRIO (ABERTO/FECHADO)
-// =========================================
-function verificarStatusLoja() {
-    const data = new Date();
-    const diaSemana = data.getDay(); // 0 = Domingo
-    const hora = data.getHours();    // 0 a 23
-
-    // Elementos da tela
-    const statusContainer = document.getElementById('status-container');
-    const statusTexto = document.getElementById('status-texto');
-    const btnFinalizarDesk = document.getElementById('btn-finalizar');
-    const btnFinalizarMobile = document.getElementById('sidebarFinalizar');
-
-    // REGRA DE NEGÓCIO:
-    // Aberto: Segunda(1) a Sábado(6) | Horário: 08:00 às 18:59
-    let estaAberto = false;
-    if (diaSemana !== 0 && (hora >= 8 && hora < 19)) {
-        estaAberto = true;
-    }
-
-    if (estaAberto) {
-        // LOJA ABERTA
-        if(statusContainer) {
-            statusContainer.classList.remove('status-fechado');
-            statusContainer.classList.add('status-aberto');
-            statusTexto.textContent = "Aberto agora";
-        }
-        
-        // IMPORTANTE: Só removemos o 'disabled' SE não estiver bloqueado pelo valor mínimo
-        // Verificamos se o texto do botão NÃO é o aviso de valor mínimo
-        if(btnFinalizarDesk && !btnFinalizarDesk.textContent.includes("Mínimo R$")) {
-            btnFinalizarDesk.classList.remove('btn-disabled');
-            // Só reseta o texto se não for aviso de preço
-            btnFinalizarDesk.innerHTML = 'Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
-        }
-
-        if(btnFinalizarMobile && !btnFinalizarMobile.textContent.includes("Mínimo R$")) {
-            btnMobileFinalizar.classList.remove('btn-disabled');
-            btnMobileFinalizar.innerHTML = 'Finalizar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
-        }
-
-    } else {
-        // LOJA FECHADA (Aqui bloqueia tudo, sem choro)
-        if(statusContainer) {
-            statusContainer.classList.remove('status-aberto');
-            statusContainer.classList.add('status-fechado');
-            statusTexto.textContent = "Fechado agora";
-        }
-
-        if(btnFinalizarDesk) {
-            btnFinalizarDesk.classList.add('btn-disabled');
-            btnFinalizarDesk.innerHTML = 'Loja Fechada (Abre às 08:00)';
-        }
-        if(btnFinalizarMobile) {
-            btnMobileFinalizar.classList.add('btn-disabled');
-            btnMobileFinalizar.innerHTML = 'Loja Fechada (Abre às 08:00)';
-        }
-    }
+// 3. Fechar ao finalizar
+if(sidebarFinalizar){
+  sidebarFinalizar.addEventListener("click", () => {
+    if(btnFinalizar) btnFinalizar.click(); 
+    if(sidebar) sidebar.classList.remove("show");
+  });
 }
+
+// 4. FECHAR AO CLICAR FORA (Lógica Nova)
+document.addEventListener('click', (event) => {
+    // Só faz algo se o carrinho estiver aberto
+    if (sidebar && sidebar.classList.contains('show')) {
+        
+        // Verifica se o clique NÃO foi dentro da sidebar
+        // E TAMBÉM verifica se o clique NÃO foi no botão de abrir (para não conflitar)
+        if (!sidebar.contains(event.target) && !btnCartMobile.contains(event.target)) {
+            sidebar.classList.remove("show");
+        }
+    }
+});
+
+// Impede que cliques DENTRO da sidebar fechem ela (segurança extra)
+if(sidebar) {
+    sidebar.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
+
 // =========================================
 // 11. SALVAR ENDEREÇO E DADOS (LOCALSTORAGE)
 // =========================================
@@ -1255,6 +1252,51 @@ document.getElementById('btn-adicionar-modal').onclick = () => {
     modalProduto.style.display = 'none'; // Fecha a tela
     showToast(`Adicionado: ${p.nome}`); // Mostra confirmação
 };
+
+// =========================================
+// VERIFICADOR DE HORÁRIO (Centralizado)
+// =========================================
+function verificarStatusLoja() {
+    const data = new Date();
+    const diaSemana = data.getDay(); // 0 = Domingo, 1 = Segunda...
+    const hora = data.getHours();    // 0 a 23
+
+    // Elementos da tela (O texto lá de cima)
+    const statusContainer = document.getElementById('status-container');
+    const statusTexto = document.getElementById('status-texto');
+
+    // REGRA DE NEGÓCIO: 
+    // Aberto: Segunda(1) a Sábado(6) | Horário: 08:00 às 18:59
+    // (Mude os números abaixo para testar se quiser)
+    let estaAberto = false;
+    
+    // Se não for domingo (0) E a hora for maior/igual a 8 E menor que 19
+    if (diaSemana !== 0 && (hora >= 8 && hora < 19)) {
+        estaAberto = true;
+    }
+    
+    // ATUALIZA A VARIÁVEL GLOBAL (Importante para o carrinho ler depois)
+    lojaAberta = estaAberto; 
+
+    // ATUALIZA O TEXTO NO TOPO DO SITE
+    if (estaAberto) {
+        if(statusContainer) {
+            statusContainer.classList.remove('status-fechado');
+            statusContainer.classList.add('status-aberto');
+            statusTexto.textContent = "Aberto agora";
+        }
+    } else {
+        if(statusContainer) {
+            statusContainer.classList.remove('status-aberto');
+            statusContainer.classList.add('status-fechado');
+            statusTexto.textContent = "Fechado agora";
+        }
+    }
+
+    // AQUI ESTÁ O SEGREDO:
+    // Depois de decidir se está aberto ou fechado, avisa o carrinho para pintar o botão
+    atualizarCarrinho();
+}
 // =========================================
 // INICIALIZAÇÃO (O "Chute Inicial")
 // =========================================
