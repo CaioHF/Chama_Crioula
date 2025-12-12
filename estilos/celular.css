@@ -1,328 +1,175 @@
 @media (max-width: 732px) {
     
-    /* 1. TRAVA DE SEGURANÇA (Impede rolagem lateral) */
+    /* 1. TRAVA DE SEGURANÇA GERAL */
     html, body {
         overflow-x: hidden;
         width: 100%;
-        margin: 0;
-        padding: 0;
+        margin: 0; padding: 0;
     }
 
     body {
         background-color: var(--cor-marrom-forte);
         padding-top: 120px;
+        /* Importante: permite que o JS trave o scroll depois */
+        overscroll-behavior-y: none; 
     }
 
-    /* 2. CABEÇALHO (Ícones alinhados e sem vazar) */
+    /* 2. CABEÇALHO FIXO */
     header {
-        position: fixed; /* Cola na tela independente de qualquer coisa */
-        top: 0;
-        left: 0;
+        position: fixed;
+        top: 0; left: 0;
         width: 100%;
-        z-index: 999; /* Fica acima de tudo (menos do Toast e Sidebar) */
-        
+        z-index: 999;
         background-color: var(--cor-marrom);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra para destacar */
-        
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px; /* Diminuí um pouco o espaço para caber melhor */
+        gap: 10px;
         padding: 10px 15px;
     }
 
-    header img {
-        display: none;
-    }
+    header img { display: none; }
 
-    /* Alinha Status, Horários e Contato em LINHA */
     header ul {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-        padding: 0;
-        margin: 5px 0;
-        width: 100%;
+        display: flex; flex-direction: row; flex-wrap: wrap;
+        justify-content: center; align-items: center;
+        gap: 15px; padding: 0; margin: 5px 0; width: 100%;
     }
 
-    header ul li {
-        display: flex !important;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.9rem;
-    }
+    header ul li { display: flex !important; align-items: center; gap: 6px; font-size: 0.9rem; }
 
-    /* Container de Busca + Carrinho */
     .header-search-cart {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-        padding: 0 5px;
+        display: flex; justify-content: center; align-items: center;
+        gap: 10px; width: 100%; padding: 0 5px;
     }
 
-    .InputBusca {
-        flex: 1;
-        width: auto !important;
-        margin: 0;
+    .InputBusca { flex: 1; width: auto !important; margin: 0; }
+
+    /* Ícones Mobile */
+    .header-search-cart > i, .btn-cart-mobile {
+        display: block !important;
+        font-size: 24px; color: var(--cor-vermelha);
+        padding: 8px; cursor: pointer;
     }
 
-    /* --- CORREÇÃO DO BOTÃO DO CARRINHO --- */
-    /* Força o ícone a aparecer, vencendo o bloqueio do desktop */
-    .header-search-cart > i, 
-    .btn-cart-mobile {
-        display: block !important; 
-        font-size: 24px;
-        color: var(--cor-vermelha);
-        padding: 8px;
-        cursor: pointer;
+    /* Esconde Sidebar Desktop */
+    .carrinho { display: none !important; }
+
+    /* 3. CONTADOR (BADGE) */
+    .cart-icon-wrap {
+        position: relative; display: flex !important;
+        align-items: center; justify-content: center;
+        cursor: pointer; padding: 5px;
+    }
+    .cart-icon-wrap i { font-size: 24px; color: var(--cor-vermelha); }
+    #cart-count {
+        position: absolute; top: -5px; right: -5px;
+        background-color: var(--cor-vermelha); color: white;
+        font-size: 0.75rem; font-weight: bold;
+        width: 20px; height: 20px;
+        border-radius: 50%; border: 2px solid #E6E1C7;
+        display: none; align-items: center; justify-content: center;
+        z-index: 10;
     }
 
-    /* Esconde a barra lateral (sidebar) do desktop, mas deixa o ícone */
-    .carrinho {
-        display: none !important;
-    }
-
-    /* =========================================
-   CONTADOR DE ITENS NO CARRINHO (BADGE)
-   ========================================= */
-
-/* O container agora é quem recebe o clique */
-.cart-icon-wrap {
-    position: relative; /* Necessário para segurar a bolinha */
-    display: flex !important; /* Força aparecer */
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 5px;
-}
-
-/* O ícone do carrinho */
-.cart-icon-wrap i {
-    font-size: 24px;
-    color: var(--cor-vermelha);
-}
-
-/* A bolinha vermelha com o número */
-#cart-count {
-    position: absolute;
-    top: -5px;   /* Sobe um pouquinho */
-    right: -5px; /* Vai para a direita */
-    
-    background-color: var(--cor-vermelha);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: bold;
-    
-    width: 20px;
-    height: 20px;
-    border-radius: 50%; /* Deixa redonda */
-    border: 2px solid #E6E1C7; /* Borda da cor do fundo para destacar */
-    
-    display: none; /* Começa escondido (só aparece se tiver produto) */
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-}
-    /* 3. GRID DE PRODUTOS (Visual Compacto e "Profundo") */
-    .container {
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-        width: 100%;
-    }
-
+    /* 4. LISTA DE PRODUTOS */
+    .container { display: flex; flex-direction: column; padding: 10px; width: 100%; }
     .lista-produtos {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr)); 
-        gap: 10px;
-        width: 100%;
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px; width: 100%;
     }
 
     .produto {
-        width: 100%;
-        margin: 0;
-        padding: 10px 5px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        justify-content: space-between;
-        
-        box-shadow: 0 3px 8px rgba(0,0,0,0.06); 
-        border-radius: 10px;
+        width: 100%; margin: 0; padding: 10px 5px;
+        display: flex; flex-direction: column;
+        align-items: center; text-align: center; justify-content: space-between;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.06); border-radius: 10px;
     }
 
     .produto .thumb {
-        width: 100%; 
-        aspect-ratio: 1 / 1; 
-        height: auto;
-        margin: 5px auto 10px auto; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 100%; aspect-ratio: 1 / 1; height: auto;
+        margin: 5px auto 10px auto;
+        display: flex; align-items: center; justify-content: center;
     }
-    
-    .produto .thumb img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
+    .produto .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-    /* Títulos e Textos ajustados */
     .produto h3 {
-        font-size: 1.1rem;
-        /* Define uma altura fixa para o título. 
-           Assim, nomes de 1 linha ocupam o mesmo espaço de nomes de 2 linhas */
-        height: 38px; 
-        display: flex;
-        align-items: center;       /* Centraliza verticalmente */
-        justify-content: center;   /* Centraliza horizontalmente */
-        margin-bottom: 4px;
-        line-height: 1.1;
-        overflow: hidden;          /* Corta texto se for gigante demais */
+        font-size: 1.1rem; height: 38px;
+        display: flex; align-items: center; justify-content: center;
+        margin-bottom: 4px; line-height: 1.1; overflow: hidden;
     }
 
     .produto .preco-box {
-        /* Define altura mínima para caber preço antigo + novo.
-           Se tiver só preço novo, ele centraliza nesse espaço. */
-        min-height: 40px; 
-        
-        display: flex;
-        flex-direction: column; /* Um preço embaixo do outro */
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 6px;
+        min-height: 40px; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; margin-bottom: 6px;
     }
+    .preco-novo { font-size: 0.95rem; line-height: 1.2; }
+    .preco-antigo { font-size: 1rem; margin-right: 0; margin-bottom: 2px; }
 
-    .preco-novo { 
-        font-size: 0.95rem; 
-        line-height: 1.2;
-    }
-    .preco-antigo { 
-        font-size: 1rem; 
-        margin-right: 0; /* Remove margem lateral pois agora está em coluna */
-        margin-bottom: 2px;
-    }
-
-    /* Elementos Internos do Card */
     .produto .cortes { display: none !important; }
     
     .btn-select-corte {
-        display: block;
-        width: 100%;
-        padding: 8px 4px;
-        font-size: 0.75rem;
-        background: #f8f8f8;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        margin: 5px 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        display: block; width: 100%; padding: 8px 4px; font-size: 0.75rem;
+        background: #f8f8f8; border: 1px solid #ccc; border-radius: 6px;
+        margin: 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    .produto .qtd-box {
-        width: 100%;
-        justify-content: center;
-        gap: 5px;
-        margin: 5px 0;
+    .produto .qtd-box { width: 100%; justify-content: center; gap: 5px; margin: 5px 0; }
+    .produto .input-qtd { width: 40px; padding: 4px; text-align: center; font-size: 0.9rem; }
+    .produto .btn-add-prod { width: 100%; font-size: 0.8rem; padding: 10px 5px; margin-top: auto; border-radius: 6px; }
+
+    /* 5. SIDEBAR CARRINHO (CORRIGIDO PARA NÃO ROLAR O FUNDO) */
+    .sidebar-cart {
+        position: fixed !important;
+        top: 0; right: -100%; /* Começa escondido */
+        width: 85%; max-width: 400px;
+        height: 100% !important; /* Altura total da tela */
+        
+        display: flex !important;
+        flex-direction: column; /* Organiza Topo + Conteúdo */
+        
+        background: #fff;
+        z-index: 99999;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
     }
 
-    .produto .input-qtd {
-        width: 40px;
-        padding: 4px;
-        text-align: center;
-        font-size: 0.9rem;
+    .sidebar-cart.show { right: 0; }
+
+    /* Topo Fixo */
+    .sidebar-header {
+        flex-shrink: 0; /* Não encolhe */
+        padding: 15px;
+        background: #f4f4f4;
+        border-bottom: 1px solid #ddd;
+        display: flex; justify-content: space-between; align-items: center;
     }
 
-    .produto .btn-add-prod {
-        width: 100%;
-        font-size: 0.8rem;
-        padding: 10px 5px;
-        margin-top: auto;
-        border-radius: 6px;
+    /* Miolo que Rola (Produtos + Inputs + Botão) */
+    .sidebar-scroll-content {
+        flex: 1; /* Ocupa todo o espaço restante */
+        overflow-y: auto !important; /* Cria a rolagem AQUI DENTRO */
+        overflow-x: hidden;
+        padding: 15px;
+        -webkit-overflow-scrolling: touch; /* Rolagem suave no iPhone */
     }
 
-    .btn-topo {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
-        font-size: 1rem;
-    }
-
-    /* FILTROS (Rolagem lateral) */
-    .filtros {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding-bottom: 5px;
-    }
-    
-    /* FOOTER */
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-        padding: 0 15px;
-    }
+    /* 6. OUTROS ELEMENTOS */
+    .filtros { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 5px; }
+    .footer-content { flex-direction: column; text-align: center; padding: 0 15px; }
     .footer-section { margin-bottom: 20px; }
     .footer-section h3::after { left: 50%; transform: translateX(-50%); }
     .social-links, .payment-icons { justify-content: center; }
     .footer-section ul { align-items: center; }
 
-    /* =========================================
-       CORREÇÃO DO TOAST (MENSAGEM DE CONFIRMAÇÃO)
-       ========================================= */
-    .toast {
-        bottom: 80px; /* Bem mais alto para fugir da barra do navegador */
-        width: 90%;   /* Ocupa a largura quase toda */
-        font-size: 0.9rem;
-        padding: 14px 20px;
-    }
+    .toast { bottom: 80px; width: 90%; font-size: 0.9rem; padding: 14px 20px; }
+    .btn-topo { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 1rem; }
 
-    /* =========================================
-       CARROSSEL NO MOBILE
-       ========================================= */
-    .banner-carousel {
-        padding: 0 10px; /* Menos margem lateral */
-        margin-top: 10px;
-    }
-
-    .banner-track {
-        border-radius: 10px;
-    }
-
-    .banner-slide {
-        height: 160px; /* Altura menor para celular */
-    }
-
-    .banner-texto h2 {
-        font-size: 1.3rem;
-        letter-spacing: 1px;
-    }
-
-    .banner-texto p {
-        font-size: 0.8rem;
-        max-width: 90%;
-        margin: 0 auto;
-    }
-
-    /* Força o modal a ocupar a tela inteira do celular */
-    .modal-produto-content {
-        width: 100%;
-        height: 100%;
-        max-height: 100vh;
-        border-radius: 0; /* Sem bordas redondas no canto */
-    }
-    
-    .modal-produto-header {
-        height: 30vh; /* Ocupa 30% da tela */
-    }
-
-
+    /* Banner e Modal */
+    .banner-carousel { padding: 0 10px; margin-top: 10px; }
+    .banner-slide { height: 160px; }
+    .banner-texto h2 { font-size: 1.3rem; }
+    .modal-produto-content { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; }
+    .modal-produto-header { height: 30vh; }
 }
