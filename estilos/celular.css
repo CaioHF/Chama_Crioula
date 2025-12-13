@@ -10,8 +10,7 @@
     body {
         background-color: var(--cor-marrom-forte);
         padding-top: 120px;
-        /* Importante: permite que o JS trave o scroll depois */
-        overscroll-behavior-y: none; 
+        overscroll-behavior-y: none; /* Importante para o JS travar o scroll */
     }
 
     /* 2. CABEÇALHO FIXO */
@@ -119,7 +118,7 @@
     .produto .input-qtd { width: 40px; padding: 4px; text-align: center; font-size: 0.9rem; }
     .produto .btn-add-prod { width: 100%; font-size: 0.8rem; padding: 10px 5px; margin-top: auto; border-radius: 6px; }
 
-    /* 5. SIDEBAR CARRINHO (CORRIGIDO PARA NÃO ROLAR O FUNDO) */
+    /* 5. SIDEBAR CARRINHO (ESTRUTURA) */
     .sidebar-cart {
         position: fixed !important;
         top: 0; right: -100%; /* Começa escondido */
@@ -152,7 +151,57 @@
         overflow-y: auto !important; /* Cria a rolagem AQUI DENTRO */
         overflow-x: hidden;
         padding: 15px;
+        padding-bottom: 40px; /* Espaço extra no final */
         -webkit-overflow-scrolling: touch; /* Rolagem suave no iPhone */
+    }
+
+    /* 5.1 ESTILO DOS ITENS DENTRO DO CARRINHO MOBILE */
+    .sidebar-scroll-content .cart-item {
+        background: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid #e5e5e5;
+        margin-bottom: 10px; /* Espaço entre os produtos */
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .sidebar-scroll-content .cart-controls button {
+        width: 32px; height: 32px; /* Botões maiores para o dedo */
+        font-size: 1.1rem;
+    }
+
+    /* 5.2 INPUTS E ENDEREÇO NO MOBILE */
+    .sidebar-scroll-content input, 
+    .sidebar-scroll-content select, 
+    .sidebar-scroll-content textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem; /* Fonte 16px evita zoom automático no iPhone */
+    }
+
+    /* Arruma Rua e Número lado a lado */
+    .sidebar-scroll-content .input-group {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .sidebar-scroll-content #rua {
+        flex: 1; /* Ocupa o espaço que sobra */
+        margin-bottom: 0;
+    }
+
+    .sidebar-scroll-content #numero {
+        width: 80px; /* Tamanho fixo para o número */
+        margin-bottom: 0;
     }
 
     /* 6. OUTROS ELEMENTOS */
