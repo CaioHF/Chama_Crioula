@@ -139,7 +139,7 @@ function renderProdutos(filtro = 'todos'){
     produtosContainer.innerHTML += `
       <article class="produto" data-index="${index}" data-desc="${textoDescricao}">
         <div class="thumb" onclick="abrirModalProduto(${index})" style="cursor: pointer;">
-            <img loading="lazy" src="${p.img || 'imagens/default.png'}" alt="${p.nome}">
+            <img loading="lazy" src="${p.img || 'imagens/default.png'}" alt="${p.nome} - Casa de Carnes Chama Crioula em Ouro Verde do Oeste">
         </div>
         <div class="info">
           <h3>${p.nome}</h3>
