@@ -7,13 +7,14 @@
 
     <meta name="description" content="Peça as melhores carnes bovinas, suínas e frangos sem sair de casa. Delivery rápido e qualidade garantida na Chama Crioula.">
     <meta name="keywords" content="açougue, delivery de carne, churrasco, chama crioula, carnes nobres, entrega">
-    <meta name="author" content="Caio HF">
+    <meta name="author" content="Caio Ferencine">
+    <meta name="google-site-verification" content="IGn6bbSOOK7aMLkUTws1YY9o5f-HeP3GjMTr0IY67F8"/>
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://caiohf.github.io/Chama_Crioula/">
+    <meta property="og:url" content="https://www.chamacrioula.com.br/">
     <meta property="og:title" content="Chama Crioula - Seu churrasco começa aqui!">
     <meta property="og:description" content="Acesse nosso cardápio digital, veja as ofertas do dia e peça pelo WhatsApp.">
-    <meta property="og:image" content="https://caiohf.github.io/Chama_Crioula/imagens/metaWhats-Chama-Crioula.png">
+    <meta property="og:image" content="https://www.chamacrioula.com.br/imagens/metaWhats-Chama-Crioula.png">
 
     <link rel="shortcut icon" href="imagens/Favicon.png" type="image/x-icon">
     
@@ -151,17 +152,18 @@
     <main id="produtos-container" class="lista-produtos"></main>
 
     <aside class="carrinho">
-        <h2>Pedido</h2>
-        <div id="lista-carrinho"></div>
+    <h2>Pedido</h2>
+    
+    <div id="lista-carrinho"></div>
 
-        <div class="endereco-box-desktop" style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
+    <div class="carrinho-footer-desktop">
+        
+        <div class="endereco-box-desktop">
             <h3>Endereço de Entrega:</h3>
-            
             <select id="bairro-desk" class="input-bairro">
                 <option value="0.00">Dentro da Cidade - R$ Grátis</option>
                 <option value="10.00">Interior - R$ 10,00</option>
             </select>
-            
             <div class="input-group">
                 <input type="text" id="rua-desk" placeholder="Rua">
                 <input type="number" id="numero-desk" placeholder="Nº">
@@ -169,24 +171,25 @@
         </div>
 
         <div style="margin-top: 15px;">
-        <h3 style="margin-bottom: 8px; font-size: 1rem;">Pagamento:</h3>
-        <select id="pagamento-desk" class="input-pagamento">
-            <option value="" disabled selected>Escolha a forma de pagamento...</option>
-            <option value="Pix">Pix</option>
-            <option value="Cartão de Crédito">Cartão de Crédito</option>
-            <option value="Cartão de Débito">Cartão de Débito</option>
-            <option value="Dinheiro">Dinheiro</option>
-        </select>
-    </div>
+            <h3 style="margin-bottom: 8px; font-size: 1rem;">Pagamento:</h3>
+            <select id="pagamento-desk" class="input-pagamento">
+                <option value="" disabled selected>Escolha a forma de pagamento...</option>
+                <option value="Pix">Pix</option>
+                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                <option value="Cartão de Débito">Cartão de Débito</option>
+                <option value="Dinheiro">Dinheiro</option>
+            </select>
+        </div>
 
-    <div style="margin-top: 15px;">
-        <h3 style="margin-bottom: 8px; font-size: 1rem;">Observações:</h3>
-        <textarea id="obs-desk" class="input-obs" placeholder="Ex: Bife bem fino, separar em pacotes de 1kg..."></textarea>
-    </div>
+        <div style="margin-top: 15px;">
+            <h3 style="margin-bottom: 8px; font-size: 1rem;">Observações:</h3>
+            <textarea id="obs-desk" class="input-obs" placeholder="Ex: Bife bem fino..."></textarea>
+        </div>
 
         <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
         <button id="btn-finalizar">Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i></button>
-    </aside>
+    </div>
+</aside>
 </div>
 
 <div id="toast" class="toast">Produto adicionado ao pedido</div>

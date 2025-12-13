@@ -362,170 +362,174 @@ header ul > li > i {
 
 
 /* ==========================================================================
-   5. SIDEBAR (CARRINHO DESKTOP)
+   5. SIDEBAR (CARRINHO DESKTOP - COMPLETO E CORRIGIDO)
    ========================================================================== */
 .carrinho {
   width: 30%;
+  min-width: 300px;
   background: var(--bg-card);
-  padding: 16px;
+  padding: 0; /* Zero padding para o cabeçalho encostar nas bordas */
   border-radius: 8px;
+  
+  /* FIXAÇÃO E ROLAGEM INTELIGENTE */
   position: sticky;
-  top: 18px;
-  align-self: flex-start;
+  top: 20px;
+  max-height: calc(100vh - 40px); /* Nunca passa da altura da tela */
+  
+  display: flex;
+  flex-direction: column; /* Organiza em coluna (Topo, Lista, Rodapé) */
+  
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Garante que nada vaze as bordas arredondadas */
 }
 
+/* Título "Pedido" */
+.carrinho h2 {
+  padding: 15px;
+  margin: 0;
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.3rem;
+  text-align: center;
+  flex-shrink: 0; /* Não deixa esmagar */
+}
+
+/* LISTA DE PRODUTOS (É aqui que a rolagem acontece) */
 #lista-carrinho {
+  flex: 1; /* Ocupa todo o espaço livre no meio */
+  overflow-y: auto; /* Cria a barra de rolagem se encher */
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-height: 50vh;
-  overflow: auto;
-  padding-bottom: 6px;
+  gap: 10px;
 }
 
+/* Estilo da barra de rolagem (Fica mais bonitinha) */
+#lista-carrinho::-webkit-scrollbar { width: 12px; }
+#lista-carrinho::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 6px; }
+#lista-carrinho::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; border: 2px solid #f1f1f1; }
+
+/* ESTILO DOS ITENS (CART-ITEM) - QUE ESTAVA FALTANDO */
 .cart-item {
   background: #fff;
-  padding: 8px;
+  padding: 10px;
   border-radius: 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .cart-left {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  font-size: 0.9rem;
 }
 
 .cart-controls {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   align-items: center;
 }
 
 .cart-controls button {
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
   border: none;
   background: var(--cor-marrom);
   cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.cart-controls button:hover { background: #dcd6b0; }
+
+/* RODAPÉ DO CARRINHO (Inputs e Total) - FIXO EMBAIXO */
+.carrinho-footer-desktop {
+  padding: 15px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  flex-shrink: 0; /* Não deixa esmagar */
+  
+  /* Se a tela for muito pequena, permite rolar os inputs também */
+  overflow-y: auto; 
+  max-height: 50vh; 
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+}
+
+/* Grupo que segura os dois inputs */
+.carrinho-footer-desktop .input-group {
+    display: flex; /* Coloca lado a lado */
+    gap: 10px;     /* Espaço entre eles */
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+/* A Rua (Pega todo o espaço que sobrar) */
+.carrinho-footer-desktop #rua-desk {
+    flex: 1; /* Estica o máximo possível */
+    margin-bottom: 0; /* Remove margem de baixo para alinhar */
+}
+
+/* O Número (Tamanho fixo pequeno) */
+.carrinho-footer-desktop #numero-desk {
+    width: 80px; /* Tamanho fixo suficiente para 4 ou 5 dígitos */
+    margin-bottom: 0;
+}
+
+/* O restante dos inputs (Bairro, Pagamento, Obs) continuam ocupando 100% */
+.carrinho-footer-desktop select, 
+.carrinho-footer-desktop textarea {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
 }
 
 .total {
-  margin-top: 12px;
+  margin-top: 15px;
   font-weight: bold;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
+  text-align: right;
+  border-top: 1px dashed #ccc;
+  padding-top: 10px;
 }
 
 #btn-finalizar {
-  margin-top: 12px;
+  margin-top: 15px;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background: var(--cor-vermelha);
   color: #fff;
   border: none;
   border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  transition: 0.2s;
 }
+#btn-finalizar:hover { background: #b21818; }
 
-aside > button > i {
-  margin-left: 8px;
-  font-size: 1.1rem;
-  position: relative;
-  top: 2px;
-}
-
-/* Campos de Endereço Desktop e Geral */
-
-/* Estilo para o Seletor de Bairro */
-.input-bairro {
+/* Ajustes dos Inputs dentro do carrinho */
+.carrinho-footer-desktop input{
     width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    outline: none;
-}
-
-.input-bairro:focus {
-    border-color: var(--cor-vermelha);
-}
-
-.endereco-box-desktop input, 
-.endereco-box input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    outline: none;
-}
-
-.input-group {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-}
-
-.input-group input {
-  width: auto !important;
-  min-width: 0;
-  box-sizing: border-box;
-  margin-bottom: 0 !important;
-} 
-
-.input-group input[id^="rua"] { flex: 3; }
-.input-group input[id^="numero"] { flex: 1; }
-
-/* Estilo do Dropdown de Pagamento */
-.input-pagamento {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    outline: none;
-    margin-bottom: 10px;
-}
-
-/* Focar na cor da marca ao clicar */
-.input-pagamento:focus {
-    border-color: var(--cor-vermelha);
-}
-
-/* Estilo do Campo de Observações */
-.input-obs {
-    width: 100%;
-    min-height: 80px; /* Altura inicial boa para escrever */
+    margin-bottom: 8px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-family: Arial, sans-serif; /* Garante a mesma fonte do site */
+    font-size: 0.9rem;
+}
+
+.carrinho-footer-desktop h3 {
     font-size: 0.95rem;
-    resize: vertical; /* Permite o usuário aumentar a altura se quiser */
-    outline: none;
-    box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: 10px;
 }
-
-.input-obs:focus {
-    border-color: var(--cor-vermelha);
-    background-color: #fffafa; /* Fundo levemente rosado para destacar o foco */
-}
-
 
 /* ==========================================================================
    6. SIDEBAR MOBILE (GAVETA DO CARRINHO)
@@ -773,7 +777,7 @@ aside > button > i {
     transform: translateY(20px);
     transition: all 0.3s ease;
     
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
 }
