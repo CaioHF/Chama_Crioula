@@ -1,22 +1,23 @@
 // ==========================================================================
 // 1. CONFIGURAÇÕES GERAIS E DADOS
 // ==========================================================================
-const VALOR_MINIMO_PEDIDO = 50.00;
-const categoriasComCorte = ['bovino','suino','ofertas'];
-const categoriasKg05 = ['bovino','suino','frango','ofertas'];
+const VALOR_MINIMO_PEDIDO = 100.00;
+// Tirei os sinais de comentário (/* */) e removi a palavra 'ofertas' de dentro
+const categoriasComCorte = ['bovino','suino'];
+const categoriasKg05 = ['bovino','suino','frango'];
 const categoriasUnidade = ['acompanhamentos'];
 const cortesPadrao = ['Corte fino','Corte grosso','Em cubos','Moído','Para churrasco', 'Em tiras'];
 
 // LISTA DE PRODUTOS
 const produtos = [
-  { nome: "Acém", preco: 29.98, precoOriginal: 32.90, img: "imagens/produtos/acem.png", categoria: "bovino", descricao: "Carne resfriada e selecionada. Corte dianteiro muito saboroso." },
+  { nome: "Acém", preco: 32.90, img: "imagens/produtos/acem.png", categoria: "bovino", descricao: "Carne resfriada e selecionada. Corte dianteiro muito saboroso." },
   { nome: "Alcatra com Picanha", preco: 49.98, img: "imagens/produtos/alcatra.png", categoria: "bovino", descricao: "Peça nobre selecionada. A união perfeita da maciez da alcatra com a capa de gordura da picanha." },
   { nome: "Bacon", preco: 49.98, img: "imagens/produtos/bacon.png", categoria: "suino", descricao: "Corte irresistível, com equilíbrio perfeito entre carne e gordura." },
   { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife.png", categoria: "bovino", descricao: "Corte resfriado de altíssima maciez e pouca gordura." },
   { nome: "Bife Ancho", preco: 59.98, img: "imagens/produtos/bife_ancho.png", categoria: "bovino", descricao: "Corte nobre, extremamente suculento e marmorizado." },
   { nome: "Bisteca com Mingon", preco: 48.98, img: "imagens/produtos/bisteca_c_file.png", categoria: "bovino", descricao: "Também conhecida como T-Bone. Reúne o sabor do contrafilé e a maciez do filé mignon." },
   { nome: "Bisteca", preco: 38.98, img: "imagens/produtos/bisteca_s_mignon.png", categoria: "bovino", descricao: "Corte do contrafilé com osso, garantindo muito mais sabor." },
-  { nome: "Bisteca Suína", preco: 23.98, precoOriginal: 32.90, img: "imagens/produtos/bisteca_suina.png", categoria: "suino", descricao: "Oferta especial! Corte suíno resfriado, leve e saboroso." },
+  { nome: "Bisteca Suína", preco: 23.98, img: "imagens/produtos/bisteca_suina.png", categoria: "suino", descricao: "Oferta especial! Corte suíno resfriado, leve e saboroso." },
   { nome: "Carne moída 1º", preco: 44.98, img: "imagens/produtos/carne_moida1.png", categoria: "bovino", descricao: "Moída de cortes nobres (Patinho/Coxão Mole)." },
   { nome: "Carne moída 2º", preco: 32.98, img: "imagens/produtos/carne_moida2.png", categoria: "bovino", descricao: "Moída de cortes dianteiros, com equilíbrio ideal de gordura." },
   { nome: "Carvão 4kg", preco: 29.98, img: "imagens/produtos/carvao4.png", categoria: "acompanhamentos", descricao: "Carvão vegetal selecionado de eucalipto." },
@@ -97,18 +98,19 @@ function renderProdutos(filtro = 'todos'){
 
   let lista = [];
 
-  // Filtragem
+ // Filtragem
   if(filtro === 'todos') {
       lista = produtos;
   } 
-  else if (filtro === 'ofertas') {
-      lista = produtos.filter(p => p.precoOriginal && p.precoOriginal > p.preco);
-  }
+  // else if (filtro === 'ofertas') { ... } // MANTENHA COMENTADO ASSIM
   else {
+      // Verifica se o filtro é uma categoria válida
       const existeCategoria = produtos.some(p => p.categoria && p.categoria.toLowerCase() === String(filtro).toLowerCase());
+      
       if(existeCategoria) {
           lista = produtos.filter(p => p.categoria.toLowerCase() === String(filtro).toLowerCase());
       } else {
+          // Busca por nome
           const termo = String(filtro).toLowerCase().trim();
           lista = produtos.filter(p => p.nome.toLowerCase().includes(termo));
       }
