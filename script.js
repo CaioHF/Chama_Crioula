@@ -4,13 +4,13 @@
 const VALOR_MINIMO_PEDIDO = 100.00;
 // Tirei os sinais de comentário (/* */) e removi a palavra 'ofertas' de dentro
 const categoriasComCorte = ['bovino','suino'];
-const categoriasKg05 = ['bovino','suino','frango'];
+const categoriasKg05 = ['bovino','suino','frango',];
 const categoriasUnidade = ['acompanhamentos'];
 const cortesPadrao = ['Corte fino','Corte grosso','Em cubos','Moído','Para churrasco', 'Em tiras'];
 
 // LISTA DE PRODUTOS
 const produtos = [
-  { nome: "Acém", preco: 32.90, img: "imagens/produtos/acem.png", categoria: "bovino", descricao: "Carne resfriada e selecionada. Corte dianteiro muito saboroso." },
+  { nome: "Acém", preco: 32.90, img: "imagens/produtos/acem.png", categoria: "bovino", descricao: "Carne resfriada e selecionada. Corte dianteiro muito saboroso.", maisVendido: true },
   { nome: "Alcatra com Picanha", preco: 49.98, img: "imagens/produtos/alcatra.png", categoria: "bovino", descricao: "Peça nobre selecionada. A união perfeita da maciez da alcatra com a capa de gordura da picanha." },
   { nome: "Bacon", preco: 49.98, img: "imagens/produtos/bacon.png", categoria: "suino", descricao: "Corte irresistível, com equilíbrio perfeito entre carne e gordura." },
   { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife.png", categoria: "bovino", descricao: "Corte resfriado de altíssima maciez e pouca gordura." },
@@ -33,7 +33,7 @@ const produtos = [
   { nome: "Filé Mignon", preco: 0.00, img: "imagens/produtos/file_mignon.png", categoria: "bovino", descricao: "Corte premium de maciez incomparável." },
   { nome: "Fraldinha", preco: 39.98, img: "imagens/produtos/fraldinha.png", categoria: "bovino", descricao: "Peça pequena, fibras longas e muito suculenta." },
   { nome: "Frango Inteiro", preco: 14.98, img: "imagens/produtos/frango.png", categoria: "frango", descricao: "Frango resfriado de primeira linha." },
-  { nome: "Linguiça Toscana", preco: 21.98, img: "imagens/produtos/linguica_toscana.png", categoria: "acompanhamentos", descricao: "Clássica e muito saborosa." },
+  { nome: "Linguiça Toscana", preco: 21.98, img: "imagens/produtos/linguica_toscana.png", categoria: "suino", descricao: "Clássica e muito saborosa." },
   { nome: "Maminha", preco: 0.00, img: "imagens/produtos/maminha.png", categoria: "bovino", descricao: "A ponta mais macia da alcatra." },
   { nome: "Meio da Asa", preco: 29.98, img: "imagens/produtos/meio_da_asa.png", categoria: "frango", descricao: "A famosa Tulipa. É a parte mais nobre da asa." },
   { nome: "Músculo com Osso", preco: 28.98, img: "imagens/produtos/musculo.png", categoria: "bovino", descricao: "Corte magro, muito saboroso e rico em colágeno." },
@@ -98,13 +98,18 @@ function renderProdutos(filtro = 'todos'){
 
   let lista = [];
 
- // Filtragem
+  // Filtragem
   if(filtro === 'todos') {
       lista = produtos;
   } 
-  // else if (filtro === 'ofertas') { ... } // MANTENHA COMENTADO ASSIM
+  // NOVA REGRA AQUI:
+  else if (filtro === 'mais-vendidos') {
+      lista = produtos.filter(p => p.maisVendido === true);
+  }
+  // Mantenha o ofertas comentado se quiser
+  // else if (filtro === 'ofertas') { ... } 
   else {
-      // Verifica se o filtro é uma categoria válida
+      // Verifica se o filtro é uma categoria válida...
       const existeCategoria = produtos.some(p => p.categoria && p.categoria.toLowerCase() === String(filtro).toLowerCase());
       
       if(existeCategoria) {
@@ -115,6 +120,8 @@ function renderProdutos(filtro = 'todos'){
           lista = produtos.filter(p => p.nome.toLowerCase().includes(termo));
       }
   }
+
+  // ... resto da função
 
   if(lista.length === 0){
     produtosContainer.innerHTML = '<p style="text-align:center;font-size:1.1rem;margin-top:12px;">Produto não encontrado</p>';
