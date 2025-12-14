@@ -1116,3 +1116,104 @@ footer {
 }
 .btn-zao-adicionar:active { transform: scale(0.98); }
 .hidden { display: none; }
+
+/* =========================================
+   SEÇÃO QUEM SOMOS
+   ========================================= */
+.sobre-container {
+    background-color: #fff; /* Fundo branco para quebrar o marrom */
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 4px solid var(--cor-dourada); /* Aquele dourado do seu logo */
+}
+
+.sobre-texto h4 {
+    color: var(--cor-vermelha);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.sobre-texto h2 {
+    color: var(--cor-marrom-forte);
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-family: 'Teko', sans-serif; /* Usando a fonte do seu logo se tiver carregada */
+}
+
+.sobre-texto p {
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 15px auto;
+    font-size: 1.05rem;
+}
+
+/* Diferenciais em Grade */
+.diferenciais-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 40px auto 10px auto;
+}
+
+.diferencial-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.diferencial-item i {
+    font-size: 2rem;
+    color: var(--cor-marrom);
+}
+
+.diferencial-item span {
+    font-weight: bold;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+/* Faixa de Horários */
+.infos-entregas {
+    background-color: #222; /* Fundo escuro */
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    padding: 30px 20px;
+    border-bottom: 1px solid #444;
+}
+
+.info-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+.info-box i {
+    font-size: 2rem;
+    color: var(--cor-dourada); /* Ou amarelado */
+}
+
+.info-box strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--cor-dourada);
+    margin-bottom: 4px;
+}
+
+.info-box span {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.4;
+}

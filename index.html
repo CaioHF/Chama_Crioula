@@ -101,71 +101,28 @@
         </li>
 
         <li>
-            <i class="fa-solid fa-clock"></i>
-            <span id="btn-horarios" class="btn-horarios">Horários</span>
-        </li>
-
-        <li>
-            <i class="fa-solid fa-circle-info"></i>
-            <span id="btn-sobre" class="btn-sobre">Sobre</span>
+            <a href="#sobre-nos">
+                <i class="fa-solid fa-circle-info"></i>
+                <span id="status-texto">Quem somos</span>
+            </a>
         </li>
     </ul>
 </header>
-
-<div id="modal-horarios" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Horários de Atendimento</h2>
-        <br>
-        <h3>Pedidos</h3>
-        <p>Segunda a Sábado: 09:00 - 16:00</p>
-        <br>
-        <h3>Entregas</h3>
-        <p>Segunda a Sábado: 17:00 - 20:00</p>
-        <p>Domingo: 07:00 - 12:00</p>
-        <br>
-        <h3>Observações</h3>
-        <p>Pedidos devem observar quantidade mínima - Consulte</p>
-        <p>Produto entregue "IN NATURA". Pesagem sujeita a pequenas variações</p>
-    </div>
-</div>
-
-<div id="modal-sobre" class="modal">
-    <div class="modal-content">
-        <span class="close-sobre" style="position: absolute; top: 10px; right: 15px; font-size: 25px; cursor: pointer;">&times;</span>
-        
-        <h2 style="color: var(--cor-vermelha); text-align: center; margin-bottom: 15px;">A Chama Crioula</h2>
-        
-        <p style="text-align: justify; margin-bottom: 10px;">
-            Fundada com o compromisso de levar o verdadeiro sabor do churrasco para a sua mesa, a <strong>Casa de Carnes Chama Crioula</strong> é referência em qualidade e procedência.
-        </p>
-
-        <p style="text-align: justify; margin-bottom: 15px;">
-            Trabalhamos apenas com carnes selecionadas, cortes nobres e um atendimento que entende do assunto. Seja para o dia a dia ou para aquele churrasco especial, nós garantimos a maciez e o sabor.
-        </p>
-
-        <div style="background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px;">
-            <h3 style="font-size: 1rem; margin-bottom: 5px;"><i class="fa-solid fa-location-dot" style="color: var(--cor-vermelha);"></i> Onde Estamos:</h3>
-            <p>Rua Rio de Janeiro, 334<br> Ouro Verde do Oeste-PR</p>
-            <a href="https://maps.app.goo.gl/FdUtRmN5GcnuxiLK8" target="_blank" style="color: var(--cor-vermelha); font-weight: bold; font-size: 0.9rem;">Ver no Google Maps</a>
-        </div>
-    </div>
-</div>
 
 <section class="banner-carousel">
     <div class="banner-track">
 
         <div class="banner-slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('imagens/banner-costela.png');">
             <div class="banner-texto">
-                <h2 style="color: #8B0000">Carnes Frescas para o Dia a Dia</h2>
-                <p>Do bife rápido do almoço à sua carne do churrasco. Qualidade e praticidade para sua rotina.</p>
+                <h2 style="color: #8B0000">Açougue Delivery</h2>
+                <p>Carnes para o dia a dia e cortes especiais!</p>
             </div>
         </div>
         
         <div class="banner-slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('imagens/banner-entrega.png');">
             <div class="banner-texto">
                 <h2 style="color: #8B0000">Entrega Grátis</h2>
-                <p>Aqui a entrega é por nossa conta receba no conforto da sua casa. Faça seu pedido online agora mesmo!</p>
+                <p>Receba no conforto da sua casa sem taxas!</p>
             </div>
         </div>
 
@@ -344,6 +301,72 @@
     <i class="fa-solid fa-arrow-up"></i>
 </button>
 
+<section id="sobre-nos" class="sobre-container">
+    <div class="sobre-content">
+        <div class="sobre-texto">
+            <h4>TRADIÇÃO E QUALIDADE</h4>
+            <h2>Nossa Família Cuidando da Sua</h2>
+            <p>
+                A <strong>Chama Crioula</strong> é a primeira Casa de Carnes Delivery da região. 
+                Trazemos a experiência da <strong>Família De Carli</strong>, com 33 anos de história no varejo de alimentos, 
+                construídos com respeito e amizade.
+            </p>
+            <p>
+                Nosso propósito é evitar o seu estresse com filas. Oferecemos carnes nobres, 
+                inspecionadas e de pecuaristas regionais, entregues no conforto da sua casa.
+            </p>
+        </div>
+        
+        <div class="diferenciais-grid">
+            <div class="diferencial-item">
+                <i class="fa-solid fa-medal"></i>
+                <span>33 Anos de Experiência</span>
+            </div>
+            <div class="diferencial-item">
+                <i class="fa-solid fa-motorcycle"></i>
+                <span>Entrega Grátis</span>
+            </div>
+            <div class="diferencial-item">
+                <i class="fa-solid fa-check-double"></i>
+                <span>Produtos Inspecionados</span>
+            </div>
+            <div class="diferencial-item">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <span>Preço Justo</span>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<section class="infos-entregas">
+    
+    <div class="info-box">
+        <i class="fa-regular fa-clock"></i>
+        <div>
+            <strong>Horário de Pedidos</strong>
+            <span>Seg a Sáb: 09h às 16h</span>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <i class="fa-solid fa-truck-fast"></i>
+        <div>
+            <strong>Horário de Entregas</strong>
+            <span>Seg a Sáb: 17h às 20h<br>Domingos: 07h às 12h</span>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <div>
+            <strong>Observação Importante</strong>
+            <span>Produto "In Natura": pesagem<br>sujeita a pequenas variações.</span>
+        </div>
+    </div>
+
+</section>
+
 
 <footer id="rodape">
     <div class="footer-content">
@@ -351,11 +374,11 @@
         <div class="footer-section">
             <h3>Chama Crioula</h3>
             <p>Qualidade e tradição no seu churrasco. As melhores carnes bovinas, suínas e frangos,
-                 entregues com agilidade no conforto da sua casa.</p>
+                 entregues no conforto da sua casa.</p>
             <div class="social-links">
                 <a href="https://www.instagram.com/casadecarneschamacrioula/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://wa.me/5545991120288" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="#" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://m.facebook.com/61566864144876/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPNTY3MDY3MzQzMzUyNDI3AAGnj10o9UU6i5mrdVMnN4Pg824D54aAzIEK0mo8_sOA4w1W92B2AVzdvb8RQdw_aem_3OqXSnxYqKXPU3dwNitSsQ" target="_blank"><i class="fa-brands fa-facebook"></i></a>
             </div>
         </div>
 
@@ -363,9 +386,9 @@
         <div class="footer-section">
             <h3>Fale Conosco</h3>
             <p><i class="fa-solid fa-location-dot"></i> Ouro Verde do Oeste - PR</p>
+            <p><i class="fa-solid fa-location-dot"></i> Toledo - PR</p>
             <p><i class="fa-solid fa-phone"></i> (45) 99112-0288</p>
-            <p><i class="fa-solid fa-clock"></i> Seg à Sáb: 08:00 - 19:00</p>
-            <p><i class="fa-solid fa-envelope"></i> contato@chamacrioula.com</p>
+            <p><i class="fa-solid fa-envelope"></i> casadecarneschamacrioula@gmail.com</p>
         </div>
 
         <div class="footer-section">
@@ -378,6 +401,20 @@
                 <i class="fa-solid fa-money-bill-wave" title="Dinheiro"></i>
             </div>
         </div>
+
+        <div class="footer-section">
+    <h3>Onde Estamos</h3>
+    <p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Rua+Rio+de+Janeiro+334+Ouro+Verde+do+Oeste" target="_blank" style="color: #ccc; text-decoration: none; display: flex; gap: 10px; align-items: center; justify-content: center; text-align: left;">
+            <i class="fa-solid fa-location-dot" style="color: var(--cor-dourada); margin-top: 4px;"></i>
+            <span>
+                Rua Rio de Janeiro, 334<br>
+                Ouro Verde do Oeste - PR<br>
+                <span style="font-size: 0.85rem; text-decoration: underline; color: var(--cor-dourada);">Ver no mapa</span>
+            </span>
+        </a>
+    </p>
+</div>
 
     </div>
 
