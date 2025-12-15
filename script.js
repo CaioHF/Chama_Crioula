@@ -2,13 +2,11 @@
 // 1. CONFIGURAÇÕES GERAIS E DADOS
 // ==========================================================================
 const VALOR_MINIMO_PEDIDO = 100.00;
-// Tirei os sinais de comentário (/* */) e removi a palavra 'ofertas' de dentro
 const categoriasComCorte = ['bovino','suino'];
 const categoriasKg05 = ['bovino','suino','frango',];
 const categoriasUnidade = ['acompanhamentos'];
 const cortesPadrao = ['Corte Fino','Corte Grosso','Em cubos','Moído','Em tiras', 'Para Grelha', 'Espeto Simples', 'Espeto Duplo'];
 
-// ELEMENTOS DOM
 const produtosContainer = document.getElementById('produtos-container');
 const totalGeralEl = document.getElementById('total-geral'); 
 const inputBusca = document.getElementById('buscar');
@@ -21,7 +19,7 @@ const botoesFiltro = document.querySelectorAll('.tipos');
 // ==========================================================================
 let carrinho = [];
 let taxaEntrega = 0;
-let lojaAberta = false; // Controle global
+let lojaAberta = false; 
 
 if (localStorage.getItem('carrinhoSalvo')) {
   try { carrinho = JSON.parse(localStorage.getItem('carrinhoSalvo')) || []; }
@@ -33,7 +31,6 @@ function formatarTexto(texto) {
     return texto.toLowerCase().replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 }
 
-// TOAST (Notificação)
 let toastTimer;
 function showToast(msg = "Produto adicionado ao pedido") {
   const toast = document.getElementById("toast");
@@ -56,33 +53,28 @@ function renderProdutos(filtro = 'todos'){
 
   let lista = [];
 
-  // Filtragem
   if(filtro === 'todos') {
       lista = produtos;
   } 
-  // NOVA REGRA AQUI:
+
   else if (filtro === 'mais-vendidos') {
       lista = produtos.filter(p => p.maisVendido === true);
   }
   else if (filtro === 'especiais') {
       lista = produtos.filter(p => p.especial === true);
   }
-  // Mantenha o ofertas comentado se quiser
   // else if (filtro === 'ofertas') { ... } 
   else {
-      // Verifica se o filtro é uma categoria válida...
       const existeCategoria = produtos.some(p => p.categoria && p.categoria.toLowerCase() === String(filtro).toLowerCase());
       
       if(existeCategoria) {
           lista = produtos.filter(p => p.categoria.toLowerCase() === String(filtro).toLowerCase());
       } else {
-          // Busca por nome
           const termo = String(filtro).toLowerCase().trim();
           lista = produtos.filter(p => p.nome.toLowerCase().includes(termo));
       }
   }
 
-  // ... resto da função
 
   if(lista.length === 0){
     produtosContainer.innerHTML = '<p style="text-align:center;font-size:1.1rem;margin-top:12px;">Produto não encontrado</p>';
@@ -189,27 +181,21 @@ function atualizarCarrinho(){
   
   if(totalGeralEl) totalGeralEl.textContent = fmtMoney(totalComTaxa);
 
-  // BOTÕES FINALIZAR E AVISO DE PESO
   const botoesFinalizar = [document.getElementById('btn-finalizar'), document.getElementById('sidebarFinalizar')];
   
   botoesFinalizar.forEach(btn => {
       if(!btn) return;
-
-      // --- CÓDIGO NOVO: INSERE O AVISO ABAIXO DO BOTÃO ---
-      // Cria um ID único para o aviso baseado no ID do botão
       const idAviso = 'aviso-peso-' + (btn.id || 'padrao');
       
-      // Verifica se o aviso JÁ EXISTE. Se não, cria e insere.
       if (!document.getElementById(idAviso)) {
           const avisoHTML = `
               <p id="${idAviso}" style="font-size: 11px; color: #555; text-align: center; margin-top: 8px; line-height: 1.3; width: 100%; opacity: 0.8;">
                   ⚠️ <b>Importante:</b> Produtos <i>in natura</i> podem sofrer variação de peso e valor final na pesagem. O total acima é uma estimativa.
               </p>
           `;
-          // Insere o HTML logo DEPOIS do botão
+
           btn.insertAdjacentHTML('afterend', avisoHTML);
       }
-      // ----------------------------------------------------
 
       if (typeof lojaAberta !== 'undefined' && !lojaAberta) {
           btn.classList.add('btn-disabled');
@@ -232,7 +218,6 @@ function atualizarCarrinho(){
       }
   });
 
-  // BADGE CONTADOR
   const cartCountEl = document.getElementById('cart-count');
   if(cartCountEl) {
       const qtdItens = carrinho.length; 
@@ -296,7 +281,6 @@ if(produtosContainer){
       
       atualizarCarrinho();
       
-      // AQUI ESTÁ A MUDANÇA:
       showToast(`Adicionado: ${p.nome}`); 
     }
   });
@@ -332,7 +316,6 @@ if(botoesFiltro && botoesFiltro.length){
   });
 }
 
-// BUSCA
 if(inputBusca){
   inputBusca.addEventListener('input', ()=>{
     const texto = inputBusca.value.toLowerCase();
@@ -364,7 +347,6 @@ function filtrarProdutoPorNome(){
   if(boxAuto) boxAuto.style.display = 'none';
 }
 
-// TAXA ENTREGA
 const bairroDesk = document.getElementById('bairro-desk');
 const bairroMobile = document.getElementById('bairro');
 
@@ -386,14 +368,14 @@ if(bairroMobile) bairroMobile.addEventListener('change', atualizarTaxa);
 function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idObs) {
     let minimo = (typeof VALOR_MINIMO_PEDIDO !== 'undefined') ? VALOR_MINIMO_PEDIDO : 0;
     
-    // Calcula o total
+
     let totalCalculado = 0;
     carrinho.forEach(item => { totalCalculado += item.preco * item.qtd; });
 
     const elBairro = document.getElementById(idBairroSelect);
     let taxaNoMomento = elBairro && elBairro.value ? parseFloat(elBairro.value) || 0 : 0;
     
-    // Soma a taxa ao total calculado para verificação
+ 
     let totalFinal = totalCalculado + taxaNoMomento;
 
     if (totalFinal < minimo) {
@@ -412,14 +394,13 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     const observacao = obsEl ? obsEl.value.trim() : '';
     let bairroNome = elBairro && elBairro.options ? elBairro.options[elBairro.selectedIndex].text : '';
 
-    // Validações
+
     if(!rua || !numero){ alert('Preencha o endereço.'); return; }
     if(elBairro && elBairro.value === "") { alert('Selecione o Bairro.'); return; }
     if(!pagamento){ alert('Selecione o pagamento.'); return; }
     if(carrinho.length === 0){ alert('Carrinho vazio!'); return; }
 
-    // --- MONTAGEM DA MENSAGEM ---
-    let mensagem = '*Pedido Chama Crioula*\n\n'; // Usando \n para quebra de linha
+    let mensagem = '*Pedido Chama Crioula*\n\n';
     
     carrinho.forEach(item => {
       const unitLabel = categoriasUnidade.includes(item.categoria) ? 'un' : 'KG';
@@ -438,19 +419,16 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
 
     mensagem += `\n *Total Estimado:* R$ ${totalFinal.toFixed(2)}\n`;
 
-    // --- AQUI ENTRA O AVISO DE PESO (ANTES DE ENVIAR) ---
+  
     mensagem += "\n-----------------------------------\n";
     mensagem += "*OBSERVAÇÃO IMPORTANTE:*\n";
     mensagem += "Nossas carnes são entregues *in natura* (frescas). ";
     mensagem += "A pesagem e o valor final estão sujeitos a pequenas alterações na hora do preparo, ";
     mensagem += "sendo o valor do site meramente estimativo.";
-    // ----------------------------------------------------
-
-    // ENVIA PARA O WHATSAPP (Agora com a mensagem completa)
-    // O encodeURIComponent resolve problemas de acentos e quebras de linha
+ 
     window.open(`https://wa.me/5545991120288?text=${encodeURIComponent(mensagem)}`, '_blank');
 
-    // Limpa o carrinho e o formulário
+   
     carrinho = []; 
     taxaEntrega = 0; 
     try { localStorage.removeItem('carrinhoSalvo'); } catch(e){}
@@ -464,7 +442,7 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     if(obsEl) obsEl.value = '';
 }
 
-// Event Listeners (Mantive igual ao seu)
+
 const btnFinalizar = document.getElementById('btn-finalizar');
 if(btnFinalizar) {
     btnFinalizar.addEventListener('click', () => {
@@ -771,7 +749,7 @@ function verificarStatusLoja() {
     const statusTexto = document.getElementById('status-texto');
 
     let estaAberto = false;
-    // Segunda(1) a Sábado(6) | 08:00 - 18:59
+  
     if (diaSemana !== 0 && (hora >= 8 && hora < 19)) { estaAberto = true; }
     
     lojaAberta = estaAberto; 

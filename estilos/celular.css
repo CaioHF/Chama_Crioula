@@ -9,7 +9,7 @@
 
     body {
         background-color: var(--cor-marrom-forte);
-        overscroll-behavior-y: none; /* Importante para o JS travar o scroll */
+        overscroll-behavior-y: none; 
     }
 
     /* 2. CABEÇALHO FIXO */
@@ -44,17 +44,17 @@
 
     .InputBusca { flex: 1; width: auto !important; margin: 0; }
 
-    /* Ícones Mobile */
+  
     .header-search-cart > i, .btn-cart-mobile {
         display: block !important;
         font-size: 24px; color: var(--cor-vermelha);
         padding: 8px; cursor: pointer;
     }
 
-    /* Esconde Sidebar Desktop */
+  
     .carrinho { display: none !important; }
 
-    /* 3. CONTADOR (BADGE) */
+   
     .cart-icon-wrap {
         position: relative; display: flex !important;
         align-items: center; justify-content: center;
@@ -71,7 +71,7 @@
         z-index: 10;
     }
 
-    /* 4. LISTA DE PRODUTOS */
+
     .container { display: flex; flex-direction: column; padding: 10px; width: 100%; }
     .lista-produtos {
         display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -121,15 +121,15 @@
     .produto .input-qtd { width: 40px; padding: 4px; text-align: center; font-size: 0.9rem; }
     .produto .btn-add-prod { width: 100%; font-size: 0.8rem; padding: 10px 5px; margin-top: auto; border-radius: 6px; }
 
-    /* 5. SIDEBAR CARRINHO (ESTRUTURA) */
+ 
     .sidebar-cart {
         position: fixed !important;
-        top: 0; right: -100%; /* Começa escondido */
+        top: 0; right: -100%; 
         width: 85%; max-width: 400px;
-        height: 100% !important; /* Altura total da tela */
+        height: 100% !important; 
         
         display: flex !important;
-        flex-direction: column; /* Organiza Topo + Conteúdo */
+        flex-direction: column; 
         
         background: #fff;
         z-index: 99999;
@@ -141,24 +141,24 @@
 
     /* Topo Fixo */
     .sidebar-header {
-        flex-shrink: 0; /* Não encolhe */
+        flex-shrink: 0; 
         padding: 15px;
         background: #f4f4f4;
         border-bottom: 1px solid #ddd;
         display: flex; justify-content: space-between; align-items: center;
     }
 
-    /* Miolo que Rola (Produtos + Inputs + Botão) */
+
     .sidebar-scroll-content {
-        flex: 1; /* Ocupa todo o espaço restante */
-        overflow-y: auto !important; /* Cria a rolagem AQUI DENTRO */
+        flex: 1;
+        overflow-y: auto !important; 
         overflow-x: hidden;
         padding: 15px;
-        padding-bottom: 40px; /* Espaço extra no final */
-        -webkit-overflow-scrolling: touch; /* Rolagem suave no iPhone */
+        padding-bottom: 40px; 
+        -webkit-overflow-scrolling: touch; 
     }
 
-    /* 5.1 ESTILO DOS ITENS DENTRO DO CARRINHO MOBILE */
+    
     .sidebar-scroll-content .cart-item {
         background: #fff;
         padding: 10px;
@@ -168,16 +168,16 @@
         align-items: center;
         gap: 10px;
         border: 1px solid #e5e5e5;
-        margin-bottom: 10px; /* Espaço entre os produtos */
+        margin-bottom: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
     .sidebar-scroll-content .cart-controls button {
-        width: 32px; height: 32px; /* Botões maiores para o dedo */
+        width: 32px; height: 32px;
         font-size: 1.1rem;
     }
 
-    /* 5.2 INPUTS E ENDEREÇO NO MOBILE */
+   
     .sidebar-scroll-content input, 
     .sidebar-scroll-content select, 
     .sidebar-scroll-content textarea {
@@ -186,10 +186,10 @@
         margin-bottom: 10px;
         border: 1px solid #ccc;
         border-radius: 6px;
-        font-size: 1rem; /* Fonte 16px evita zoom automático no iPhone */
+        font-size: 1rem; 
     }
 
-    /* Arruma Rua e Número lado a lado */
+    
     .sidebar-scroll-content .input-group {
         display: flex;
         gap: 10px;
@@ -198,16 +198,16 @@
     }
     
     .sidebar-scroll-content #rua {
-        flex: 1; /* Ocupa o espaço que sobra */
+        flex: 1; 
         margin-bottom: 0;
     }
 
     .sidebar-scroll-content #numero {
-        width: 80px; /* Tamanho fixo para o número */
+        width: 80px;
         margin-bottom: 0;
     }
 
-    /* 6. OUTROS ELEMENTOS */
+  
     .filtros { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 5px; }
     .footer-content { flex-direction: column; text-align: center; padding: 0 15px; }
     .footer-section { margin-bottom: 20px; }
@@ -218,7 +218,7 @@
     .toast { bottom: 80px; width: 90%; font-size: 0.9rem; padding: 14px 20px; }
     .btn-topo { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 1rem; }
 
-    /* Banner e Modal */
+ 
     .banner-carousel { padding: 0 10px; margin-top: 10px; }
     .banner-slide { height: 160px; }
     .banner-texto h2 { font-size: 1.3rem; }
