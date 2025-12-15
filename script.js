@@ -386,15 +386,17 @@ if(bairroMobile) bairroMobile.addEventListener('change', atualizarTaxa);
 function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idObs) {
     let minimo = (typeof VALOR_MINIMO_PEDIDO !== 'undefined') ? VALOR_MINIMO_PEDIDO : 0;
     
+    // Calcula o total
     let totalCalculado = 0;
     carrinho.forEach(item => { totalCalculado += item.preco * item.qtd; });
 
     const elBairro = document.getElementById(idBairroSelect);
     let taxaNoMomento = elBairro && elBairro.value ? parseFloat(elBairro.value) || 0 : 0;
     
-    totalCalculado += taxaNoMomento;
+    // Soma a taxa ao total calculado para verificação
+    let totalFinal = totalCalculado + taxaNoMomento;
 
-    if (totalCalculado < minimo) {
+    if (totalFinal < minimo) {
         alert(`Mínimo R$ ${minimo.toFixed(2)}.`);
         return; 
     }
@@ -410,42 +412,59 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     const observacao = obsEl ? obsEl.value.trim() : '';
     let bairroNome = elBairro && elBairro.options ? elBairro.options[elBairro.selectedIndex].text : '';
 
+    // Validações
     if(!rua || !numero){ alert('Preencha o endereço.'); return; }
     if(elBairro && elBairro.value === "") { alert('Selecione o Bairro.'); return; }
     if(!pagamento){ alert('Selecione o pagamento.'); return; }
     if(carrinho.length === 0){ alert('Carrinho vazio!'); return; }
 
-    let mensagem = '*Pedido Chama Crioula:*%0A';
+    // --- MONTAGEM DA MENSAGEM ---
+    let mensagem = '*Pedido Chama Crioula*\n\n'; // Usando \n para quebra de linha
+    
     carrinho.forEach(item => {
       const unitLabel = categoriasUnidade.includes(item.categoria) ? 'un' : 'KG';
       mensagem += `${item.nome}`;
       if(item.corte) mensagem += ` (${item.corte})`;
-      mensagem += ` - ${item.qtd} ${unitLabel}%0A`;
+      mensagem += ` - ${item.qtd} ${unitLabel}\n`;
     });
 
-    mensagem += `%0A*Endereço:* ${rua}, nº ${numero}%0A`;
-    mensagem += `Bairro: ${bairroNome}%0A`; 
-    mensagem += `*Pagamento:* ${pagamento}%0A`;
-    if(observacao) mensagem += `*Obs:* ${observacao}%0A`;
-    mensagem += `\n *Total Estimado:* R$ ${totalCarrinho.toFixed(2)}\n\n`;
+    mensagem += `\n*Endereço:* ${rua}, nº ${numero}\n`;
+    mensagem += `*Bairro:* ${bairroNome}\n`; 
+    mensagem += `*Pagamento:* ${pagamento}\n`;
+    
+    if(observacao) {
+        mensagem += `*Obs do cliente:* ${observacao}\n`;
+    }
 
-    window.open(`https://wa.me/5545991120288?text=${mensagem}`);
+    mensagem += `\n *Total Estimado:* R$ ${totalFinal.toFixed(2)}\n`;
 
-    mensagem += "-----------------------------------\n";
-    mensagem += "⚠️ *OBSERVAÇÃO IMPORTANTE:*\n";
-    mensagem += "As carnes são entregues *in natura* (frescas). ";
+    // --- AQUI ENTRA O AVISO DE PESO (ANTES DE ENVIAR) ---
+    mensagem += "\n-----------------------------------\n";
+    mensagem += "*OBSERVAÇÃO IMPORTANTE:*\n";
+    mensagem += "Nossas carnes são entregues *in natura* (frescas). ";
     mensagem += "A pesagem e o valor final estão sujeitos a pequenas alterações na hora do preparo, ";
     mensagem += "sendo o valor do site meramente estimativo.";
+    // ----------------------------------------------------
 
-    carrinho = []; taxaEntrega = 0; 
+    // ENVIA PARA O WHATSAPP (Agora com a mensagem completa)
+    // O encodeURIComponent resolve problemas de acentos e quebras de linha
+    window.open(`https://wa.me/5545991120288?text=${encodeURIComponent(mensagem)}`, '_blank');
+
+    // Limpa o carrinho e o formulário
+    carrinho = []; 
+    taxaEntrega = 0; 
     try { localStorage.removeItem('carrinhoSalvo'); } catch(e){}
     atualizarCarrinho();
     
-    if(ruaEl) ruaEl.value = ''; if(numeroEl) numeroEl.value = '';
-    if(bairroDesk) bairroDesk.selectedIndex = 0; if(bairroMobile) bairroMobile.selectedIndex = 0;
-    if(pagamentoEl) pagamentoEl.value = ''; if(obsEl) obsEl.value = '';
+    if(ruaEl) ruaEl.value = ''; 
+    if(numeroEl) numeroEl.value = '';
+    if(bairroDesk) bairroDesk.selectedIndex = 0; 
+    if(bairroMobile) bairroMobile.selectedIndex = 0;
+    if(pagamentoEl) pagamentoEl.value = ''; 
+    if(obsEl) obsEl.value = '';
 }
 
+// Event Listeners (Mantive igual ao seu)
 const btnFinalizar = document.getElementById('btn-finalizar');
 if(btnFinalizar) {
     btnFinalizar.addEventListener('click', () => {
@@ -458,7 +477,6 @@ if(btnFinalizarMobile) {
         enviarPedidoWhatsApp('rua', 'numero', 'bairro', 'pagamento', 'obs');
     });
 }
-
 // =========================================
 // 8. MODAIS
 // =========================================
