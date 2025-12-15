@@ -189,11 +189,28 @@ function atualizarCarrinho(){
   
   if(totalGeralEl) totalGeralEl.textContent = fmtMoney(totalComTaxa);
 
-  // BOTÕES FINALIZAR
+  // BOTÕES FINALIZAR E AVISO DE PESO
   const botoesFinalizar = [document.getElementById('btn-finalizar'), document.getElementById('sidebarFinalizar')];
   
   botoesFinalizar.forEach(btn => {
       if(!btn) return;
+
+      // --- CÓDIGO NOVO: INSERE O AVISO ABAIXO DO BOTÃO ---
+      // Cria um ID único para o aviso baseado no ID do botão
+      const idAviso = 'aviso-peso-' + (btn.id || 'padrao');
+      
+      // Verifica se o aviso JÁ EXISTE. Se não, cria e insere.
+      if (!document.getElementById(idAviso)) {
+          const avisoHTML = `
+              <p id="${idAviso}" style="font-size: 11px; color: #555; text-align: center; margin-top: 8px; line-height: 1.3; width: 100%; opacity: 0.8;">
+                  ⚠️ <b>Importante:</b> Produtos <i>in natura</i> podem sofrer variação de peso e valor final na pesagem. O total acima é uma estimativa.
+              </p>
+          `;
+          // Insere o HTML logo DEPOIS do botão
+          btn.insertAdjacentHTML('afterend', avisoHTML);
+      }
+      // ----------------------------------------------------
+
       if (typeof lojaAberta !== 'undefined' && !lojaAberta) {
           btn.classList.add('btn-disabled');
           btn.innerHTML = 'Loja Fechada (Abre às 08:00)';

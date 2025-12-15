@@ -456,7 +456,7 @@ header ul > li > i {
 /* RODAPÉ DO CARRINHO (Inputs e Total) - FIXO EMBAIXO */
 .carrinho-footer-desktop {
   padding: 15px;
-  background-color: #fff;
+  background-color: var(--bg-card);
   border-top: 1px solid #ddd;
   flex-shrink: 0; /* Não deixa esmagar */
   
@@ -1126,6 +1126,7 @@ footer {
 /* =========================================
    SEÇÃO QUEM SOMOS
    ========================================= */
+
 .sobre-container {
     background-color: #fff; /* Fundo branco para quebrar o marrom */
     padding: 40px 20px;
@@ -1222,4 +1223,43 @@ footer {
     font-size: 0.95rem;
     color: #ccc;
     line-height: 1.4;
+}
+
+/* ==========================================================================
+   AJUSTES PARA TELAS GRANDES (DESKTOP)
+   ========================================================================== */
+@media screen and (min-width: 1024px) {
+
+    /* 1. Aumentar o Header */
+    header {
+        height: 180px;       /* Aumentei de 200px para 300px */
+        padding: 20px 40px;  /* Mais espaço nas bordas */
+        gap: 40px;           /* Mais espaço entre logo e busca */
+    }
+
+    /* 2. Aumentar a Imagem (Logo) */
+    header img {
+        height: 150px;       /* Aumentei de 180px para 260px */
+        width: auto;         /* Mantém a proporção correta */
+    }
+
+    /* 3. Aumentar a Área de Busca */
+    .InputBusca {
+        width: 1000px;    /* Busca bem mais larga */
+    }
+
+    /* 4. Aumentar o Campo de Digitação e Texto */
+    .InputBusca input {
+        height: 60px;        /* Input mais alto */
+        font-size: 18px;     /* Letra maior ao digitar */
+        padding-left: 20px;  /* Mais espaço antes do texto */
+        border-radius: 10px; /* Arredondar mais */
+    }
+
+    /* 5. Aumentar e Centralizar o ícone da lupa */
+    .InputBusca i {
+        font-size: 24px;     /* Lupa maior */
+        top: 18px;           /* Ajuste para ficar no meio da nova altura */
+        right: 20px;
+    }
 }

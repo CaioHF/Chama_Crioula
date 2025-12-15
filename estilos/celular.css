@@ -25,7 +25,9 @@
         padding: 10px 15px;
     }
 
-    header img { display: block; }
+    header img { 
+        display: block; 
+    }
 
     header ul {
         display: flex; flex-direction: row; flex-wrap: wrap;
