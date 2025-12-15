@@ -8,59 +8,6 @@ const categoriasKg05 = ['bovino','suino','frango',];
 const categoriasUnidade = ['acompanhamentos'];
 const cortesPadrao = ['Corte Fino','Corte Grosso','Em cubos','Moído','Em tiras', 'Para Grelha', 'Espeto Simples', 'Espeto Duplo'];
 
-// LISTA DE PRODUTOS
-const produtos = [
-  { nome: "Alcatra com Picanha", preco: 49.98, img: "imagens/produtos/alcatra.png", categoria: "bovino", descricao: "Peça nobre selecionada. A união perfeita da maciez da alcatra com a capa de gordura da picanha.", maisVendido: true, especial: true},
-  { nome: "Bife de Chorizo ", preco: 59.98, img: "imagens/produtos/chorizo.png", categoria: "bovino", descricao: "Corte nobre, extremamente suculento e marmorizado.", maisVendido: true},
-  { nome: "Brisket", preco: 59.98, img: "imagens/produtos/brisket.png", categoria: "bovino", descricao: "Corte nobre, extremamente suculento e marmorizado.", maisVendido: true,especial:true,},
-  { nome: "Bife Ancho", preco: 59.98, img: "imagens/produtos/bife_ancho.png", categoria: "bovino", descricao: "Corte nobre, extremamente suculento e marmorizado.", maisVendido: true,especial:true,},
-   { nome: "Coxão Mole", preco: 48.98, img: "imagens/produtos/coxao_mole.png", categoria: "bovino", descricao: "Corte traseiro nobre e macio. Excelente para bifes.", maisVendido: true  },
-   { nome: "Costela Ripa", preco: 34.98, img: "imagens/produtos/costela_ripa.png", categoria: "bovino", descricao: "Corte selecionado com ossos largos e achatados.", maisVendido: true  },
-  { nome: "Costela Janelão", preco: 35.98, img: "imagens/produtos/costela_janela.png", categoria: "bovino", descricao: "Corte tradicional e extremamente saboroso.", maisVendido: true  },
-  { nome: "Fraldinha", preco: 39.98, img: "imagens/produtos/fraldinha.png", categoria: "bovino", descricao: "Peça pequena, fibras longas e muito suculenta.", maisVendido: true  },
-  { nome: "T-Bone", preco: 59.98, img: "imagens/produtos/t-bone.png", categoria: "bovino", descricao: "Corte nobre, extremamente suculento e marmorizado.", maisVendido: true,especial:true,},
-  { nome: "Costela Suína", preco: 29.98, img: "imagens/produtos/costela_suina.png", categoria: "suino", descricao: "Costelinha suína resfriada e com capa de gordura na medida.", maisVendido: true  },
-  { nome: "Coração de Frango Jaguá Bandeja 1kg", preco: 25.98, img: "imagens/produtos/coracao.png", categoria: "frango", descricao: "Coraçãozinho de frango limpo e resfriado." , maisVendido: true  },
-  { nome: "Meio da Asa", preco: 29.98, img: "imagens/produtos/meio_da_asa.png", categoria: "frango", descricao: "A famosa Tulipa. É a parte mais nobre da asa.", maisVendido: true  },
-  { nome: "Assado de Tiras", preco: 59.98, img: "imagens/produtos/assado-tiras.png", categoria: "bovino", descricao: "Corte nobre, extremamente suculento e marmorizado.",especial:true,},
-  { nome: "Acém", preco: 32.90, img: "imagens/produtos/acem.png", categoria: "bovino", descricao: "Carne resfriada e selecionada. Corte dianteiro muito saboroso.",},
-   { nome: "Bacon", preco: 49.98, img: "imagens/produtos/bacon.png", categoria: "suino", descricao: "Corte irresistível, com equilíbrio perfeito entre carne e gordura." },
-  { nome: "Bife de Alcatra", preco: 49.98, img: "imagens/produtos/bife.png", categoria: "bovino", descricao: "Corte resfriado de altíssima maciez e pouca gordura." },
-  { nome: "Bisteca com Mingon", preco: 48.98, img: "imagens/produtos/bisteca_c_file.png", categoria: "bovino", descricao: "Também conhecida como T-Bone. Reúne o sabor do contrafilé e a maciez do filé mignon." },
-  { nome: "Bisteca", preco: 38.98, img: "imagens/produtos/bisteca_s_mignon.png", categoria: "bovino", descricao: "Corte do contrafilé com osso, garantindo muito mais sabor." },
-  { nome: "Bisteca Suína", preco: 23.98, img: "imagens/produtos/bisteca_suina.png", categoria: "suino", descricao: "Oferta especial! Corte suíno resfriado, leve e saboroso." },
-  { nome: "Carne moída 1º", preco: 44.98, img: "imagens/produtos/carne_moida1.png", categoria: "bovino", descricao: "Moída de cortes nobres (Patinho/Coxão Mole)." },
-  { nome: "Carne moída 2º", preco: 32.98, img: "imagens/produtos/carne_moida2.png", categoria: "bovino", descricao: "Moída de cortes dianteiros, com equilíbrio ideal de gordura." },
-  { nome: "Carvão 7kg", preco: 29.98, img: "imagens/produtos/carvao7.png", categoria: "acompanhamentos", descricao: "Carvão vegetal selecionado de eucalipto." },
-  { nome: "Carvão 8kg", preco: 29.98, img: "imagens/produtos/carvao8.png", categoria: "acompanhamentos", descricao: "Carvão vegetal selecionado de eucalipto." },
-  { nome: "Steak Americano", preco: 41.98, img: "imagens/produtos/americano.png", categoria: "bovino", descricao: "Corte especial com osso, retirado do dianteiro ou acém.",especial:true,},
-  { nome: "Prime Rib", preco: 41.98, img: "imagens/produtos/prime-rib.png", categoria: "bovino", descricao: "Corte especial com osso, retirado do dianteiro ou acém.",especial:true,},
-  { nome: "Short Rib", preco: 41.98, img: "imagens/produtos/short-rib.png", categoria: "bovino", descricao: "Corte especial com osso, retirado do dianteiro ou acém.",especial:true,},
-  { nome: "Costela Minga", preco: 30.98, img: "imagens/produtos/costela_minga.png", categoria: "bovino", descricao: "A rainha do sabor! Costela ponta de agulha resfriada." },
-  
-  
-  
- 
-  { nome: "Coxinha da Asa", preco: 22.98, img: "imagens/produtos/coxinha_asa.png", categoria: "frango", descricao: "O famoso Drumet. Parte mais carnuda da asa." },
-  { nome: "Filé Agulha", preco: 31.98, img: "imagens/produtos/file_agulha.png", categoria: "bovino", descricao: "Corte da costela desossada, entremeado de gordura." },
-  
-  { nome: "Frango Inteiro", preco: 14.98, img: "imagens/produtos/frango.png", categoria: "frango", descricao: "Frango resfriado de primeira linha." },
-  { nome: "Linguiça Toscana", preco: 21.98, img: "imagens/produtos/linguica_toscana.png", categoria: "suino", descricao: "Clássica e muito saborosa." },
-  
-  { nome: "Músculo com Osso", preco: 28.98, img: "imagens/produtos/musculo.png", categoria: "bovino", descricao: "Corte magro, muito saboroso e rico em colágeno." },
-  { nome: "Paleta 7", preco: 39.98, img: "imagens/produtos/paleta7.png", categoria: "bovino", descricao: "Também conhecida como Paleta Sete." },
-  { nome: "Paleta Simples", preco: 33.95, img: "imagens/produtos/paleta0.png", categoria: "bovino", descricao: "Corte do braço bovino. Versátil e econômica." },
-  { nome: "Paleta Suíno", preco: 23.98, img: "imagens/produtos/paleta_suina.png", categoria: "suino", descricao: "Corte dianteiro suíno, muito saboroso e úmido." },
-  { nome: "Panceta Suína", preco: 23.98, img: "imagens/produtos/panceta.png", categoria: "suino", descricao: "Barriga suína selecionada com carne e gordura em equilíbrio." },
-  { nome: "Pão de Alho", preco: 12.98, img: "imagens/produtos/pao.png", categoria: "acompanhamentos", descricao: "Tradicional e cremoso." },
-  { nome: "Patinho", preco: 46.98, img: "imagens/produtos/patinho.png", categoria: "bovino", descricao: "Carne nobre do traseiro, totalmente magra." },
-  { nome: "Pernil Suíno", preco: 23.98, img: "imagens/produtos/pernil.png", categoria: "suino", descricao: "Corte traseiro clássico, carne firme." },
-  { nome: "Picanha", preco: 0.00, img: "imagens/produtos/picanha.png", categoria: "bovino", descricao: "A estrela do churrasco!" },
-  { nome: "Ponta de Peito", preco: 30.98, img: "imagens/produtos/ponta_de_peito.png", categoria: "bovino", descricao: "Conhecido como Brisket." },
-  { nome: "Posta Vermelha", preco: 36.95, img: "imagens/produtos/posta_vermelha.png", categoria: "bovino", descricao: "Corte magro e versátil." },
-  { nome: "Traseiro", preco: 39.98, img: "imagens/produtos/traseiro.png", categoria: "bovino", descricao: "Corte robusto do traseiro bovino." },
-];
-
 // ELEMENTOS DOM
 const produtosContainer = document.getElementById('produtos-container');
 const totalGeralEl = document.getElementById('total-geral'); 
@@ -160,7 +107,7 @@ function renderProdutos(filtro = 'todos'){
     }
 
     produtosContainer.innerHTML += `
-      <article class="produto" data-index="${index}" data-desc="${textoDescricao}">
+      <article class="produto" data-index="${index}">
         <div class="thumb" onclick="abrirModalProduto(${index})" style="cursor: pointer;">
             <img loading="lazy" src="${p.img || 'imagens/default.png'}" alt="${p.nome} - Casa de Carnes Chama Crioula em Ouro Verde do Oeste">
         </div>
@@ -692,7 +639,7 @@ function abrirModalProduto(index) {
     
     document.getElementById('detalhe-img').src = p.img || 'imagens/default.png';
     document.getElementById('detalhe-nome').textContent = p.nome;
-    document.getElementById('detalhe-descricao').textContent = p.descricao || "Produto selecionado.";
+    document.getElementById('detalhe-descricao').innerHTML = p.descricao || "Produto selecionado.";
     document.getElementById('detalhe-preco').textContent = `R$ ${p.preco.toFixed(2)}`;
     
     const isUnit = categoriasUnidade.includes(p.categoria);
