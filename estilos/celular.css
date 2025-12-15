@@ -9,14 +9,11 @@
 
     body {
         background-color: var(--cor-marrom-forte);
-        padding-top: 120px;
         overscroll-behavior-y: none; /* Importante para o JS travar o scroll */
     }
 
     /* 2. CABEÇALHO FIXO */
     header {
-        position: fixed;
-        top: 0; left: 0;
         width: 100%;
         z-index: 999;
         background-color: var(--cor-marrom);
@@ -28,7 +25,7 @@
         padding: 10px 15px;
     }
 
-    header img { display: none; }
+    header img { display: block; }
 
     header ul {
         display: flex; flex-direction: row; flex-wrap: wrap;
@@ -112,6 +109,10 @@
         display: block; width: 100%; padding: 8px 4px; font-size: 0.75rem;
         background: #f8f8f8; border: 1px solid #ccc; border-radius: 6px;
         margin: 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .btn-topo {
+        display: block;
     }
 
     .produto .qtd-box { width: 100%; justify-content: center; gap: 5px; margin: 5px 0; }
