@@ -410,9 +410,15 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     mensagem += `Bairro: ${bairroNome}%0A`; 
     mensagem += `*Pagamento:* ${pagamento}%0A`;
     if(observacao) mensagem += `*Obs:* ${observacao}%0A`;
-    mensagem += `%0A*Total c/ Entrega: R$ ${ totalCalculado.toFixed(2) }%0A`;
+    mensagem += `\n *Total Estimado:* R$ ${totalCarrinho.toFixed(2)}\n\n`;
 
     window.open(`https://wa.me/5545991120288?text=${mensagem}`);
+
+    mensagem += "-----------------------------------\n";
+    mensagem += "⚠️ *OBSERVAÇÃO IMPORTANTE:*\n";
+    mensagem += "As carnes são entregues *in natura* (frescas). ";
+    mensagem += "A pesagem e o valor final estão sujeitos a pequenas alterações na hora do preparo, ";
+    mensagem += "sendo o valor do site meramente estimativo.";
 
     carrinho = []; taxaEntrega = 0; 
     try { localStorage.removeItem('carrinhoSalvo'); } catch(e){}
