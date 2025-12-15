@@ -423,7 +423,7 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     
     carrinho.forEach(item => {
       const unitLabel = categoriasUnidade.includes(item.categoria) ? 'un' : 'KG';
-      mensagem += `${item.nome}`;
+      mensagem += ` ${item.nome}`;
       if(item.corte) mensagem += ` (${item.corte})`;
       mensagem += ` - ${item.qtd} ${unitLabel}\n`;
     });

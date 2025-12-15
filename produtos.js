@@ -58,7 +58,7 @@ const produtos = [
   },
   { 
     nome: "Brisket", 
-    preco: 59.98, 
+    preco: 39.95, 
     img: "imagens/produtos/brisket.png", 
     categoria: "bovino", 
     maisVendido: true,
@@ -232,7 +232,7 @@ const produtos = [
   },
   { 
     nome: "T-Bone", 
-    preco: 59.98, 
+    preco: 48.98, 
     img: "imagens/produtos/t-bone.png", 
     categoria: "bovino", 
     maisVendido: true,
@@ -348,7 +348,7 @@ const produtos = [
   },
   { 
     nome: "Assado de Tiras", 
-    preco: 59.98, 
+    preco: 59.95, 
     img: "imagens/produtos/assado-tiras.png", 
     categoria: "bovino", 
     especial: true,
@@ -376,7 +376,7 @@ const produtos = [
   },
   { 
     nome: "Acém", 
-    preco: 32.90, 
+    preco: 29.90, 
     img: "imagens/produtos/acem.png", 
     categoria: "bovino", 
     descricao: `
@@ -405,7 +405,7 @@ const produtos = [
   },
    { 
     nome: "Bacon", 
-    preco: 49.98, 
+    preco: 69.98, 
     img: "imagens/produtos/bacon.png", 
     categoria: "suino", 
     descricao: `
@@ -603,8 +603,29 @@ const produtos = [
     `
   },
   { 
+    nome: "Carvão 4kg", 
+    preco: 29.95, 
+    img: "imagens/produtos/carvao4.png", 
+    categoria: "acompanhamentos", 
+    descricao: `
+      Carvão vegetal selecionado, ideal para churrascos e grelhados, garantindo queima uniforme, boa formação de brasa e alta durabilidade durante o uso.<br><br>
+      Proporciona calor constante, facilitando o preparo das carnes e garantindo melhor controle do fogo.
+    `
+  },
+  { 
+    nome: "Carvão 5kg", 
+    preco: 36.95, 
+    img: "imagens/produtos/carvao7.png", 
+    categoria: "acompanhamentos", 
+    descricao: `
+      Carvão vegetal selecionado, ideal para churrascos e grelhados, garantindo queima uniforme, boa formação de brasa e alta durabilidade durante o uso.<br><br>
+      Proporciona calor constante, facilitando o preparo das carnes e garantindo melhor controle do fogo.
+    `
+  },
+  
+  { 
     nome: "Carvão 7kg", 
-    preco: 29.98, 
+    preco: 49.95, 
     img: "imagens/produtos/carvao7.png", 
     categoria: "acompanhamentos", 
     descricao: `
@@ -614,7 +635,7 @@ const produtos = [
   },
   { 
     nome: "Carvão 8kg", 
-    preco: 29.98, 
+    preco: 54.95, 
     img: "imagens/produtos/carvao8.png", 
     categoria: "acompanhamentos", 
     descricao: `
@@ -653,7 +674,7 @@ const produtos = [
   },
   { 
     nome: "Prime Rib", 
-    preco: 41.98, 
+    preco: 0.00, 
     img: "imagens/produtos/prime-rib.png", 
     categoria: "bovino", 
     especial: true,
@@ -681,7 +702,7 @@ const produtos = [
   },
   { 
     nome: "Short Rib", 
-    preco: 41.98, 
+    preco: 0.00, 
     img: "imagens/produtos/short-rib.png", 
     categoria: "bovino", 
     especial: true,
