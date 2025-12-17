@@ -363,30 +363,31 @@ if(bairroDesk) bairroDesk.addEventListener('change', atualizarTaxa);
 if(bairroMobile) bairroMobile.addEventListener('change', atualizarTaxa);
 
 // =========================================
-// 7. ENVIO WHATSAPP (Finalizar)
+// 7. ENVIO WHATSAPP (Finalizar) - CORRIGIDO
 // =========================================
-function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idObs) {
+function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idObs, idData, idHora) {
     let minimo = (typeof VALOR_MINIMO_PEDIDO !== 'undefined') ? VALOR_MINIMO_PEDIDO : 0;
     
-
+    // Calcula totais
     let totalCalculado = 0;
     carrinho.forEach(item => { totalCalculado += item.preco * item.qtd; });
 
     const elBairro = document.getElementById(idBairroSelect);
     let taxaNoMomento = elBairro && elBairro.value ? parseFloat(elBairro.value) || 0 : 0;
-    
- 
     let totalFinal = totalCalculado + taxaNoMomento;
 
     if (totalFinal < minimo) {
-        alert(`Mínimo R$ ${minimo.toFixed(2)}.`);
+        alert(`O pedido mínimo é R$ ${minimo.toFixed(2)}.`);
         return; 
     }
 
+    // Pega os elementos do formulário
     const ruaEl = document.getElementById(idRua);
     const numeroEl = document.getElementById(idNumero);
     const pagamentoEl = document.getElementById(idPagamento);
     const obsEl = document.getElementById(idObs);
+    const dataEl = document.getElementById(idData); // NOVO
+    const horaEl = document.getElementById(idHora); // NOVO
 
     const rua = ruaEl ? formatarTexto(ruaEl.value.trim()) : '';
     const numero = numeroEl ? numeroEl.value.trim() : '';
@@ -394,12 +395,13 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     const observacao = obsEl ? obsEl.value.trim() : '';
     let bairroNome = elBairro && elBairro.options ? elBairro.options[elBairro.selectedIndex].text : '';
 
-
+    // Validações
     if(!rua || !numero){ alert('Preencha o endereço.'); return; }
     if(elBairro && elBairro.value === "") { alert('Selecione o Bairro.'); return; }
-    if(!pagamento){ alert('Selecione o pagamento.'); return; }
-    if(carrinho.length === 0){ alert('Carrinho vazio!'); return; }
+    if(!pagamento){ alert('Selecione a forma de pagamento.'); return; }
+    if(carrinho.length === 0){ alert('Seu carrinho está vazio!'); return; }
 
+    // Monta a mensagem
     let mensagem = '*Pedido Chama Crioula*\n\n';
     
     carrinho.forEach(item => {
@@ -409,26 +411,33 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
       mensagem += ` - ${item.qtd} ${unitLabel}\n`;
     });
 
-    mensagem += `\n*Endereço:* ${rua}, nº ${numero}\n`;
+    mensagem += `\n📍 *Endereço:* ${rua}, nº ${numero}\n`;
     mensagem += `*Bairro:* ${bairroNome}\n`; 
+    
+    // --- LÓGICA DE AGENDAMENTO (NOVO) ---
+    if (dataEl && dataEl.value && horaEl && horaEl.value) {
+        // Formata a data de 2025-12-25 para 25/12/2025
+        const dataFormatada = dataEl.value.split('-').reverse().join('/');
+        mensagem += `📅 *AGENDAMENTO:* ${dataFormatada} às ${horaEl.value}\n`;
+    } else {
+        mensagem += `🚀 *ENTREGA:* Imediata (O mais rápido possível)\n`;
+    }
+    // ------------------------------------
+
     mensagem += `*Pagamento:* ${pagamento}\n`;
     
     if(observacao) {
-        mensagem += `*Obs do cliente:* ${observacao}\n`;
+        mensagem += `*Obs:* ${observacao}\n`;
     }
 
-    mensagem += `\n *Total Estimado:* R$ ${totalFinal.toFixed(2)}\n`;
-
-  
+    mensagem += `\n💰 *Total Estimado:* R$ ${totalFinal.toFixed(2)}\n`;
     mensagem += "\n-----------------------------------\n";
-    mensagem += "*OBSERVAÇÃO IMPORTANTE:*\n";
-    mensagem += "Nossas carnes são entregues *in natura* (frescas). ";
-    mensagem += "A pesagem e o valor final estão sujeitos a pequenas alterações na hora do preparo, ";
-    mensagem += "sendo o valor do site meramente estimativo.";
+    mensagem += "*OBS:* Produtos pesáveis podem ter pequena variação de valor final.";
  
+    // Abre o WhatsApp
     window.open(`https://wa.me/5545991120288?text=${encodeURIComponent(mensagem)}`, '_blank');
 
-   
+    // Limpa tudo após enviar
     carrinho = []; 
     taxaEntrega = 0; 
     try { localStorage.removeItem('carrinhoSalvo'); } catch(e){}
@@ -436,34 +445,33 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     
     if(ruaEl) ruaEl.value = ''; 
     if(numeroEl) numeroEl.value = '';
-    if(bairroDesk) bairroDesk.selectedIndex = 0; 
-    if(bairroMobile) bairroMobile.selectedIndex = 0;
     if(pagamentoEl) pagamentoEl.value = ''; 
     if(obsEl) obsEl.value = '';
+    
+    // Limpa o Agendamento
+    if(dataEl) dataEl.value = '';
+    if(horaEl) {
+        horaEl.innerHTML = '<option value="">Selecione uma data primeiro</option>';
+        horaEl.disabled = true;
+    }
 }
 
+// --- BOTÕES DE FINALIZAR (Atualizados com os novos IDs) ---
 
+// Botão Desktop
 const btnFinalizar = document.getElementById('btn-finalizar');
 if(btnFinalizar) {
     btnFinalizar.addEventListener('click', () => {
-        enviarPedidoWhatsApp('rua-desk', 'numero-desk', 'bairro-desk', 'pagamento-desk', 'obs-desk');
+        enviarPedidoWhatsApp('rua-desk', 'numero-desk', 'bairro-desk', 'pagamento-desk', 'obs-desk', 'data-entrega-desk', 'horario-entrega-desk');
     });
 }
+
+// Botão Mobile
 const btnFinalizarMobile = document.getElementById('sidebarFinalizar');
 if(btnFinalizarMobile) {
     btnFinalizarMobile.addEventListener('click', () => {
-        enviarPedidoWhatsApp('rua', 'numero', 'bairro', 'pagamento', 'obs');
+        enviarPedidoWhatsApp('rua', 'numero', 'bairro', 'pagamento', 'obs', 'data-entrega-mobile', 'horario-entrega-mobile');
     });
-}
-
-const dataValor = document.getElementById('data-entrega').value;
-const horarioValor = document.getElementById('horario-entrega').value;
-let textoAgendamento = "";
-
-if (dataValor && horarioValor) {
-    // Formata a data para dia/mês/ano
-    const dataFormatada = dataValor.split('-').reverse().join('/');
-    textoAgendamento = `*Agendado para:* ${dataFormatada} às ${horarioValor}`;
 }
 // =========================================
 // 8. MODAIS
@@ -778,45 +786,56 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 setInterval(verificarStatusLoja, 60000);
 
-// LISTAS DE HORÁRIOS
-const horariosSemana = [
-    "17:00", "17:30", "18:00", "18:30", "19:00"
-];
+// =========================================
+// LÓGICA DO CALENDÁRIO (Desktop e Mobile)
+// =========================================
 
-const horariosDomingo = [
-    "07:00", "07:30", "08:00", "08:30", "09:00", 
-    "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"
-];
+// Listas de horários
+const horariosSemana = ["17:00", "17:30", "18:00", "18:30", "19:00"];
+const horariosDomingo = ["07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"];
 
-const dataInput = document.getElementById('data-entrega');
-const horarioSelect = document.getElementById('horario-entrega');
+// Função que configura um par de Data + Horário
+function ativarCalendario(idData, idHorario) {
+    const inputData = document.getElementById(idData);
+    const selectHorario = document.getElementById(idHorario);
 
-dataInput.addEventListener('change', function() {
-    if (!this.value) {
-        horarioSelect.innerHTML = '<option value="">Selecione uma data primeiro</option>';
-        horarioSelect.disabled = true;
-        return;
-    }
+    if (!inputData || !selectHorario) return; // Se não achar, ignora
 
-    const dataSelecionada = new Date(this.value);
-    
-    const diaDaSemana = dataSelecionada.getUTCDay(); 
+    inputData.addEventListener('change', function() {
+        // 1. Se a pessoa limpou a data, bloqueia o horário
+        if (!this.value) {
+            selectHorario.innerHTML = '<option value="">Selecione uma data primeiro</option>';
+            selectHorario.disabled = true;
+            return;
+        }
 
-    horarioSelect.innerHTML = '<option value="">Escolha o horário...</option>';
-    horarioSelect.disabled = false;
+        // 2. Descobre o dia da semana (Sem erro de fuso horário)
+        const partes = this.value.split('-'); 
+        const ano = parseInt(partes[0]);
+        const mes = parseInt(partes[1]) - 1; 
+        const dia = parseInt(partes[2]);
+        const dataObj = new Date(ano, mes, dia);
+        const diaSemana = dataObj.getDay(); // 0 = Domingo
 
-    let listaParaUsar = [];
+        // 3. Define qual lista usar
+        let lista = (diaSemana === 0) ? horariosDomingo : horariosSemana;
 
-    if (diaDaSemana === 0) {
-        listaParaUsar = horariosDomingo;
-    } else {
-        listaParaUsar = horariosSemana;
-    }
+        // 4. Preenche o Select
+        selectHorario.innerHTML = '<option value="">Escolha o horário...</option>';
+        lista.forEach(h => {
+            const opt = document.createElement('option');
+            opt.value = h;
+            opt.textContent = h;
+            selectHorario.appendChild(opt);
+        });
 
-    listaParaUsar.forEach(horario => {
-        const option = document.createElement('option');
-        option.value = horario;
-        option.textContent = horario;
-        horarioSelect.appendChild(option);
+        // 5. Destrava
+        selectHorario.disabled = false;
     });
+}
+
+// Ativa para o Desktop e para o Mobile
+document.addEventListener('DOMContentLoaded', () => {
+    ativarCalendario('data-entrega-desk', 'horario-entrega-desk');
+    ativarCalendario('data-entrega-mobile', 'horario-entrega-mobile');
 });
