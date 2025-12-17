@@ -102,7 +102,7 @@ div.banner-slide h2 {
         font-family: 'Open Sans', sans-serif;
     }
 
-      .input-group-agendamento {
+    .input-group-agendamento {
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 8px;
@@ -114,6 +114,7 @@ div.banner-slide h2 {
     color: #2b2320;
     display: block;
     margin-bottom: 5px;
+    
 }
 
 .agendamento-flex {
