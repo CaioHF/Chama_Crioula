@@ -411,27 +411,25 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
       mensagem += ` - ${item.qtd} ${unitLabel}\n`;
     });
 
-    mensagem += `\n📍 *Endereço:* ${rua}, nº ${numero}\n`;
+    mensagem += `\n*Endereço:* ${rua}, nº ${numero}\n`;
     mensagem += `*Bairro:* ${bairroNome}\n`; 
     
     // --- LÓGICA DE AGENDAMENTO (NOVO) ---
     if (dataEl && dataEl.value && horaEl && horaEl.value) {
         // Formata a data de 2025-12-25 para 25/12/2025
         const dataFormatada = dataEl.value.split('-').reverse().join('/');
-        mensagem += `📅 *AGENDAMENTO:* ${dataFormatada} às ${horaEl.value}\n`;
-    } else {
-        mensagem += `🚀 *ENTREGA:* Imediata (O mais rápido possível)\n`;
+        mensagem += `\n*AGENDAMENTO:* ${dataFormatada} às ${horaEl.value}\n`;
     }
     // ------------------------------------
 
-    mensagem += `*Pagamento:* ${pagamento}\n`;
+    mensagem += `\n*Pagamento:* ${pagamento}\n`;
     
     if(observacao) {
-        mensagem += `*Obs:* ${observacao}\n`;
+        mensagem += `\n*Obs:* ${observacao}\n`;
     }
 
-    mensagem += `\n💰 *Total Estimado:* R$ ${totalFinal.toFixed(2)}\n`;
-    mensagem += "\n-----------------------------------\n";
+    mensagem += `\n*Total Estimado:* R$ ${totalFinal.toFixed(2)}\n`;
+    mensagem += "\n--------------------------------------------\n";
     mensagem += "*OBS:* Produtos pesáveis podem ter pequena variação de valor final.";
  
     // Abre o WhatsApp
