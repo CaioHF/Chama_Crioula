@@ -3,6 +3,7 @@
 // ==========================================================================
 const VALOR_MINIMO_PEDIDO = 100.00;
 const categoriasComCorte = ['bovino','suino'];
+const nomesSemCorte = ['linguiça'];
 const categoriasKg05 = ['bovino','suino','frango',];
 const categoriasUnidade = ['acompanhamentos'];
 const cortesPadrao = ['Corte Fino','Corte Grosso','Em cubos','Moído','Em tiras', 'Para Grelha', 'Espeto Simples', 'Espeto Duplo'];
@@ -83,10 +84,15 @@ function renderProdutos(filtro = 'todos'){
 
   lista.forEach((p) => {
     const index = produtos.indexOf(p);
-    const isCorte = categoriasComCorte.includes(p.categoria);
+    let isCorte = categoriasComCorte.includes(p.categoria);
+    const ehExcecao = nomesSemCorte.some(nomeProibido => p.nome.toLowerCase().includes(nomeProibido));
+    if (ehExcecao) {
+        isCorte = false;
+    }
     const isUnidade = categoriasUnidade.includes(p.categoria);
     const defaultQty = isUnidade ? 1 : 1.0;
     const textoDescricao = p.descricao || "Corte especial selecionado.";
+
 
     let htmlPreco;
     if(p.precoOriginal && p.precoOriginal > p.preco) {
@@ -686,9 +692,9 @@ function abrirModalProduto(index) {
     const boxCortes = document.getElementById('detalhe-cortes-container');
     const listaCortes = document.getElementById('lista-cortes-detalhe');
     listaCortes.innerHTML = ''; 
+    const ehExcecao = nomesSemCorte.some(nomeProibido => p.nome.toLowerCase().includes(nomeProibido));
 
-    if (categoriasComCorte.includes(p.categoria)) {
-        boxCortes.classList.remove('hidden');
+    if (categoriasComCorte.includes(p.categoria) && !ehExcecao) {
         cortesPadrao.forEach((corte, i) => {
             const label = document.createElement('label');
             label.className = `radio-corte-label ${i === 0 ? 'selecionado' : ''}`;
