@@ -3,7 +3,7 @@
 // ==========================================================================
 const VALOR_MINIMO_PEDIDO = 100.00;
 const categoriasComCorte = ['bovino','suino'];
-const nomesSemCorte = ['linguiça'];
+const nomesSemCorte = ['linguiça', 'carne moída'];
 const categoriasKg05 = ['bovino','suino','frango',];
 const categoriasUnidade = ['acompanhamentos'];
 const cortesPadrao = ['Corte Fino','Corte Grosso','Em cubos','Moído','Em tiras', 'Para Grelha', 'Espeto Simples', 'Espeto Duplo'];
