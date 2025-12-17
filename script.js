@@ -203,12 +203,13 @@ function atualizarCarrinho(){
           btn.insertAdjacentHTML('afterend', avisoHTML);
       }
 
+
       if (typeof lojaAberta !== 'undefined' && !lojaAberta) {
-          btn.classList.add('btn-disabled');
-          btn.innerHTML = 'Loja Fechada (Abre às 08:00)';
-          return;
+          btn.classList.remove('btn-disabled'); 
+          btn.innerHTML = 'Agendar Pedido (Loja Fechada) <i class="fa-brands fa-whatsapp"></i>';
       }
-      if (carrinho.length === 0) {
+      
+      else if (carrinho.length === 0) {
           btn.classList.remove('btn-disabled'); 
           btn.innerHTML = 'Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>';
           return;
@@ -387,13 +388,12 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
         return; 
     }
 
-    // Pega os elementos do formulário
     const ruaEl = document.getElementById(idRua);
     const numeroEl = document.getElementById(idNumero);
     const pagamentoEl = document.getElementById(idPagamento);
     const obsEl = document.getElementById(idObs);
-    const dataEl = document.getElementById(idData); // NOVO
-    const horaEl = document.getElementById(idHora); // NOVO
+    const dataEl = document.getElementById(idData); 
+    const horaEl = document.getElementById(idHora); 
 
     const rua = ruaEl ? formatarTexto(ruaEl.value.trim()) : '';
     const numero = numeroEl ? numeroEl.value.trim() : '';
@@ -401,7 +401,14 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     const observacao = obsEl ? obsEl.value.trim() : '';
     let bairroNome = elBairro && elBairro.options ? elBairro.options[elBairro.selectedIndex].text : '';
 
-    // Validações
+    if (typeof lojaAberta !== 'undefined' && !lojaAberta) {
+        if (!dataEl.value || !horaEl.value) {
+            alert("A loja está fechada no momento!\n\nPara finalizar o pedido, por favor selecione uma DATA e HORÁRIO de entrega no calendário para agendar o pedido.");
+            
+            dataEl.focus();
+            return;
+        }
+    }
     if(!rua || !numero){ alert('Preencha o endereço.'); return; }
     if(elBairro && elBairro.value === "") { alert('Selecione o Bairro.'); return; }
     if(!pagamento){ alert('Selecione a forma de pagamento.'); return; }
