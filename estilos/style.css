@@ -84,7 +84,7 @@ header ul > li > i {
 div.banner-slide h2 {
         color: var(--cor-vermelha);
         font-family: 'Oswald', sans-serif;
-        text-transform: uppercase; /* Fica show em maiúsculo */
+        text-transform: uppercase;
         font-size: 4em;
     }
 
@@ -960,21 +960,6 @@ footer {
     justify-content: center;
     text-align: center;
     position: relative;
-}
-
-.banner-texto h2 {
-    color: #E6E1C7;
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
-    margin-bottom: 5px;
-}
-
-.banner-texto p {
-    color: #fff;
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
 }
 
 /* =========================================
