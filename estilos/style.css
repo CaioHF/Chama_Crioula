@@ -14,7 +14,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial;
 }
 
 html {
@@ -80,6 +80,29 @@ header ul > li > i {
 .btn-horarios {
   cursor: pointer;
 }
+
+div.banner-slide h2 {
+        color: var(--cor-vermelha);
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase; /* Fica show em maiúsculo */
+        font-size: 4em;
+    }
+
+    div.banner-slide p {
+        color: white;
+        font-size: 2em;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+
+    div.banner-slide ul li {
+      list-style: none;
+        color: white;
+        font-size: 2em;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+
 
 /* =========================================
    STATUS DA LOJA (ABERTO/FECHADO)

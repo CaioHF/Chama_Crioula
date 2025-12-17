@@ -750,7 +750,7 @@ function verificarStatusLoja() {
 
     let estaAberto = false;
   
-    if (diaSemana !== 0 && (hora >= 8 && hora < 19)) { estaAberto = true; }
+    if (diaSemana !== 0 && (hora >= 8 && hora < 17)) { estaAberto = true; }
     
     lojaAberta = estaAberto; 
     if (estaAberto) {
