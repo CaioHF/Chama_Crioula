@@ -130,7 +130,7 @@ header ul > li > i {
 .InputBusca {
   position: relative;
   flex: 1;
-  max-width: 520px;
+  max-width: 400px;
 }
 
 .InputBusca input {
