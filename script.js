@@ -455,6 +455,18 @@ if(btnFinalizarMobile) {
         enviarPedidoWhatsApp('rua', 'numero', 'bairro', 'pagamento', 'obs');
     });
 }
+
+const dataValor = document.getElementById('data-entrega').value;
+const horarioValor = document.getElementById('horario-entrega').value;
+let textoAgendamento = "";
+
+if (dataValor && horarioValor) {
+    // Formata a data para dia/mês/ano
+    const dataFormatada = dataValor.split('-').reverse().join('/');
+    textoAgendamento = `📅 *Agendado para:* ${dataFormatada} às ${horarioValor}`;
+} else {
+    textoAgendamento = "🚀 *Entrega:* O mais rápido possível";
+}
 // =========================================
 // 8. MODAIS
 // =========================================
@@ -767,3 +779,45 @@ document.addEventListener('DOMContentLoaded', () => {
     verificarStatusLoja();
 });
 setInterval(verificarStatusLoja, 60000);
+
+// LISTAS DE HORÁRIOS (Você pode editar aqui fácil)
+const horariosSemana = [
+    "17:00", "17:30", "18:00", "18:30", "19:00"
+];
+
+const horariosDomingo = [
+    "07:00", "07:30", "08:00", "08:30", "09:00", 
+    "09:30", "10:00", "10:30", "11:00", "11:30", "12:00"
+];
+
+const dataInput = document.getElementById('data-entrega');
+const horarioSelect = document.getElementById('horario-entrega');
+
+dataInput.addEventListener('change', function() {
+    const dataSelecionada = new Date(this.value);
+    
+    // O JavaScript pode pegar o fuso horário errado e achar que é dia anterior
+    // Esse truque garante que pegamos o dia da semana correto (0 = Domingo, 1 = Segunda...)
+    const diaDaSemana = dataSelecionada.getUTCDay(); 
+
+    // Limpa as opções atuais
+    horarioSelect.innerHTML = '<option value="">Escolha o horário...</option>';
+    horarioSelect.disabled = false;
+
+    let listaParaUsar = [];
+
+    // LÓGICA: Se for Domingo (0), usa a lista de domingo. Senão, usa a da semana.
+    if (diaDaSemana === 0) {
+        listaParaUsar = horariosDomingo;
+    } else {
+        listaParaUsar = horariosSemana;
+    }
+
+    // Cria as opções no HTML
+    listaParaUsar.forEach(horario => {
+        const option = document.createElement('option');
+        option.value = horario;
+        option.textContent = horario;
+        horarioSelect.appendChild(option);
+    });
+});

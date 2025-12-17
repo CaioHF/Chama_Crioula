@@ -202,6 +202,22 @@
             <textarea id="obs-desk" class="input-obs" placeholder="Ex: Bife bem fino..."></textarea>
         </div>
 
+         <div class="input-group-agendamento">
+            <label for="data-entrega" style="font:bold;">Deseja agendar a entrega?</label>
+            <div class="input-group-agendamento">
+            <label>Data da Entrega:</label>
+            <input type="date" id="data-entrega" class="input-agendamento">
+        </div>
+
+    <div class="input-group-agendamento">
+        <label>Horário:</label>
+        <select id="horario-entrega" class="input-agendamento" disabled>
+            <option value="">Selecione uma data primeiro</option>
+        </select>
+    </div>
+            <small>Se não escolher, enviaremos no dia em que o pedido for feito</small>
+        </div>
+
         <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
         <button id="btn-finalizar">Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i></button>
     </div>
@@ -289,6 +305,23 @@
             <h3 style="margin-bottom: 8px; font-size: 1rem;">Observações:</h3>
             <textarea id="obs" class="input-obs" placeholder="Ex: Bife bem fino, separar em pacotes de 1kg..."></textarea>
         </div>
+
+        <div class="input-group-agendamento">
+            <label for="data-entrega" style="font:bold;">Deseja agendar a entrega?</label>
+            <div class="input-group-agendamento">
+            <label>Data da Entrega:</label>
+            <input type="date" id="data-entrega" class="input-agendamento">
+        </div>
+
+    <div class="input-group-agendamento">
+        <label>Horário:</label>
+        <select id="horario-entrega" class="input-agendamento" disabled>
+            <option value="">Selecione uma data primeiro</option>
+        </select>
+    </div>
+            <small>Se não escolher, enviaremos no dia em que o pedido for feito</small>
+        </div>
+
 
         <div class="cart-total" style="margin-top:10px; font-weight:bold;">
             Total: R$ <span id="cartTotal">0,00</span>
