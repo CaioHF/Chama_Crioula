@@ -30,6 +30,11 @@
     
     <link rel="stylesheet" href="estilos/style.css">
     <link rel="stylesheet" href="estilos/celular.css" media="(max-width: 732px)">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8B0000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#8B0000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     
     <script src="https://kit.fontawesome.com/a13ae5a66e.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
@@ -203,7 +208,7 @@
         </div>
 
         <div class="input-group-agendamento">
-            <label>Deseja agendar a Entrega:</label>
+            <label>Deseja agendar a Entrega?</label>
             <input type="date" id="data-entrega-desk" class="input-agendamento">
 
             <label>Horário:</label>
@@ -211,7 +216,7 @@
                 <option value="">Escolha o horário...</option>
             </select>
 
-            <small>Se não escolher, enviaremos no dia em que o pedido for feito</small>
+            <small>Enviaremos no dia em que o pedido for feito em caso de não agendamento.</small>
         </div>
 
         <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
@@ -311,7 +316,7 @@
                  <option value="">Selecione uma data primeiro</option>
             </select>
         
-            <small>Se não escolher, enviaremos no dia em que o pedido for feito</small>
+            <small>Enviaremos no dia em que o pedido for feito em caso de não agendamento.</small>
         </div>
 
 
@@ -462,5 +467,15 @@
 
 <script src="script.js"></script>
 <script src="produtos.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('App pronto para instalar!', reg.scope))
+        .catch(err => console.log('Falha ao registrar App:', err));
+    });
+  }
+</script>
 </body>
 </html>
