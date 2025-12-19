@@ -16,7 +16,35 @@
   padding: 0;
   font-family: Arial;
 }
+/*
+.btn-instalar-hidden {
+    display: none; 
+}
 
+.btn-instalar-show {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    bottom: 20px; 
+    left: 20px;   
+    z-index: 1000;
+    background-color: var(--cor-vermelha); 
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    transition: transform 0.2s;
+}
+
+.btn-instalar-show:active {
+    transform: scale(0.95);
+}
+*/
 html {
     scroll-behavior: smooth;
 }
@@ -335,7 +363,6 @@ div.banner-slide h2 {
   font-size: 1.1rem;
 }
 
-/* Preços */
 .produto .preco {
   font-weight: bold;
   color: #222;
@@ -353,7 +380,6 @@ div.banner-slide h2 {
     font-weight: bold;
     font-size: 1.1rem;
 }
-
 
 .cortes {
   display: flex;

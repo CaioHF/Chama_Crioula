@@ -785,7 +785,7 @@ function verificarStatusLoja() {
     if (estaAberto) {
         if(statusContainer) { statusContainer.classList.remove('status-fechado'); statusContainer.classList.add('status-aberto'); statusTexto.textContent = "Aberto agora"; }
     } else {
-        if(statusContainer) { statusContainer.classList.remove('status-aberto'); statusContainer.classList.add('status-fechado'); statusTexto.textContent = "Fechado agora"; }
+        if(statusContainer) { statusContainer.classList.remove('status-aberto'); statusContainer.classList.add('status-fechado'); statusTexto.textContent = "Fechado agora, Agende seu pedido"; }
     }
     atualizarCarrinho();
 }
@@ -850,3 +850,54 @@ document.addEventListener('DOMContentLoaded', () => {
     ativarCalendario('data-entrega-desk', 'horario-entrega-desk');
     ativarCalendario('data-entrega-mobile', 'horario-entrega-mobile');
 });
+
+/*
+// =========================================
+// LÓGICA DO BOTÃO "INSTALAR APP" (PWA)
+// =========================================
+let deferredPrompt; // Variável para guardar o evento
+const btnInstalar = document.getElementById('btn-instalar-app');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // 1. Impede o Chrome de mostrar a barra automática chata na hora errada
+  e.preventDefault();
+  
+  // 2. Guarda o evento para usar depois quando o cliente clicar no botão
+  deferredPrompt = e;
+  
+  // 3. Mostra o nosso botão bonitão
+  if(btnInstalar) {
+      btnInstalar.classList.remove('btn-instalar-hidden');
+      btnInstalar.classList.add('btn-instalar-show');
+  }
+});
+
+if(btnInstalar) {
+    btnInstalar.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            // 4. Dispara o prompt de instalação do navegador
+            deferredPrompt.prompt();
+            
+            // 5. Espera o usuário aceitar ou recusar
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Usuário escolheu: ${outcome}`);
+            
+            // 6. Limpa a variável (só pode usar uma vez)
+            deferredPrompt = null;
+            
+            // 7. Esconde o botão (já instalou ou recusou)
+            btnInstalar.classList.remove('btn-instalar-show');
+            btnInstalar.classList.add('btn-instalar-hidden');
+        }
+    });
+}
+
+// Se o App já estiver instalado, esconde o botão
+window.addEventListener('appinstalled', () => {
+    console.log('App instalado com sucesso!');
+    if(btnInstalar) {
+        btnInstalar.classList.remove('btn-instalar-show');
+        btnInstalar.classList.add('btn-instalar-hidden');
+    }
+});
+*/

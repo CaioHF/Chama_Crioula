@@ -113,18 +113,32 @@
     }
 
     .produto {
-        width: 100%; margin: 0; padding: 10px 5px;
-        display: flex; flex-direction: column;
-        align-items: center; text-align: center; justify-content: space-between;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.06); border-radius: 10px;
+        width: 100%;
+        margin: 0;
+        padding: 8px 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        justify-content: space-between;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+        border-radius: 10px;
     }
 
     .produto .thumb {
-        width: 100%; aspect-ratio: 1 / 1; height: auto;
-        margin: 5px auto 10px auto;
-        display: flex; align-items: center; justify-content: center;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        height: auto;
+        margin: 5px auto 5px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .produto .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .produto .thumb img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
 
     .produto h3 {
         font-size: 1.1rem; height: 38px;
@@ -165,7 +179,7 @@
         display: flex !important;
         flex-direction: column; 
         
-        background: #fff;
+        background: #f4f1d9;
         z-index: 99999;
         transition: right 0.3s ease;
         box-shadow: -5px 0 15px rgba(0,0,0,0.5);
@@ -177,7 +191,7 @@
     .sidebar-header {
         flex-shrink: 0; 
         padding: 15px;
-        background: #f4f4f4;
+        background: #f4f1d9;
         border-bottom: 1px solid #ddd;
         display: flex; justify-content: space-between; align-items: center;
     }

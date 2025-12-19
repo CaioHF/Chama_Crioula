@@ -1,9 +1,9 @@
 {
-  "name": "Casa de Carnes Chama Crioula",
+  "name": "Chama Crioula",
   "short_name": "Chama Crioula",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f4f1d9",
+  "background_color": "#2A2829",
   "theme_color": "#8B0000",
   "description": "Peça as melhores carnes nobres sem sair de casa.",
   "orientation": "portrait",
@@ -18,5 +18,15 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ]
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Falar no WhatsApp",
+      "short_name": "WhatsApp",
+      "description": "Conversar com o açougue",
+      "url": "https://wa.me/5545991120288",
+      "icons": [{ "src": "imagens/icon-192.png", "sizes": "192x192" }]
+    }
+  ] 
 }
