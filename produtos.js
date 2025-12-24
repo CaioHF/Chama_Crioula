@@ -31,7 +31,7 @@ const produtos = [
   },
   { 
     nome: "Bife de Chorizo",
-    preco: 59.98,
+    preco: 69.98,
     img: "imagens/produtos/chorizo.png",
     categoria: "bovino",
     maisVendido: true,
@@ -88,7 +88,7 @@ const produtos = [
   },
   { 
     nome: "Bife Ancho", 
-    preco: 59.98, 
+    preco: 69.98, 
     img: "imagens/produtos/bife_ancho.png", 
     categoria: "bovino", 
     maisVendido: true,
@@ -319,7 +319,7 @@ const produtos = [
   },
   { 
     nome: "Meio da Asa", 
-    preco: 29.98, 
+    preco: 36.98, 
     img: "imagens/produtos/meio_da_asa.png", 
     categoria: "frango", 
     maisVendido: true,
