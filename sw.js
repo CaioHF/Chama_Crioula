@@ -1,5 +1,5 @@
 // Service Worker Básico para PWA
-const CACHE_NAME = 'chama-crioula-v1'; //Mudar aqui a v1 sempre que atualizar o código
+const CACHE_NAME = 'chama-crioula-v2'; //Mudar aqui a v1 sempre que atualizar o código
 const urlsToCache = [
   './',
   './index.html',

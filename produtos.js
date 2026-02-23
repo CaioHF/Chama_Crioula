@@ -615,7 +615,7 @@ const produtos = [
   { 
     nome: "Carvão 5kg", 
     preco: 36.95, 
-    img: "imagens/produtos/carvao7.png", 
+    img: "imagens/produtos/carvao5.png", 
     categoria: "acompanhamentos", 
     descricao: `
       Carvão vegetal selecionado, ideal para churrascos e grelhados, garantindo queima uniforme, boa formação de brasa e alta durabilidade durante o uso.<br><br>
