@@ -4,7 +4,8 @@
 html {
     width: 100%;
     overflow-y: auto;
-    height: auto;           /* ← importante */
+    height: auto;  
+    height: auto !important;         /* ← importante */
 }
 
 body {
@@ -12,6 +13,7 @@ body {
     padding: 0;
     min-height: 100vh;      /* ← ajuda em alguns casos */
     overflow-y: auto !important;
+    height: auto !important;
     overflow-x: hidden;
     background: var(--cor-marrom-forte);
 }
@@ -110,7 +112,7 @@ body {
 
 
 
-    .container { display: flex; flex-direction: column; padding: 10px; width: 100%; min-height: 100vh;  }
+    .container { display: flex; flex-direction: column; padding: 10px; width: 100%;}
     .lista-produtos {
         display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px; width: 100%;
