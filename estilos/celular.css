@@ -3,6 +3,7 @@
    /* 1. TRAVA DE SEGURANÇA GERAL */
 html {
     width: 100%;
+    overflow-y: auto; /* Adicionado para garantir rolagem vertical */
 }
 
 body {
@@ -15,6 +16,8 @@ body {
     
     /* Garanta que o overflow-x seja hidden apenas no body se necessário, 
        mas deixe o vertical (y) livre */
+    overflow-y: auto !important; /* Adicionado para forçar rolagem vertical */
+    overflow-x: hidden; /* Evita rolagem horizontal desnecessária */
 }
 
     /* 2. CABEÇALHO FIXO */
