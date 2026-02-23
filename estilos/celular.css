@@ -2,7 +2,6 @@
     
    /* 1. TRAVA DE SEGURANÇA GERAL */
 html {
-    overflow-x: hidden;
     width: 100%;
 }
 
@@ -16,8 +15,6 @@ body {
     
     /* Garanta que o overflow-x seja hidden apenas no body se necessário, 
        mas deixe o vertical (y) livre */
-    overflow-x: hidden;
-    overflow-y: auto; 
 }
 
     /* 2. CABEÇALHO FIXO */
