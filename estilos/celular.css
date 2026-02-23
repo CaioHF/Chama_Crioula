@@ -1,16 +1,24 @@
 @media (max-width: 732px) {
     
-    /* 1. TRAVA DE SEGURANÇA GERAL */
-    html, body {
-        overflow-x: hidden;
-        width: 100%;
-        margin: 0; padding: 0;
-    }
+   /* 1. TRAVA DE SEGURANÇA GERAL */
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
 
-    body {
-        background-color: var(--cor-marrom-forte);
-        overscroll-behavior-y: none; 
-    }
+body {
+    background-color: var(--cor-marrom-forte);
+    width: 100%;
+    margin: 0; 
+    padding: 0;
+    /* REMOVA OU COMENTE A LINHA ABAIXO */
+    /* overscroll-behavior-y: none; */ 
+    
+    /* Garanta que o overflow-x seja hidden apenas no body se necessário, 
+       mas deixe o vertical (y) livre */
+    overflow-x: hidden;
+    overflow-y: auto; 
+}
 
     /* 2. CABEÇALHO FIXO */
     header {
