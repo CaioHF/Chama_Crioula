@@ -3,21 +3,17 @@
    /* 1. TRAVA DE SEGURANÇA GERAL */
 html {
     width: 100%;
-    overflow-y: auto; /* Adicionado para garantir rolagem vertical */
+    overflow-y: auto;
+    height: auto;           /* ← importante */
 }
 
 body {
-    background-color: var(--cor-marrom-forte);
-    width: 100%;
-    margin: 0; 
+    margin: 0;
     padding: 0;
-    /* REMOVA OU COMENTE A LINHA ABAIXO */
-    /* overscroll-behavior-y: none; */ 
-    
-    /* Garanta que o overflow-x seja hidden apenas no body se necessário, 
-       mas deixe o vertical (y) livre */
-    overflow-y: auto !important; /* Adicionado para forçar rolagem vertical */
-    overflow-x: hidden; /* Evita rolagem horizontal desnecessária */
+    min-height: 100vh;      /* ← ajuda em alguns casos */
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    background: var(--cor-marrom-forte);
 }
 
     /* 2. CABEÇALHO FIXO */
@@ -114,7 +110,7 @@ body {
 
 
 
-    .container { display: flex; flex-direction: column; padding: 10px; width: 100%; }
+    .container { display: flex; flex-direction: column; padding: 10px; width: 100%; min-height: 100vh;  }
     .lista-produtos {
         display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px; width: 100%;
