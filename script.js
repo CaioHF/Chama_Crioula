@@ -552,13 +552,11 @@ if(btnCartMobile && sidebar){
   btnCartMobile.addEventListener("click", (e) => { 
       e.stopPropagation(); 
       sidebar.classList.add("show"); 
-      document.body.style.overflow = 'hidden'; // TRAVA O SITE ATRÁS
   });
 }
 
 function fecharCarrinho() {
     if(sidebar) sidebar.classList.remove("show");
-    document.body.style.overflow = ''; // DESTRAVA O SITE
 }
 
 if(btnFecharX) btnFecharX.addEventListener("click", fecharCarrinho);
