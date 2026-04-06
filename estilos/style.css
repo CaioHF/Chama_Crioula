@@ -1115,7 +1115,12 @@ footer {
 }
 
 #detalhe-nome { font-size: 1.5rem; color: var(--cor-marrom-forte); margin: 0; }
-#detalhe-descricao { color: #666; font-size: 0.95rem; line-height: 1.5; }
+#detalhe-descricao { 
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+ }
 .detalhe-preco-box { font-size: 1.4rem; color: var(--cor-vermelha); font-weight: bold; }
 
 
