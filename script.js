@@ -790,7 +790,8 @@ function verificarStatusLoja() {
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarDadosFormulario(); 
-    renderProdutos();          
+    //renderProdutos();//
+    carregarCarnes();
     verificarStatusLoja();
 });
 setInterval(verificarStatusLoja, 60000);

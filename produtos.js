@@ -1,5 +1,5 @@
 // LISTA DE PRODUTOS
-const produtos = [
+/*const produtos = [
   { 
     nome: "Alcatra com Picanha", 
     preco: 49.98, 
@@ -1217,3 +1217,5 @@ const produtos = [
     `
   },
 ];
+
+*/
