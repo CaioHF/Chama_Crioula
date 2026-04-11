@@ -53,13 +53,128 @@ const deleteProductName = document.getElementById('delete-product-name');
 const toast = document.getElementById('toast');
 const menuItems = document.querySelectorAll('.menu-item');
 
+const prodImgInput = document.getElementById('prod-img');
+const previewContainer = document.getElementById('preview-container');
+const imagePreview = document.getElementById('image-preview');
+
 // ============================================================
 // INICIALIZAÇÃO
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     verificarSessao();
+    configurarUploadImagem();
 });
+
+// ============================================================
+// CONFIGURAR UPLOAD DE IMAGEM
+// ============================================================
+
+function configurarUploadImagem() {
+    prodImgInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        
+        if (file) {
+            // Validar tipo de arquivo
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor, selecione um arquivo de imagem válido');
+                prodImgInput.value = '';
+                previewContainer.style.display = 'none';
+                return;
+            }
+
+            // Validar tamanho (máximo 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('A imagem não pode ser maior que 5MB');
+                prodImgInput.value = '';
+                previewContainer.style.display = 'none';
+                return;
+            }
+
+            // Mostrar preview
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                imagePreview.src = evt.target.result;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.style.display = 'none';
+            imagePreview.src = '';
+        }
+    });
+}
+
+// ============================================================
+// UPLOAD DE IMAGEM PARA SUPABASE STORAGE
+// ============================================================
+
+async function uploadImagem(file) {
+    try {
+        // Gerar nome único para o arquivo
+        const timestamp = Date.now();
+        const randomString = Math.random().toString(36).substring(2, 8);
+        const nomeArquivo = `${timestamp}-${randomString}-${file.name}`;
+        
+        // Fazer upload para o bucket 'produtos'
+        const { data, error } = await supabase.storage
+            .from('produtos')
+            .upload(nomeArquivo, file, {
+                cacheControl: '3600',
+                upsert: false
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        // Obter URL pública do arquivo
+        const { data: publicUrlData } = supabase.storage
+            .from('produtos')
+            .getPublicUrl(nomeArquivo);
+
+        return publicUrlData.publicUrl;
+    } catch (erro) {
+        console.error('Erro ao fazer upload da imagem:', erro);
+        throw new Error('Erro ao fazer upload da imagem. Verifique sua conexão e tente novamente.');
+    }
+}
+
+// ============================================================
+// REMOVER IMAGEM DO SUPABASE STORAGE
+// ============================================================
+
+async function removerImagemDoStorage(imageUrl) {
+    if (!imageUrl) return;
+
+    try {
+        // Extrair o caminho do arquivo a partir da URL
+        // URL formato: https://bhwvkggnjgbrxjqgjayr.supabase.co/storage/v1/object/public/produtos/NOME_DO_ARQUIVO
+        const urlParts = imageUrl.split('/storage/v1/object/public/produtos/');
+        if (urlParts.length < 2) {
+            console.warn('Não foi possível extrair o caminho da imagem:', imageUrl);
+            return;
+        }
+
+        const caminhoArquivo = urlParts[1];
+        
+        // Remover arquivo do bucket 'produtos'
+        const { error } = await supabase.storage
+            .from('produtos')
+            .remove([caminhoArquivo]);
+
+        if (error) {
+            console.error('Erro ao remover imagem do storage:', error);
+            // Não lançar erro, apenas registrar no console
+            return;
+        }
+
+        console.log('Imagem removida com sucesso:', caminhoArquivo);
+    } catch (erro) {
+        console.error('Erro ao processar remoção de imagem:', erro);
+        // Não lançar erro para não interromper o fluxo principal
+    }
+}
 
 // ============================================================
 // AUTENTICAÇÃO
@@ -275,24 +390,44 @@ productForm.addEventListener('submit', async (e) => {
     formError.textContent = '';
     formError.classList.remove('show');
 
+    const imageFile = prodImgInput.files[0];
+
+    // Validações básicas
     const produtoData = {
         nome: document.getElementById('prod-nome').value.trim(),
         preco: parseFloat(document.getElementById('prod-preco').value),
         categoria: document.getElementById('prod-categoria').value,
-        img: document.getElementById('prod-img').value.trim(),
         mais_vendidos: document.getElementById('prod-mais-vendido').checked,
         cortes_especiais: document.getElementById('prod-especial').checked,
         descricao: document.getElementById('prod-descricao').value.trim(),
         ativo: document.getElementById('prod-ativo').checked
     };
 
-    if (!produtoData.nome || !produtoData.preco || !produtoData.categoria || !produtoData.img) {
+    if (!produtoData.nome || !produtoData.preco || !produtoData.categoria) {
         formError.textContent = 'Preencha todos os campos obrigatórios (*)';
         formError.classList.add('show');
         return;
     }
 
+    if (!produtoEmEdicao && !imageFile) {
+        formError.textContent = 'Selecione uma imagem para o novo produto';
+        formError.classList.add('show');
+        return;
+    }
+
     try {
+        // Se houver novo arquivo, fazer upload
+        if (imageFile) {
+            const imgUrl = await uploadImagem(imageFile);
+            
+            // Se estamos editando e havia uma imagem antiga, remover após upload bem-sucedido
+            if (produtoEmEdicao && produtoEmEdicao.img) {
+                await removerImagemDoStorage(produtoEmEdicao.img);
+            }
+            
+            produtoData.img = imgUrl;
+        }
+
         let result;
 
         if (produtoEmEdicao) {
@@ -324,15 +459,18 @@ productForm.addEventListener('submit', async (e) => {
         mudarSecao('produtos');
     } catch (erro) {
         console.error('Erro ao salvar produto:', erro);
-        formError.textContent = 'Erro ao salvar o produto. Tente novamente.';
+        formError.textContent = erro.message || 'Erro ao salvar o produto. Tente novamente.';
         formError.classList.add('show');
-        showToast('Erro ao salvar produto', 'error');
+        showToast(erro.message || 'Erro ao salvar produto', 'error');
     }
 });
 
 function limparFormulario() {
     productForm.reset();
     document.getElementById('prod-ativo').checked = true;
+    prodImgInput.value = '';
+    previewContainer.style.display = 'none';
+    imagePreview.src = '';
     formTitle.textContent = 'Novo Produto';
     btnSubmitText.textContent = 'Criar Produto';
 }
@@ -353,11 +491,15 @@ async function editarProduto(id) {
         document.getElementById('prod-nome').value = data.nome;
         document.getElementById('prod-preco').value = data.preco;
         document.getElementById('prod-categoria').value = data.categoria;
-        document.getElementById('prod-img').value = data.img;
         document.getElementById('prod-mais-vendido').checked = data.mais_vendidos || false;
         document.getElementById('prod-especial').checked = data.cortes_especiais || false;
         document.getElementById('prod-descricao').value = data.descricao || '';
         document.getElementById('prod-ativo').checked = true;
+
+        // Limpar input de arquivo e mostrar preview da imagem atual
+        prodImgInput.value = '';
+        previewContainer.style.display = 'block';
+        imagePreview.src = data.img || 'imagens/Favicon.png';
 
         formTitle.textContent = 'Editar Produto';
         btnSubmitText.textContent = 'Atualizar Produto';
@@ -385,6 +527,23 @@ btnConfirmDelete.addEventListener('click', async () => {
     if (!produtoParaDeletar) return;
 
     try {
+        // Primeiro, obter dados do produto para acessar a imagem
+        const { data: produtoData, error: erroFetch } = await supabase
+            .from('carnes')
+            .select('img')
+            .eq('id', produtoParaDeletar)
+            .single();
+
+        if (erroFetch) {
+            throw erroFetch;
+        }
+
+        // Remover imagem do storage (se existir)
+        if (produtoData && produtoData.img) {
+            await removerImagemDoStorage(produtoData.img);
+        }
+
+        // Deletar produto do banco de dados
         const { error } = await supabase
             .from('carnes')
             .delete()

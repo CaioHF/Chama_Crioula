@@ -36,6 +36,12 @@
                     <div id="login-error" class="error-message"></div>
                 </form>
 
+                <div class="login-footer-actions">
+                    <a href="index.html" class="btn-admin btn-secondary" style="display: inline-block; text-decoration: none; text-align: center; margin-top: 15px; width: 100%; box-sizing: border-box;">
+                        <i class="fas fa-arrow-left"></i> Voltar para o site
+                    </a>
+                </div>
+
                 <p class="login-footer">© 2024 Chama Crioula. Todos os direitos reservados.</p>
             </div>
         </div>
@@ -139,8 +145,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="prod-img">URL da Imagem *</label>
-                                <input type="text" id="prod-img" placeholder="https://..." required>
+                                <label for="prod-img">Imagem do Produto *</label>
+                                <input type="file" id="prod-img" accept="image/*" required>
+                                <small style="color: #666; margin-top: 5px; display: block;">Selecione uma imagem do seu computador</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width" id="preview-container" style="display: none;">
+                                <label>Preview da Imagem</label>
+                                <img id="image-preview" src="" alt="Preview" style="max-width: 200px; max-height: 200px; object-fit: contain; border: 1px solid #ddd; padding: 8px; border-radius: 4px;">
                             </div>
                         </div>
 
