@@ -22,10 +22,40 @@ let carrinho = [];
 let taxaEntrega = 0;
 let lojaAberta = false; 
 
-if (localStorage.getItem('carrinhoSalvo')) {
-  try { carrinho = JSON.parse(localStorage.getItem('carrinhoSalvo')) || []; }
-  catch(e){ carrinho = []; }
+// Função segura para ler do localStorage
+function lerDoLocalStorage(chave, padrao = null) {
+  try {
+    const valor = localStorage.getItem(chave);
+    if (valor === null) return padrao;
+    if (typeof padrao === 'object') {
+      return JSON.parse(valor);
+    }
+    return valor;
+  } catch(e) {
+    console.warn(`Erro ao ler localStorage[${chave}]:`, e);
+    return padrao;
+  }
 }
+
+// Função segura para salvar no localStorage
+function salvarNoLocalStorage(chave, valor) {
+  try {
+    if (typeof valor === 'object') {
+      localStorage.setItem(chave, JSON.stringify(valor));
+    } else {
+      localStorage.setItem(chave, String(valor));
+    }
+    // Dispara evento customizado para outras abas
+    window.dispatchEvent(new CustomEvent('storageAtualizado', {
+      detail: { chave, valor }
+    }));
+  } catch(e) {
+    console.warn(`Erro ao salvar localStorage[${chave}]:`, e);
+  }
+}
+
+// Carrega carrinho na inicialização
+carrinho = lerDoLocalStorage('carrinhoSalvo', []);
 
 function fmtMoney(v){ return Number(v).toFixed(2); }
 function formatarTexto(texto) {
@@ -232,7 +262,7 @@ function atualizarCarrinho(){
       cartCountEl.style.display = qtdItens > 0 ? 'flex' : 'none';
   }
 
-  try { localStorage.setItem('carrinhoSalvo', JSON.stringify(carrinho)); } catch(e){}
+  try { salvarNoLocalStorage('carrinhoSalvo', carrinho); } catch(e){}
 }
 
 // ==========================================================================
@@ -451,7 +481,7 @@ function enviarPedidoWhatsApp(idRua, idNumero, idBairroSelect, idPagamento, idOb
     // Limpa tudo após enviar
     carrinho = []; 
     taxaEntrega = 0; 
-    try { localStorage.removeItem('carrinhoSalvo'); } catch(e){}
+    try { salvarNoLocalStorage('carrinhoSalvo', []); } catch(e){}
     atualizarCarrinho();
     
     if(ruaEl) ruaEl.value = ''; 
@@ -596,13 +626,12 @@ function salvarDadosFormulario() {
         else if(elDesk && elDesk.value) valor = elDesk.value;
         dados[campo.chave] = valor;
     });
-    localStorage.setItem('dadosClienteChamaCrioula', JSON.stringify(dados));
+    salvarNoLocalStorage('dadosClienteChamaCrioula', dados);
 }
 
 function carregarDadosFormulario() {
-    const dadosSalvos = localStorage.getItem('dadosClienteChamaCrioula');
-    if(!dadosSalvos) return;
-    const dados = JSON.parse(dadosSalvos);
+    const dados = lerDoLocalStorage('dadosClienteChamaCrioula');
+    if(!dados) return;
     camposParaSalvar.forEach(campo => {
         const elMobile = document.getElementById(campo.idMobile);
         const elDesk = document.getElementById(campo.idDesk);
@@ -787,6 +816,65 @@ function verificarStatusLoja() {
     }
     atualizarCarrinho();
 }
+
+// =========================================
+// SINCRONIZAÇÃO ENTRE ABAS E JANELAS
+// =========================================
+// Listener para sincronizar quando outra aba muda o localStorage
+window.addEventListener('storage', (event) => {
+    if (event.key === 'carrinhoSalvo') {
+        try {
+            carrinho = event.newValue ? JSON.parse(event.newValue) : [];
+            atualizarCarrinho();
+            console.log('Carrinho sincronizado de outra aba/janela');
+        } catch(e) {
+            console.warn('Erro ao sincronizar carrinho:', e);
+        }
+    }
+    else if (event.key === 'dadosClienteChamaCrioula') {
+        try {
+            carregarDadosFormulario();
+            console.log('Dados do cliente sincronizados de outra aba/janela');
+        } catch(e) {
+            console.warn('Erro ao sincronizar dados:', e);
+        }
+    }
+});
+
+// Listener para recarregar dados quando a janela ganha foco (útil para sincronização em mobile)
+window.addEventListener('focus', () => {
+    carregarDadosFormulario();
+    atualizarCarrinho();
+    console.log('Dados recarregados ao ganhar foco');
+});
+
+// Listener customizado para quando os dados são salvos localmente
+window.addEventListener('storageAtualizado', (event) => {
+    console.log('Storage atualizado:', event.detail.chave, event.detail.valor);
+});
+
+// SINCRONIZAÇÃO FORÇADA (especialmente importante para mobile)
+// Recarrega dados do localStorage a cada 3 segundos quando a aba está visível
+if (!document.hidden) {
+    setInterval(() => {
+        const carrinhoAtualizado = lerDoLocalStorage('carrinhoSalvo', []);
+        if (JSON.stringify(carrinhoAtualizado) !== JSON.stringify(carrinho)) {
+            carrinho = carrinhoAtualizado;
+            atualizarCarrinho();
+        }
+    }, 3000);
+}
+
+// Também verifica quando o documento deixa de estar oculto
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        // Aba voltou a ser visível, sincroniza agora
+        carrinho = lerDoLocalStorage('carrinhoSalvo', []);
+        carregarDadosFormulario();
+        atualizarCarrinho();
+        console.log('Aba visível novamente, dados sincronizados');
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarDadosFormulario(); 
