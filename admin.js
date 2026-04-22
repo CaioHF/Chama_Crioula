@@ -415,7 +415,7 @@ productForm.addEventListener("submit", async (e) => {
     ativo: document.getElementById("prod-ativo").checked,
   };
 
-  if (!produtoData.nome || !produtoData.preco || !produtoData.categoria) {
+  if (!produtoData.nome || isNaN(produtoData.preco) || !produtoData.categoria) {
     formError.textContent = "Preencha todos os campos obrigatórios (*)";
     formError.classList.add("show");
     return;
