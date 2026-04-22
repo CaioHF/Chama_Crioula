@@ -481,35 +481,40 @@
 
 <script>
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('App pronto para instalar!', reg.scope))
-        .catch(err => console.log('Falha ao registrar App:', err));
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for(let registration of registrations) {
+        registration.unregister();
+        console.log('Service Worker antigo removido!');
+      }
     });
 }
+
 const SUPABASE_URL = "https://bhwvkggnjgbrxjqgjayr.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJod3ZrZ2duamdicnhqcWdqYXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NDQzNTEsImV4cCI6MjA5MTAyMDM1MX0.3PEMI58ER8G_Yre9cVglSogd2lJEiiQFVcKaBJ_ULI0";
 
 async function carregarCarnes() {
+  // Voltamos para a URL original, sem o parâmetro 't'
   const res = await fetch(`${SUPABASE_URL}/rest/v1/carnes`, {
+    method: 'GET',
     headers: {
       "apikey": SUPABASE_KEY,
       "Authorization": "Bearer " + SUPABASE_KEY
-    }
+    },
+    cache: 'no-store' // A mágica contra o cache de celular fica só aqui!
   });
 
   const data = await res.json();
 
   produtos = data.map(item => ({
-  id: item.id,
-  nome: item.nome,
-  preco: Number(item.preco),
-  categoria: item.categoria,
-  img: item.img || 'imagens/default.png',
-  descricao: item.descricao || '',
-  maisVendido: item.mais_vendidos || false,
-  especial: item.cortes_especiais || false
-}));
+    id: item.id,
+    nome: item.nome,
+    preco: Number(item.preco),
+    categoria: item.categoria,
+    img: item.img || 'imagens/default.png',
+    descricao: item.descricao || '',
+    maisVendido: item.mais_vendidos || false,
+    especial: item.cortes_especiais || false
+  }));
 
   renderProdutos();
 }
