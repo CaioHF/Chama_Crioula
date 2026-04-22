@@ -421,12 +421,6 @@ productForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  if (!produtoEmEdicao && !imageFile) {
-    formError.textContent = "Selecione uma imagem para o novo produto";
-    formError.classList.add("show");
-    return;
-  }
-
   try {
     // Se houver novo arquivo, fazer upload
     if (imageFile) {
