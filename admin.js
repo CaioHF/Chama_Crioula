@@ -35,14 +35,15 @@ const userEmail = document.getElementById("user-email");
 
 const secaoProdutos = document.getElementById("produtos-section");
 const secaoNovoProduto = document.getElementById("novo-produto-section");
-const produtosTbody = document.getElementById("produtos-tbody");
-const produtosCardsMobile = document.getElementById("produtos-cards-mobile");
+const iosProductList = document.getElementById("ios-product-list");
 const formTitle = document.getElementById("form-title");
 const btnSubmitText = document.getElementById("btn-submit-text");
 
 const productForm = document.getElementById("product-form");
 const btnVoltarProdutos = document.getElementById("btn-voltar-produtos");
 const btnNovoProduto = document.getElementById("btn-novo-produto");
+const btnDeletarNoForm = document.getElementById("btn-deletar-no-form");
+const btnCancelarForm = document.getElementById("btn-cancelar-form");
 
 const filtroCategoria = document.getElementById("filtro-categoria");
 const filtroBusca = document.getElementById("filtro-busca");
@@ -70,6 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   inicializarTema();
   verificarSessao();
   configurarUploadImagem();
+  configurarEventosFormulario();
 });
 
 // ============================================================
@@ -100,7 +102,7 @@ function inicializarTema() {
 }
 
 // ============================================================
-// CONFIGURAR UPLOAD DE IMAGEM
+// CONFIGURAR UPLOAD DE IMAGEM & BOTÕES DO FORM
 // ============================================================
 
 function configurarUploadImagem() {
@@ -135,6 +137,23 @@ function configurarUploadImagem() {
       imagePreview.src = "";
     }
   });
+}
+
+function configurarEventosFormulario() {
+  if (btnDeletarNoForm) {
+    btnDeletarNoForm.addEventListener("click", () => {
+      if (produtoEmEdicao) {
+        abrirConfirmacaoDeletar(produtoEmEdicao.id, produtoEmEdicao.nome);
+      }
+    });
+  }
+
+  if (btnCancelarForm) {
+    btnCancelarForm.addEventListener("click", () => {
+      mudarSecao("produtos");
+      produtoEmEdicao = null;
+    });
+  }
 }
 
 // ============================================================
@@ -318,20 +337,10 @@ function mudarSecao(nomeDaSecao) {
 // ============================================================
 
 async function carregarProdutos() {
-  if (produtosTbody) {
-    produtosTbody.innerHTML = `
-      <tr class="loading-row">
-        <td colspan="6">
-          <div class="table-loader">
-            <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos do Supabase...
-          </div>
-        </td>
-      </tr>`;
-  }
-  if (produtosCardsMobile) {
-    produtosCardsMobile.innerHTML = `
+  if (iosProductList) {
+    iosProductList.innerHTML = `
       <div class="table-loader">
-        <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos...
+        <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos do Supabase...
       </div>`;
   }
 
@@ -348,11 +357,8 @@ async function carregarProdutos() {
     renderizarProdutos(todasOsStatus);
   } catch (erro) {
     console.error("Erro ao carregar produtos:", erro);
-    if (produtosTbody) {
-      produtosTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: #ff5252;">Erro ao carregar produtos do banco.</td></tr>';
-    }
-    if (produtosCardsMobile) {
-      produtosCardsMobile.innerHTML = '<div style="text-align:center; color: #ff5252; padding: 20px;">Erro ao carregar produtos.</div>';
+    if (iosProductList) {
+      iosProductList.innerHTML = '<div style="text-align:center; color: #ff5252; padding: 30px;">Erro ao carregar produtos do banco.</div>';
     }
     showToast("Erro ao carregar produtos", "error");
   }
@@ -361,105 +367,44 @@ async function carregarProdutos() {
 function atualizarEstatisticas(produtos) {
   const elTotal = document.getElementById("stat-total");
   const elAtivos = document.getElementById("stat-ativos");
-  const elMaisVendidos = document.getElementById("stat-mais-vendidos");
-  const elEspeciais = document.getElementById("stat-especiais");
 
   if (elTotal) elTotal.textContent = produtos.length;
   if (elAtivos) elAtivos.textContent = produtos.filter((p) => p.ativo !== false).length;
-  if (elMaisVendidos) elMaisVendidos.textContent = produtos.filter((p) => p.mais_vendidos).length;
-  if (elEspeciais) elEspeciais.textContent = produtos.filter((p) => p.cortes_especiais).length;
 }
 
 // ============================================================
-// RENDERIZAR PRODUTOS (TABELA & CARDS MOBILE)
+// RENDERIZAR PRODUTOS (ESTILO CLEAN iOS LIST)
 // ============================================================
 
 function renderizarProdutos(produtos) {
+  if (!iosProductList) return;
+
   if (produtos.length === 0) {
-    const vazioMsg = '<tr><td colspan="6" style="text-align:center; color: var(--txt-muted); padding: 30px;">Nenhum produto encontrado.</td></tr>';
-    if (produtosTbody) produtosTbody.innerHTML = vazioMsg;
-    if (produtosCardsMobile) produtosCardsMobile.innerHTML = '<div style="text-align:center; color: var(--txt-muted); padding: 30px;">Nenhum produto encontrado.</div>';
+    iosProductList.innerHTML = '<div style="text-align:center; color: var(--txt-muted); padding: 40px; font-size: 0.9rem;">Nenhum produto encontrado.</div>';
     return;
   }
 
-  // Renderizar Tabela Desktop
-  if (produtosTbody) {
-    produtosTbody.innerHTML = produtos
-      .map((produto) => {
-        const precoFmt = parseFloat(produto.preco || 0).toFixed(2);
-        const eAtivo = produto.ativo !== false;
-        return `
-          <tr>
-            <td>
-              <img src="${produto.img || "imagens/Favicon.png"}" alt="${produto.nome}" class="product-img" />
-            </td>
-            <td>
-              <strong>${produto.nome}</strong>
-              ${produto.mais_vendidos ? '<span class="badge badge-red" style="margin-left: 6px;">🔥 Mais Vendido</span>' : ''}
-              ${produto.cortes_especiais ? '<span class="badge badge-gold" style="margin-left: 6px;">👑 Especial</span>' : ''}
-            </td>
-            <td><strong style="color: var(--cor-dourada);">R$ ${precoFmt}</strong></td>
-            <td>
-              <span class="badge badge-gold">${formatarCategoria(produto.categoria)}</span>
-            </td>
-            <td>
-              <span class="badge ${eAtivo ? "badge-active" : "badge-inactive"}">
-                <i class="fa-solid ${eAtivo ? "fa-circle-check" : "fa-circle-xmark"}"></i>
-                ${eAtivo ? "Ativo" : "Inativo"}
+  iosProductList.innerHTML = produtos
+    .map((produto) => {
+      const precoFmt = parseFloat(produto.preco || 0).toFixed(2);
+      const eAtivo = produto.ativo !== false;
+      return `
+        <div class="ios-list-item" onclick="editarProduto(${produto.id})">
+          <img src="${produto.img || "imagens/Favicon.png"}" alt="${produto.nome}" class="ios-item-thumb" />
+          <div class="ios-item-details">
+            <span class="ios-item-name">${produto.nome}</span>
+            <span class="ios-item-price">R$ ${precoFmt}</span>
+            <div class="ios-item-status-wrapper">
+              <span class="ios-status-pill ${eAtivo ? "ios-status-active" : "ios-status-inactive"}">
+                ${eAtivo ? "Active" : "Non Active"}
               </span>
-            </td>
-            <td>
-              <div class="table-actions">
-                <button class="btn-admin btn-edit" onclick="editarProduto(${produto.id})">
-                  <i class="fa-solid fa-pen-to-square"></i> Editar
-                </button>
-                <button class="btn-admin btn-delete" onclick="abrirConfirmacaoDeletar(${produto.id}, '${produto.nome.replace(/'/g, "\\'")}')">
-                  <i class="fa-solid fa-trash-can"></i> Deletar
-                </button>
-              </div>
-            </td>
-          </tr>
-        `;
-      })
-      .join("");
-  }
-
-  // Renderizar Cards Mobile
-  if (produtosCardsMobile) {
-    produtosCardsMobile.innerHTML = produtos
-      .map((produto) => {
-        const precoFmt = parseFloat(produto.preco || 0).toFixed(2);
-        const eAtivo = produto.ativo !== false;
-        return `
-          <div class="admin-card-item">
-            <div class="admin-card-header">
-              <img src="${produto.img || "imagens/Favicon.png"}" alt="${produto.nome}" class="admin-card-img" />
-              <div class="admin-card-titles">
-                <span class="admin-card-name">${produto.nome}</span>
-                <span class="admin-card-price">R$ ${precoFmt}</span>
-              </div>
-            </div>
-            <div class="admin-card-badges">
-              <span class="badge badge-gold">${formatarCategoria(produto.categoria)}</span>
-              <span class="badge ${eAtivo ? "badge-active" : "badge-inactive"}">
-                ${eAtivo ? "Ativo" : "Inativo"}
-              </span>
-              ${produto.mais_vendidos ? '<span class="badge badge-red">🔥 Mais Vendido</span>' : ''}
-              ${produto.cortes_especiais ? '<span class="badge badge-gold">👑 Especial</span>' : ''}
-            </div>
-            <div class="admin-card-actions">
-              <button class="btn-admin btn-edit" onclick="editarProduto(${produto.id})">
-                <i class="fa-solid fa-pen-to-square"></i> Editar
-              </button>
-              <button class="btn-admin btn-delete" onclick="abrirConfirmacaoDeletar(${produto.id}, '${produto.nome.replace(/'/g, "\\'")}')">
-                <i class="fa-solid fa-trash-can"></i> Deletar
-              </button>
             </div>
           </div>
-        `;
-      })
-      .join("");
-  }
+          <i class="fa-solid fa-chevron-right ios-item-arrow"></i>
+        </div>
+      `;
+    })
+    .join("");
 }
 
 function formatarCategoria(categoria) {
@@ -581,6 +526,7 @@ function limparFormulario() {
   if (imagePreview) imagePreview.src = "";
   if (formTitle) formTitle.textContent = "Cadastrar Novo Produto";
   if (btnSubmitText) btnSubmitText.textContent = "Criar Produto";
+  if (btnDeletarNoForm) btnDeletarNoForm.style.display = "none";
 }
 
 async function editarProduto(id) {
@@ -607,8 +553,9 @@ async function editarProduto(id) {
     if (previewContainer) previewContainer.style.display = "block";
     if (imagePreview) imagePreview.src = data.img || "imagens/Favicon.png";
 
-    if (formTitle) formTitle.textContent = "Editar Produto";
+    if (formTitle) formTitle.textContent = `Editar Produto: ${data.nome}`;
     if (btnSubmitText) btnSubmitText.textContent = "Atualizar Produto";
+    if (btnDeletarNoForm) btnDeletarNoForm.style.display = "inline-flex";
 
     mudarSecao("novo-produto");
     document.querySelectorAll(".menu-item").forEach((m) => m.classList.remove("active"));
@@ -655,7 +602,10 @@ if (btnConfirmDelete) {
       showToast("Produto deletado com sucesso!", "success");
       if (deleteModal) deleteModal.style.display = "none";
       produtoParaDeletar = null;
+      produtoEmEdicao = null;
+      limparFormulario();
       await carregarProdutos();
+      mudarSecao("produtos");
     } catch (erro) {
       console.error("Erro ao deletar produto:", erro);
       showToast("Erro ao deletar produto", "error");

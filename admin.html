@@ -8,7 +8,6 @@
   <link rel="shortcut icon" href="imagens/Favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="estilos/style.css" />
   <link rel="stylesheet" href="estilos/admin.css" />
-  <link rel="stylesheet" href="estilos/celular.css" media="(max-width: 768px)" />
   <script src="https://kit.fontawesome.com/a13ae5a66e.js" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;700&display=swap"
     rel="stylesheet" />
@@ -115,8 +114,8 @@
       <main class="admin-main">
         <!-- SEÇÃO: LISTA DE PRODUTOS -->
         <section id="produtos-section" class="admin-section active">
-          <!-- CARDS DE ESTATÍSTICAS DO PAINEL -->
-          <div class="stats-grid">
+          <!-- CARDS DE ESTATÍSTICAS DO PAINEL (APENAS TOTAL E ATIVOS) -->
+          <div class="stats-grid stats-grid-two">
             <div class="stat-card">
               <div class="stat-icon bg-gold">
                 <i class="fa-solid fa-cubes"></i>
@@ -136,84 +135,45 @@
                 <strong class="stat-value" id="stat-ativos">0</strong>
               </div>
             </div>
-
-            <div class="stat-card">
-              <div class="stat-icon bg-red">
-                <i class="fa-solid fa-fire"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">Mais Vendidos</span>
-                <strong class="stat-value" id="stat-mais-vendidos">0</strong>
-              </div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-icon bg-amber">
-                <i class="fa-solid fa-crown"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">Cortes Especiais</span>
-                <strong class="stat-value" id="stat-especiais">0</strong>
-              </div>
-            </div>
           </div>
 
           <!-- CABEÇALHO DA SEÇÃO DE PRODUTOS -->
           <div class="section-header">
             <div>
               <h3>Gerenciador de Produtos</h3>
-              <p class="section-desc">Cadastre, edite e organize os produtos exibidos na loja.</p>
+              <p class="section-desc">Toque em qualquer produto para ver detalhes, editar ou excluir.</p>
             </div>
             <button id="btn-novo-produto" class="btn-admin btn-primary">
               <i class="fa-solid fa-plus"></i> Novo Produto
             </button>
           </div>
 
-          <!-- FILTROS E BUSCA -->
+          <!-- FILTROS E BUSCA (ESTILO LOJA CLIENTE) -->
           <div class="products-filters">
             <div class="search-box-admin">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" id="filtro-busca" placeholder="Buscar por nome ou descrição..." class="input-admin" />
+              <input type="text" id="filtro-busca" placeholder="Buscar produto pelo nome..." class="input-admin-pill" />
+              <i class="fa-solid fa-magnifying-glass search-icon-right"></i>
             </div>
             <div class="select-box-admin">
-              <i class="fa-solid fa-filter"></i>
-              <select id="filtro-categoria" class="input-admin">
+              <select id="filtro-categoria" class="select-admin-pill">
                 <option value="">Todas as categorias</option>
                 <option value="bovino">Bovino</option>
                 <option value="suino">Suíno</option>
                 <option value="frango">Frango</option>
                 <option value="acompanhamentos">Acompanhamentos</option>
               </select>
+              <i class="fa-solid fa-chevron-down select-icon-right"></i>
             </div>
           </div>
 
-          <!-- VISUALIZAÇÃO DESKTOP: TABELA DA LOJA -->
-          <div class="table-responsive-wrapper">
-            <table class="table-admin">
-              <thead>
-                <tr>
-                  <th style="width: 70px;">Imagem</th>
-                  <th>Produto</th>
-                  <th>Preço</th>
-                  <th>Categoria</th>
-                  <th>Status</th>
-                  <th style="width: 160px; text-align: right;">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="produtos-tbody">
-                <tr class="loading-row">
-                  <td colspan="6">
-                    <div class="table-loader">
-                      <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos do Supabase...
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- LISTA DE PRODUTOS ESTILO CLEAN (iOS DESIGN) -->
+          <div class="ios-list-container">
+            <div id="ios-product-list" class="ios-product-list">
+              <div class="table-loader">
+                <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos...
+              </div>
+            </div>
           </div>
-
-          <!-- VISUALIZAÇÃO MOBILE: CARDS RESPONSIVOS -->
-          <div id="produtos-cards-mobile" class="admin-cards-mobile"></div>
         </section>
 
         <!-- SEÇÃO: CRIAR/EDITAR PRODUTO -->
@@ -221,7 +181,7 @@
           <div class="section-header">
             <div>
               <h3 id="form-title">Cadastrar Novo Produto</h3>
-              <p class="section-desc">Preencha as informações do produto abaixo.</p>
+              <p class="section-desc">Preencha as informações abaixo e gerencie o produto.</p>
             </div>
             <button class="btn-admin btn-secondary" id="btn-voltar-produtos">
               <i class="fa-solid fa-arrow-left"></i> Voltar à Lista
@@ -310,8 +270,13 @@
               <button type="submit" class="btn-admin btn-primary btn-save">
                 <i class="fa-solid fa-floppy-disk"></i> <span id="btn-submit-text">Salvar Produto</span>
               </button>
-              <button type="reset" class="btn-admin btn-secondary" onclick="window.limparFormulario && window.limparFormulario()">
-                <i class="fa-solid fa-rotate-left"></i> Limpar
+              
+              <button type="button" id="btn-deletar-no-form" class="btn-admin btn-danger" style="display: none;">
+                <i class="fa-solid fa-trash-can"></i> Excluir Produto
+              </button>
+
+              <button type="button" class="btn-admin btn-secondary" id="btn-cancelar-form">
+                <i class="fa-solid fa-xmark"></i> Cancelar
               </button>
             </div>
             <div id="form-error" class="error-message"></div>
@@ -334,7 +299,7 @@
       </p>
       <div class="modal-actions">
         <button id="btn-confirm-delete" class="btn-admin btn-danger">
-          <i class="fa-solid fa-trash-can"></i> Sim, Deletar
+          <i class="fa-solid fa-trash-can"></i> Sim, Excluir
         </button>
         <button id="btn-cancel-delete" class="btn-admin btn-secondary">
           Cancelar
