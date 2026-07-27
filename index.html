@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPYDKR8KTV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-ZPYDKR8KTV');
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Casa de Carnes Chama Crioula - Delivery</title>
+
+    <meta name="description"
+        content="Peça as melhores carnes bovinas, suínas e frangos sem sair de casa. Delivery rápido e qualidade garantida na Chama Crioula.">
+    <meta name="keywords" content="açougue, delivery de carne, churrasco, chama crioula, carnes nobres, entrega">
+    <meta name="author" content="Caio Ferencine">
+    <meta name="google-site-verification" content="IGn6bbSOOK7aMLkUTws1YY9o5f-HeP3GjMTr0IY67F8" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.chamacrioula.com.br/">
+    <meta property="og:title" content="Chama Crioula - Seu churrasco começa aqui!">
+    <meta property="og:description"
+        content="Acesse nosso cardápio digital, veja as ofertas do dia e peça pelo WhatsApp.">
+    <meta property="og:image" content="https://www.chamacrioula.com.br/imagens/metaWhats-Chama-Crioula.png">
+
+    <link rel="shortcut icon" href="imagens/Favicon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="estilos/style.css">
+    <link rel="stylesheet" href="estilos/celular.css" media="(max-width: 768px)">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1A1A1A">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#1A1A1A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <script src="https://kit.fontawesome.com/a13ae5a66e.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ButcherShop",
+  "name": "Casa de Carnes Chama Crioula",
+  "image": "https://www.chamacrioula.com.br/imagens/metaWhats-Chama-Crioula.png",
+  "description": "As melhores carnes nobres, cortes especiais e delivery rápido em Ouro Verde do Oeste.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rua Rio de Janeiro, 334",
+    "addressLocality": "Ouro Verde do Oeste",
+    "addressRegion": "PR",
+    "postalCode": "85933-000",
+    "addressCountry": "BR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -24.766, 
+    "longitude": -53.900 
+  },
+  "url": "https://www.chamacrioula.com.br",
+  "telephone": "+5545991120288",
+  "priceRange": "$$",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "08:00",
+      "closes": "19:00"
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+    <!-- ======================================================
+     TOP BAR — Informações rápidas
+     ====================================================== -->
+    <div class="top-bar">
+        <div class="top-bar-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>(45) 99112-0288</span>
+        </div>
+        <div class="top-bar-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Ouro Verde do Oeste - PR</span>
+        </div>
+        <div class="top-bar-item">
+            <i class="fa-regular fa-clock"></i>
+            <strong>Pedidos:</strong>
+            <span>Seg–Sáb: 09h às 16h</span>
+        </div>
+        <div class="top-bar-item">
+            <i class="fa-solid fa-motorcycle"></i>
+            <strong>Entrega Grátis</strong>
+            <span>dentro da cidade</span>
+        </div>
+    </div>
+
+    <!-- ======================================================
+     HEADER — Nome + Status + Admin
+     ====================================================== -->
+    <header>
+        <div class="header-left">
+            <div class="header-brand-info" id="btn-abrir-sobre" role="button" aria-label="Informações da Loja"
+                tabindex="0">
+                <img src="imagens/Favicon.png" alt="Chama Crioula" class="header-logo-icon">
+                <div class="brand-title-row">
+                    <span class="brand-name">Chama Crioula</span>
+                    <i class="fa-solid fa-chevron-right btn-qs-arrow"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Centro: status da loja -->
+        <div class="header-status">
+            <li id="status-container" class="status-box">
+                <i class="fa-solid fa-circle"></i>
+                <span id="status-texto">Verificando...</span>
+            </li>
+        </div>
+
+        <!-- Lado direito: admin e configurações -->
+        <div class="header-actions">
+            <button id="btn-config" class="btn-admin-icon" title="Configurações" aria-label="Configurações">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <a href="admin.html" class="btn-admin-icon" title="Administrador" aria-label="Área do Administrador">
+                <i class="fa-solid fa-user-shield"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- ======================================================
+     MODAL: QUEM SOMOS (com abas)
+     ====================================================== -->
+    <div id="modal-sobre" class="modal-sobre-overlay">
+        <div class="modal-sobre-content">
+            <button class="btn-fechar-sobre" id="btn-fechar-sobre" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Cabeçalho do modal -->
+            <div class="sobre-modal-header">
+                <div class="sobre-modal-logo">
+                    <img src="imagens/Favicon.png" alt="Chama Crioula" loading="lazy">
+                </div>
+                <div class="sobre-modal-header-info">
+                    <h2 class="sobre-modal-titulo">Chama Crioula</h2>
+                    <p class="sobre-modal-sub">Casa de Carnes · Delivery</p>
+                    <div id="modal-status-loja" class="modal-status-badge">
+                        <i class="fa-solid fa-circle"></i>
+                        <span id="modal-status-texto">Verificando...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Abas de navegação -->
+            <div class="sobre-tabs">
+                <button class="sobre-tab-btn active" data-tab="sobre">Sobre</button>
+                <button class="sobre-tab-btn" data-tab="horarios">Horários</button>
+                <button class="sobre-tab-btn" data-tab="pagamento">Pagamento</button>
+            </div>
+
+            <!-- Aba: Sobre -->
+            <div class="sobre-tab-content active" id="tab-sobre">
+
+                <div class="sobre-secao">
+                    <h4 class="sobre-secao-titulo">Links</h4>
+                    <div class="sobre-links">
+                        <a href="https://www.google.com/maps/search/?api=1&amp;query=Rua+Rio+de+Janeiro+334+Ouro+Verde+do+Oeste"
+                            target="_blank" class="sobre-link-btn sobre-link-loc">
+                            <i class="fa-solid fa-location-dot"></i> Localização
+                        </a>
+                        <a href="https://www.instagram.com/casadecarneschamacrioula/" target="_blank"
+                            class="sobre-link-btn sobre-link-ig">
+                            <i class="fa-brands fa-instagram"></i> Instagram
+                        </a>
+                        <a href="https://wa.me/5545991120288" target="_blank" class="sobre-link-btn sobre-link-wa">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sobre-secao">
+                    <h4 class="sobre-secao-titulo">Descrição</h4>
+                    <p class="sobre-secao-texto">
+                        A <strong>Chama Crioula</strong> é a primeira Casa de Carnes Delivery da região.
+                        Trazemos a experiência da <strong>Família De Carli</strong>, com 33 anos de história
+                        no varejo de alimentos, construídos com respeito e amizade. Nosso propósito é
+                        eliminar o estresse das filas com carnes nobres, inspecionadas e de pecuaristas regionais.
+                    </p>
+                </div>
+
+                <div class="sobre-secao">
+                    <h4 class="sobre-secao-titulo">Endereço</h4>
+                    <p class="sobre-secao-texto">
+                        Rua Rio de Janeiro, 334 &mdash; Ouro Verde do Oeste - PR
+                    </p>
+                </div>
+
+                <div class="sobre-secao">
+                    <h4 class="sobre-secao-titulo">Tempo estimado de entrega</h4>
+                    <p class="sobre-secao-texto">
+                        Entregas realizadas de Seg a Sáb entre 17h e 19h, e aos Domingos de 07h às 12h.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Aba: Horários -->
+            <div class="sobre-tab-content" id="tab-horarios">
+                <div class="sobre-secao">
+                    <h4 class="sobre-secao-titulo">Pedidos</h4>
+                    <div class="horario-lista">
+                        <div class="horario-row">
+                            <span>Segunda a Sábado</span>
+                            <span class="horario-hora">09h às 16h</span>
+                        </div>
+                        <div class="horario-row">
+                            <span>Domingo</span>
+                            <span class="horario-hora">07h às 12h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sobre-secao">
+                    <h4 class="sobre-secao-titulo">Entregas</h4>
+                    <div class="horario-lista">
+                        <div class="horario-row">
+                            <span>Segunda a Sábado</span>
+                            <span class="horario-hora">17h às 19h</span>
+                        </div>
+                        <div class="horario-row">
+                            <span>Domingo</span>
+                            <span class="horario-hora">07h às 12h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sobre-secao sobre-aviso">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p>Produto “In Natura”: a pesagem está sujeita a pequenas variações de acordo com o corte.</p>
+                </div>
+            </div>
+
+            <!-- Aba: Pagamento -->
+            <div class="sobre-tab-content" id="tab-pagamento">
+                <div class="sobre-secao">
+                    <h4 class="sobre-secao-titulo">Formas aceitas na entrega</h4>
+                    <div class="pagamento-lista">
+                        <div class="pagamento-item">
+                            <i class="fa-brands fa-pix"></i>
+                            <span>Pix</span>
+                        </div>
+                        <div class="pagamento-item">
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <span>Mastercard</span>
+                        </div>
+                        <div class="pagamento-item">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <span>Visa</span>
+                        </div>
+                        <div class="pagamento-item">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <span>Dinheiro</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sobre-secao sobre-aviso">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p>Para pagamento em dinheiro, informe o valor nas observações para prepararmos o troco.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ======================================================
+     MODAL: CONFIGURAÇÕES (Modo Noturno)
+     ====================================================== -->
+    <div id="modal-config" class="modal-config-overlay">
+        <div class="modal-config-content">
+            <div class="modal-config-header">
+                <h3><i class="fa-solid fa-gear"></i> Configurações</h3>
+                <button id="btn-fechar-config" class="btn-fechar-modal-config" aria-label="Fechar">&times;</button>
+            </div>
+            <div class="modal-config-body">
+                <div class="config-item">
+                    <div class="config-info">
+                        <i class="fa-solid fa-moon config-icon"></i>
+                        <div>
+                            <strong>Modo Noturno</strong>
+                            <p>Alternar entre tema escuro e claro</p>
+                        </div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle-theme" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================
+     BANNER CARROSSEL (HERO)
+     ====================================================== -->
+    <section class="banner-carousel">
+        <div class="banner-track">
+
+            <div class="banner-slide"
+                style="background-image: linear-gradient(to right, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.2)), url('imagens/banner-costela.jpg');">
+                <div>
+                    <h2><span class="destaque-ouro">Açougue</span> Delivery</h2>
+                    <p>Carnes para o dia a dia e cortes especiais!</p>
+                    <div class="banner-badges">
+                        <span class="banner-badge"><i class="fa-solid fa-medal"></i> 33 Anos</span>
+                        <span class="banner-badge"><i class="fa-solid fa-motorcycle"></i> Entrega Grátis</span>
+                        <span class="banner-badge"><i class="fa-solid fa-check-double"></i> Inspecionado</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="banner-slide"
+                style="background-image: linear-gradient(to right, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.2)), url('imagens/banner-entrega.jpg');">
+                <div>
+                    <h2>Entrega <span class="destaque-ouro">Grátis</span></h2>
+                    <p>Receba no conforto da sua casa sem taxas!</p>
+                    <div class="banner-badges">
+                        <span class="banner-badge"><i class="fa-solid fa-location-dot"></i> Ouro Verde do Oeste</span>
+                        <span class="banner-badge"><i class="fa-solid fa-location-dot"></i> Toledo - PR</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="banner-slide"
+                style="background-image: linear-gradient(to right, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.2)), url('imagens/banner-corte.jpg');">
+                <div>
+                    <h2>Pedidos <span class="destaque-vermelho">Personalizados</span></h2>
+                    <p>Escolha o corte e o peso que você precisa!</p>
+                </div>
+            </div>
+
+            <div class="banner-slide"
+                style="background-image: linear-gradient(to right, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.25)), url('imagens/banner-carne.jpg');">
+                <div>
+                    <h2>Faça sua <span class="destaque-ouro">Reserva</span></h2>
+                    <ul>
+                        <li>Pedidos de Seg–Sáb: 09h às 16h</li>
+                        <li>Entregas de Seg–Sáb: 17h às 19h</li>
+                        <li>Domingos: 07h às 12h</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="banner-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+            <span class="dot" data-index="3"></span>
+        </div>
+    </section>
+
+    <!-- ======================================================
+     FILTROS DE CATEGORIA
+     ====================================================== -->
+    <section class="filtros">
+        <p class="tipos" data-cat="todos"><img src="imagens/quadrado.png" alt="Todos">Todos</p>
+        <p class="tipos" data-cat="mais-vendidos"><img src="imagens/fogo.png" alt="Mais Vendidos">Mais Vendidos</p>
+        <p class="tipos" data-cat="especiais"><img src="imagens/coroa.png" alt="Cortes Especiais">Cortes Especiais</p>
+        <p class="tipos" data-cat="bovino"><img src="imagens/bovino.png" alt="Bovinos">Bovinos</p>
+        <p class="tipos" data-cat="suino"><img src="imagens/suino.png" alt="Suínos">Suínos</p>
+        <p class="tipos" data-cat="frango"><img src="imagens/frango.png" alt="Frangos">Frangos</p>
+        <p class="tipos" data-cat="acompanhamentos"><img src="imagens/carne.png" alt="Acompanhamentos">Acompanhamentos
+        </p>
+    </section>
+
+    <!-- ======================================================
+     BARRA DE BUSCA (abaixo dos filtros)
+     ====================================================== -->
+    <div class="busca-section">
+        <div class="InputBusca busca-principal">
+            <input type="text" id="buscar" placeholder="Buscar produto...">
+            <i id="btn-buscar" class="fa-solid fa-magnifying-glass"></i>
+            <div id="autocomplete" class="autocomplete-box"></div>
+        </div>
+    </div>
+
+    <!-- ======================================================
+     CONTAINER PRINCIPAL — Produtos + Carrinho Desktop
+     ====================================================== -->
+    <div class="container">
+        <main id="produtos-container" class="lista-produtos"></main>
+
+        <aside class="carrinho">
+            <h2>Pedido</h2>
+
+            <div id="lista-carrinho"></div>
+
+            <div class="carrinho-footer-desktop">
+
+                <div class="endereco-box-desktop">
+                    <h3>Endereço de Entrega:</h3>
+                    <select id="bairro-desk" class="input-bairro">
+                        <option value="0.00">Dentro da Cidade - R$ Grátis</option>
+                        <option value="10.00">Interior - R$ 10,00</option>
+                    </select>
+                    <div class="input-group">
+                        <input type="text" id="rua-desk" placeholder="Rua">
+                        <input type="number" id="numero-desk" placeholder="Nº">
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Pagamento:</h3>
+                    <select id="pagamento-desk" class="input-pagamento">
+                        <option value="" disabled selected>Escolha a forma de pagamento...</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                    </select>
+                </div>
+
+                <div class="input-group-agendamento">
+                    <label>Deseja agendar a Entrega?</label>
+                    <input type="date" id="data-entrega-desk" class="input-agendamento">
+
+                    <label>Horário:</label>
+                    <select id="horario-entrega-desk" class="input-agendamento">
+                        <option value="">Escolha o horário...</option>
+                    </select>
+
+                    <small>Enviaremos no dia em que o pedido for feito em caso de não agendamento.</small>
+                </div>
+
+                <p class="total">Total: R$ <span id="total-geral">0,00</span></p>
+                <button id="btn-finalizar">Enviar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i></button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ======================================================
+     TOAST (NOTIFICAÇÃO)
+     ====================================================== -->
+    <div id="toast" class="toast">Produto adicionado ao pedido</div>
+
+    <!-- ======================================================
+     MODAL DETALHE DO PRODUTO
+     ====================================================== -->
+    <div id="modal-produto-detalhe" class="modal-produto-overlay">
+        <div class="modal-produto-content">
+
+            <span id="fechar-modal-produto" class="btn-fechar-modal">&times;</span>
+
+            <div class="modal-produto-header">
+                <img id="detalhe-img" src="" alt="Imagem do Produto">
+            </div>
+
+            <div class="modal-produto-body">
+                <h2 id="detalhe-nome">Nome do Produto</h2>
+                <p id="detalhe-descricao">Descrição completa do produto.</p>
+
+                <div class="detalhe-preco-box">
+                    <span id="detalhe-preco">R$ 0,00</span>
+                    <span id="detalhe-unidade">Kg</span>
+                </div>
+
+                <div id="detalhe-cortes-container" class="opcao-box hidden">
+                    <h3>Escolha o Corte:</h3>
+                    <div id="lista-cortes-detalhe" class="cortes-grid"></div>
+                </div>
+
+                <div class="opcao-box modal-obs-box">
+                    <h3>Observação do Produto:</h3>
+                    <input type="text" id="detalhe-obs" class="input-obs-produto" placeholder="Ex: Fatiar fino, embalar em pacotes de 1kg..." maxlength="150">
+                </div>
+
+                <div class="modal-produto-footer">
+                    <div class="qtd-control-large">
+                        <button id="btn-menos-detalhe"><i class="fa-solid fa-minus"></i></button>
+                        <input type="text" id="detalhe-qtd" value="1,00kg" readonly>
+                        <button id="btn-mais-detalhe"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+
+                    <button id="btn-adicionar-modal" class="btn-zao-adicionar">
+                        <span>Adicionar</span>
+                        <span id="btn-preco-total">R$ 0,00</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================
+     SIDEBAR CARRINHO MOBILE
+     ====================================================== -->
+    <div id="sidebarCarrinho" class="sidebar-cart">
+
+        <div class="sidebar-header">
+            <h2>Seu Pedido</h2>
+            <span id="fecharX" class="btn-close-sidebar">×</span>
+        </div>
+
+        <div id="sidebar-scroll-content" class="sidebar-scroll-content">
+
+            <div id="cartItems"></div>
+
+            <div class="endereco-box">
+                <h3>Endereço de Entrega:</h3>
+                <select id="bairro" class="input-bairro">
+                    <option value="0.00">Dentro da Cidade - R$ Grátis</option>
+                    <option value="10.00">Interior - R$ 10,00</option>
+                </select>
+
+                <div class="input-group">
+                    <input type="text" id="rua" placeholder="Rua" required>
+                    <input type="number" id="numero" placeholder="Nº" required>
+                </div>
+            </div>
+
+            <div>
+                <h3>Pagamento:</h3>
+                <select id="pagamento" class="input-pagamento">
+                    <option value="" disabled selected>Escolha a forma de pagamento...</option>
+                    <option value="Pix">Pix</option>
+                    <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                </select>
+            </div>
+
+            <div class="input-group-agendamento">
+                <label>Deseja agendar a Entrega?</label>
+                <input type="date" id="data-entrega-mobile" class="input-agendamento">
+
+                <label>Horário:</label>
+                <select id="horario-entrega-mobile" class="input-agendamento">
+                    <option value="">Selecione uma data primeiro</option>
+                </select>
+
+                <small>Enviaremos no dia em que o pedido for feito em caso de não agendamento.</small>
+            </div>
+
+            <div class="cart-total">
+                Total: R$ <span id="cartTotal">0,00</span>
+            </div>
+
+            <button id="sidebarFinalizar" class="sidebar-finalizar">
+                Finalizar Pedido no WhatsApp <i class="fa-brands fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ======================================================
+     MODAL CORTES MOBILE
+     ====================================================== -->
+    <div id="modal-cortes-mobile" class="modal">
+        <div class="modal-content" style="max-width: 320px; text-align: center;">
+            <span class="close" id="close-modal-cortes">&times;</span>
+            <h3 style="color: var(--txt-white); font-family: var(--font-title); letter-spacing: 1px;">Escolha o Corte
+            </h3>
+            <div id="lista-opcoes-cortes" class="cortes-mobile-list"></div>
+        </div>
+    </div>
+
+    <!-- ======================================================
+     BOTÃO FLUTUANTE WHATSAPP (canto inferior direito)
+     ====================================================== -->
+    <a href="https://wa.me/5545991120288" target="_blank" class="btn-wa-flutuante" aria-label="Falar no WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- BOTÃO FLUTUANTE CARRINHO (canto inferior esquerdo) -->
+    <button id="btn-carrinho-flutuante" class="btn-carrinho-flutuante" aria-label="Ver Carrinho" title="Seu Carrinho">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-count-float">0</span>
+    </button>
+
+
+
+
+
+    <!-- ======================================================
+     FOOTER
+     ====================================================== -->
+    <footer id="rodape">
+        <div class="footer-bottom">
+            <p>&copy; 2025 Casa de Carnes Chama Crioula. Todos os direitos reservados.</p>
+            <p>Desenvolvido por <a href="https://caioferencine.com.br/" target="_blank"><strong>Caio Ferencine</strong></a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <!--<script src="produtos.js"></script><!---->
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                for (let registration of registrations) {
+                    registration.unregister();
+                    console.log('Service Worker antigo removido!');
+                }
+            });
+        }
+
+        const SUPABASE_URL = "https://bhwvkggnjgbrxjqgjayr.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJod3ZrZ2duamdicnhqcWdqYXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NDQzNTEsImV4cCI6MjA5MTAyMDM1MX0.3PEMI58ER8G_Yre9cVglSogd2lJEiiQFVcKaBJ_ULI0";
+
+        async function carregarCarnes() {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/carnes`, {
+                method: 'GET',
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + SUPABASE_KEY
+                },
+                cache: 'no-store'
+            });
+
+            const data = await res.json();
+
+            produtos = data.map(item => ({
+                id: item.id,
+                nome: item.nome,
+                preco: Number(item.preco),
+                categoria: item.categoria,
+                img: item.img || 'imagens/default.png',
+                descricao: item.descricao || '',
+                maisVendido: item.mais_vendidos || false,
+                especial: item.cortes_especiais || false
+            }));
+
+            renderProdutos();
+        }
+
+        // ======================================================
+        // MODAL QUEM SOMOS — abas + status
+        // ======================================================
+        (function () {
+            const btnAbrir = document.getElementById('btn-abrir-sobre');
+            const btnFechar = document.getElementById('btn-fechar-sobre');
+            const overlay = document.getElementById('modal-sobre');
+
+            function abrirSobre(e) {
+                e.preventDefault();
+                overlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                sincronizarStatus();
+            }
+
+            function fecharSobre() {
+                overlay.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+
+            // Sincroniza o status do header com o modal
+            function sincronizarStatus() {
+                const headerStatus = document.getElementById('status-container');
+                const modalBadge = document.getElementById('modal-status-loja');
+                const modalTexto = document.getElementById('modal-status-texto');
+                const headerTexto = document.getElementById('status-texto');
+                if (!headerStatus || !modalBadge) return;
+                modalBadge.className = 'modal-status-badge ' +
+                    (headerStatus.classList.contains('status-aberto') ? 'status-aberto' : 'status-fechado');
+                if (modalTexto && headerTexto) modalTexto.textContent = headerTexto.textContent;
+            }
+
+            if (btnAbrir) btnAbrir.addEventListener('click', abrirSobre);
+            if (btnFechar) btnFechar.addEventListener('click', fecharSobre);
+            if (overlay) overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) fecharSobre();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') fecharSobre();
+            });
+
+            // Sistema de abas
+            document.querySelectorAll('.sobre-tab-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var tab = btn.getAttribute('data-tab');
+                    document.querySelectorAll('.sobre-tab-btn').forEach(function (b) { b.classList.remove('active'); });
+                    document.querySelectorAll('.sobre-tab-content').forEach(function (c) { c.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var content = document.getElementById('tab-' + tab);
+                    if (content) content.classList.add('active');
+                });
+            });
+        })();
+
+    </script>
+</body>
+
+</html>

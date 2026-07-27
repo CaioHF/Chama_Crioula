@@ -1,0 +1,129 @@
+/* ==========================================================================
+   celular.css — Responsividade Mobile complementar
+   A maior parte da responsividade está em style.css (media queries internas).
+   Este arquivo contém ajustes finos adicionais para telas menores.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* Oculta a barra superior de informações em mobile */
+  .top-bar {
+    display: none;
+  }
+
+  /* Reduz altura do header em mobile */
+  header {
+    height: 68px;
+    padding: 0 16px;
+  }
+
+  /* Ícone da loja menor em mobile */
+  .header-logo-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Garante que inputs de data respeitem o tema escuro em iOS */
+  input[type="date"],
+  input[type="time"] {
+    color-scheme: dark;
+    -webkit-appearance: none;
+  }
+
+  /* Scroll suave nos filtros */
+  .filtros {
+    -webkit-overflow-scrolling: touch;
+    scroll-padding: 0 10px;
+  }
+
+  /* Evita que o autocomplete vaze da tela */
+  .autocomplete-box {
+    max-height: 180px;
+  }
+
+  /* Descricao truncada no card de produto mobile */
+  .produto .descricao-curta {
+    display: none;
+  }
+
+  /* Badge mais vendido / especial centralizado */
+  .badge-mais-vendido,
+  .badge-especial {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+  }
+
+  /* Cortes grid no modal: 2 por linha */
+  .cortes-grid {
+    gap: 6px;
+  }
+
+  .radio-corte-label {
+    padding: 7px 12px;
+    font-size: 0.82rem;
+  }
+
+  /* Agendamento sidebar mobile */
+  .input-group-agendamento {
+    margin-top: 10px;
+  }
+
+  /* Oculta texto do header WhatsApp btn em telas muito pequenas */
+  .btn-whatsapp-header span {
+    display: none;
+  }
+
+  /* Footer link mapa centralizado */
+  .footer-section a[href*="google.com/maps"] {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  /* Modo claro: datas no iOS */
+  body.modo-claro input[type="date"],
+  body.modo-claro input[type="time"] {
+    color-scheme: light;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Modal de cortes ainda mais compacto */
+  .modal-content {
+    padding: 18px 16px;
+  }
+
+  .cortes-mobile-list button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* Grid 1 coluna para telas muito pequenas apenas se necessário */
+  /* Mantemos 2 colunas pois é mais visual */
+
+  /* Texto do banner ainda mais compacto */
+  .banner-btns {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-banner-primary,
+  .btn-banner-secondary {
+    width: 100%;
+    max-width: 220px;
+    justify-content: center;
+  }
+
+  /* Info boxes em coluna no mobile pequeno */
+  .infos-entregas {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .info-box {
+    width: 100%;
+    max-width: 280px;
+  }
+}
