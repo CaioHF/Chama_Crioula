@@ -6,21 +6,14 @@ const SUPABASE_URL = "https://bhwvkggnjgbrxjqgjayr.supabase.co";
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJod3ZrZ2duamdicnhqcWdqYXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NDQzNTEsImV4cCI6MjA5MTAyMDM1MX0.3PEMI58ER8G_Yre9cVglSogd2lJEiiQFVcKaBJ_ULI0";
 
-// Inicializar Supabase — compatível com UMD (window.supabase)
+// Scripts de módulo têm escopo próprio — let supabase não conflita com o var global do CDN
 let supabase;
-try {
-  if (window.supabase && typeof window.supabase.createClient === "function") {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  } else {
-    throw new Error("Supabase SDK não encontrado em window.supabase");
-  }
-} catch (e) {
-  console.error("Erro ao inicializar Supabase:", e.message);
-  document.body.innerHTML =
-    '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#c0392b;text-align:center;padding:20px;">' +
-    "<div><h2>Erro de carregamento</h2><p>Não foi possível conectar ao servidor.<br>Verifique sua conexão com a internet e recarregue a página.</p>" +
-    '<button onclick="location.reload()" style="margin-top:16px;padding:10px 24px;background:#c0392b;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:1rem;">Recarregar</button></div></div>';
+if (typeof window.supabase !== "undefined" && window.supabase.createClient) {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} else {
+  console.error("Erro: Supabase SDK não foi carregado");
 }
+
 
 
 // ============================================================
