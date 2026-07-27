@@ -14,8 +14,6 @@ if (typeof window.supabase !== "undefined" && window.supabase.createClient) {
   console.error("Erro: Supabase SDK não foi carregado");
 }
 
-
-
 // ============================================================
 // ESTADO GLOBAL
 // ============================================================
@@ -38,6 +36,7 @@ const userEmail = document.getElementById("user-email");
 const secaoProdutos = document.getElementById("produtos-section");
 const secaoNovoProduto = document.getElementById("novo-produto-section");
 const produtosTbody = document.getElementById("produtos-tbody");
+const produtosCardsMobile = document.getElementById("produtos-cards-mobile");
 const formTitle = document.getElementById("form-title");
 const btnSubmitText = document.getElementById("btn-submit-text");
 
@@ -60,41 +59,71 @@ const prodImgInput = document.getElementById("prod-img");
 const previewContainer = document.getElementById("preview-container");
 const imagePreview = document.getElementById("image-preview");
 
+const btnTemaAdmin = document.getElementById("btn-tema-admin");
+const iconTemaAdmin = document.getElementById("icon-tema-admin");
+
 // ============================================================
 // INICIALIZAÇÃO
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", async () => {
+  inicializarTema();
   verificarSessao();
   configurarUploadImagem();
 });
+
+// ============================================================
+// SISTEMA DE TEMA (CLARO / ESCURO)
+// ============================================================
+
+function inicializarTema() {
+  const temaSalvo = localStorage.getItem("modoNoturnoChamaCrioula");
+  const usarModoClaro = temaSalvo === "false";
+
+  if (usarModoClaro) {
+    document.body.classList.add("modo-claro");
+    if (iconTemaAdmin) iconTemaAdmin.className = "fa-solid fa-sun";
+  } else {
+    document.body.classList.remove("modo-claro");
+    if (iconTemaAdmin) iconTemaAdmin.className = "fa-solid fa-moon";
+  }
+
+  if (btnTemaAdmin) {
+    btnTemaAdmin.addEventListener("click", () => {
+      const eModoClaro = document.body.classList.toggle("modo-claro");
+      localStorage.setItem("modoNoturnoChamaCrioula", eModoClaro ? "false" : "true");
+      if (iconTemaAdmin) {
+        iconTemaAdmin.className = eModoClaro ? "fa-solid fa-sun" : "fa-solid fa-moon";
+      }
+    });
+  }
+}
 
 // ============================================================
 // CONFIGURAR UPLOAD DE IMAGEM
 // ============================================================
 
 function configurarUploadImagem() {
+  if (!prodImgInput) return;
+
   prodImgInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
 
     if (file) {
-      // Validar tipo de arquivo
       if (!file.type.startsWith("image/")) {
-        alert("Por favor, selecione um arquivo de imagem válido");
+        showToast("Por favor, selecione um arquivo de imagem válido.", "error");
         prodImgInput.value = "";
         previewContainer.style.display = "none";
         return;
       }
 
-      // Validar tamanho (máximo 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert("A imagem não pode ser maior que 5MB");
+        showToast("A imagem não pode ser maior que 5MB.", "error");
         prodImgInput.value = "";
         previewContainer.style.display = "none";
         return;
       }
 
-      // Mostrar preview
       const reader = new FileReader();
       reader.onload = (evt) => {
         imagePreview.src = evt.target.result;
@@ -114,12 +143,10 @@ function configurarUploadImagem() {
 
 async function uploadImagem(file) {
   try {
-    // Gerar nome único para o arquivo
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 8);
     const nomeArquivo = `${timestamp}-${randomString}-${file.name}`;
 
-    // Fazer upload para o bucket 'produtos'
     const { data, error } = await supabase.storage
       .from("produtos")
       .upload(nomeArquivo, file, {
@@ -127,11 +154,8 @@ async function uploadImagem(file) {
         upsert: false,
       });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
-    // Obter URL pública do arquivo
     const { data: publicUrlData } = supabase.storage
       .from("produtos")
       .getPublicUrl(nomeArquivo);
@@ -139,9 +163,7 @@ async function uploadImagem(file) {
     return publicUrlData.publicUrl;
   } catch (erro) {
     console.error("Erro ao fazer upload da imagem:", erro);
-    throw new Error(
-      "Erro ao fazer upload da imagem. Verifique sua conexão e tente novamente.",
-    );
+    throw new Error("Erro ao fazer upload da imagem. Verifique a conexão.");
   }
 }
 
@@ -153,31 +175,20 @@ async function removerImagemDoStorage(imageUrl) {
   if (!imageUrl) return;
 
   try {
-    // Extrair o caminho do arquivo a partir da URL
-    // URL formato: https://bhwvkggnjgbrxjqgjayr.supabase.co/storage/v1/object/public/produtos/NOME_DO_ARQUIVO
     const urlParts = imageUrl.split("/storage/v1/object/public/produtos/");
-    if (urlParts.length < 2) {
-      console.warn("Não foi possível extrair o caminho da imagem:", imageUrl);
-      return;
-    }
+    if (urlParts.length < 2) return;
 
     const caminhoArquivo = urlParts[1];
 
-    // Remover arquivo do bucket 'produtos'
     const { error } = await supabase.storage
       .from("produtos")
       .remove([caminhoArquivo]);
 
     if (error) {
       console.error("Erro ao remover imagem do storage:", error);
-      // Não lançar erro, apenas registrar no console
-      return;
     }
-
-    console.log("Imagem removida com sucesso:", caminhoArquivo);
   } catch (erro) {
     console.error("Erro ao processar remoção de imagem:", erro);
-    // Não lançar erro para não interromper o fluxo principal
   }
 }
 
@@ -200,45 +211,49 @@ async function verificarSessao() {
   }
 }
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const errorDiv = document.getElementById("login-error");
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const errorDiv = document.getElementById("login-error");
 
-  errorDiv.textContent = "";
-  errorDiv.classList.remove("show");
+    errorDiv.textContent = "";
+    errorDiv.classList.remove("show");
 
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      throw error;
+      if (error) throw error;
+
+      currentUser = data.user;
+      mostrarDashboard();
+      showToast("Bem-vindo ao Painel Administrativo!", "success");
+    } catch (erro) {
+      console.error("Erro de login:", erro);
+      errorDiv.textContent = "E-mail ou senha incorretos. Tente novamente.";
+      errorDiv.classList.add("show");
     }
+  });
+}
 
-    currentUser = data.user;
-    mostrarDashboard();
-  } catch (erro) {
-    console.error("Erro de login:", erro);
-    errorDiv.textContent = "E-mail ou senha incorretos. Tente novamente.";
-    errorDiv.classList.add("show");
-  }
-});
-
-logoutBtn.addEventListener("click", async () => {
-  try {
-    await supabase.auth.signOut();
-    currentUser = null;
-    produtoEmEdicao = null;
-    mostrarLogin();
-    limparFormulario();
-  } catch (erro) {
-    console.error("Erro ao fazer logout:", erro);
-  }
-});
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await supabase.auth.signOut();
+      currentUser = null;
+      produtoEmEdicao = null;
+      mostrarLogin();
+      limparFormulario();
+      showToast("Sessão encerrada com sucesso.", "success");
+    } catch (erro) {
+      console.error("Erro ao fazer logout:", erro);
+    }
+  });
+}
 
 function mostrarLogin() {
   loginPage.style.display = "flex";
@@ -248,7 +263,9 @@ function mostrarLogin() {
 function mostrarDashboard() {
   loginPage.style.display = "none";
   dashboardPage.style.display = "block";
-  userEmail.textContent = currentUser.email;
+  if (userEmail && currentUser) {
+    userEmail.textContent = currentUser.email;
+  }
   carregarProdutos();
 }
 
@@ -267,18 +284,22 @@ menuItems.forEach((item) => {
   });
 });
 
-btnNovoProduto.addEventListener("click", () => {
-  mudarSecao("novo-produto");
-  produtoEmEdicao = null;
-  formTitle.textContent = "Novo Produto";
-  btnSubmitText.textContent = "Criar Produto";
-  limparFormulario();
-});
+if (btnNovoProduto) {
+  btnNovoProduto.addEventListener("click", () => {
+    mudarSecao("novo-produto");
+    produtoEmEdicao = null;
+    formTitle.textContent = "Cadastrar Novo Produto";
+    btnSubmitText.textContent = "Criar Produto";
+    limparFormulario();
+  });
+}
 
-btnVoltarProdutos.addEventListener("click", () => {
-  mudarSecao("produtos");
-  produtoEmEdicao = null;
-});
+if (btnVoltarProdutos) {
+  btnVoltarProdutos.addEventListener("click", () => {
+    mudarSecao("produtos");
+    produtoEmEdicao = null;
+  });
+}
 
 function mudarSecao(nomeDaSecao) {
   document.querySelectorAll(".admin-section").forEach((s) => {
@@ -293,12 +314,26 @@ function mudarSecao(nomeDaSecao) {
 }
 
 // ============================================================
-// CARREGAR PRODUTOS
+// CARREGAR & ESTATÍSTICAS
 // ============================================================
 
 async function carregarProdutos() {
-  produtosTbody.innerHTML =
-    '<tr class="loading-row"><td colspan="6">Carregando produtos...</td></tr>';
+  if (produtosTbody) {
+    produtosTbody.innerHTML = `
+      <tr class="loading-row">
+        <td colspan="6">
+          <div class="table-loader">
+            <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos do Supabase...
+          </div>
+        </td>
+      </tr>`;
+  }
+  if (produtosCardsMobile) {
+    produtosCardsMobile.innerHTML = `
+      <div class="table-loader">
+        <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos...
+      </div>`;
+  }
 
   try {
     const { data, error } = await supabase
@@ -309,55 +344,122 @@ async function carregarProdutos() {
     if (error) throw error;
 
     todasOsStatus = data || [];
+    atualizarEstatisticas(todasOsStatus);
     renderizarProdutos(todasOsStatus);
   } catch (erro) {
     console.error("Erro ao carregar produtos:", erro);
-    produtosTbody.innerHTML =
-      '<tr><td colspan="6" style="text-align:center; color: #999;">Erro ao carregar produtos</td></tr>';
+    if (produtosTbody) {
+      produtosTbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: #ff5252;">Erro ao carregar produtos do banco.</td></tr>';
+    }
+    if (produtosCardsMobile) {
+      produtosCardsMobile.innerHTML = '<div style="text-align:center; color: #ff5252; padding: 20px;">Erro ao carregar produtos.</div>';
+    }
     showToast("Erro ao carregar produtos", "error");
   }
 }
 
+function atualizarEstatisticas(produtos) {
+  const elTotal = document.getElementById("stat-total");
+  const elAtivos = document.getElementById("stat-ativos");
+  const elMaisVendidos = document.getElementById("stat-mais-vendidos");
+  const elEspeciais = document.getElementById("stat-especiais");
+
+  if (elTotal) elTotal.textContent = produtos.length;
+  if (elAtivos) elAtivos.textContent = produtos.filter((p) => p.ativo !== false).length;
+  if (elMaisVendidos) elMaisVendidos.textContent = produtos.filter((p) => p.mais_vendidos).length;
+  if (elEspeciais) elEspeciais.textContent = produtos.filter((p) => p.cortes_especiais).length;
+}
+
+// ============================================================
+// RENDERIZAR PRODUTOS (TABELA & CARDS MOBILE)
+// ============================================================
+
 function renderizarProdutos(produtos) {
   if (produtos.length === 0) {
-    produtosTbody.innerHTML =
-      '<tr><td colspan="6" style="text-align:center; color: #999;">Nenhum produto encontrado</td></tr>';
+    const vazioMsg = '<tr><td colspan="6" style="text-align:center; color: var(--txt-muted); padding: 30px;">Nenhum produto encontrado.</td></tr>';
+    if (produtosTbody) produtosTbody.innerHTML = vazioMsg;
+    if (produtosCardsMobile) produtosCardsMobile.innerHTML = '<div style="text-align:center; color: var(--txt-muted); padding: 30px;">Nenhum produto encontrado.</div>';
     return;
   }
 
-  produtosTbody.innerHTML = produtos
-    .map(
-      (produto) => `
-        <tr>
+  // Renderizar Tabela Desktop
+  if (produtosTbody) {
+    produtosTbody.innerHTML = produtos
+      .map((produto) => {
+        const precoFmt = parseFloat(produto.preco || 0).toFixed(2);
+        const eAtivo = produto.ativo !== false;
+        return `
+          <tr>
             <td>
-                <img src="${produto.img || "imagens/Favicon.png"}" alt="${produto.nome}" class="product-img">
+              <img src="${produto.img || "imagens/Favicon.png"}" alt="${produto.nome}" class="product-img" />
             </td>
             <td>
-                <strong>${produto.nome}</strong>
+              <strong>${produto.nome}</strong>
+              ${produto.mais_vendidos ? '<span class="badge badge-red" style="margin-left: 6px;">🔥 Mais Vendido</span>' : ''}
+              ${produto.cortes_especiais ? '<span class="badge badge-gold" style="margin-left: 6px;">👑 Especial</span>' : ''}
             </td>
-            <td>R$ ${parseFloat(produto.preco).toFixed(2)}</td>
+            <td><strong style="color: var(--cor-dourada);">R$ ${precoFmt}</strong></td>
             <td>
-                <span class="badge">${formatarCategoria(produto.categoria)}</span>
-            </td>
-            <td>
-                <span class="badge ${produto.ativo ? "badge-active" : "badge-inactive"}">
-                    ${produto.ativo ? "Ativo" : "Inativo"}
-                </span>
+              <span class="badge badge-gold">${formatarCategoria(produto.categoria)}</span>
             </td>
             <td>
-                <div class="table-actions">
-                    <button class="btn-admin btn-edit" onclick="editarProduto(${produto.id})">
-                        <i class="fas fa-edit"></i> Editar
-                    </button>
-                    <button class="btn-admin btn-delete" onclick="abrirConfirmacaoDeletar(${produto.id}, '${produto.nome.replace(/'/g, "\\'")}')">
-                        <i class="fas fa-trash"></i> Deletar
-                    </button>
-                </div>
+              <span class="badge ${eAtivo ? "badge-active" : "badge-inactive"}">
+                <i class="fa-solid ${eAtivo ? "fa-circle-check" : "fa-circle-xmark"}"></i>
+                ${eAtivo ? "Ativo" : "Inativo"}
+              </span>
             </td>
-        </tr>
-    `,
-    )
-    .join("");
+            <td>
+              <div class="table-actions">
+                <button class="btn-admin btn-edit" onclick="editarProduto(${produto.id})">
+                  <i class="fa-solid fa-pen-to-square"></i> Editar
+                </button>
+                <button class="btn-admin btn-delete" onclick="abrirConfirmacaoDeletar(${produto.id}, '${produto.nome.replace(/'/g, "\\'")}')">
+                  <i class="fa-solid fa-trash-can"></i> Deletar
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      })
+      .join("");
+  }
+
+  // Renderizar Cards Mobile
+  if (produtosCardsMobile) {
+    produtosCardsMobile.innerHTML = produtos
+      .map((produto) => {
+        const precoFmt = parseFloat(produto.preco || 0).toFixed(2);
+        const eAtivo = produto.ativo !== false;
+        return `
+          <div class="admin-card-item">
+            <div class="admin-card-header">
+              <img src="${produto.img || "imagens/Favicon.png"}" alt="${produto.nome}" class="admin-card-img" />
+              <div class="admin-card-titles">
+                <span class="admin-card-name">${produto.nome}</span>
+                <span class="admin-card-price">R$ ${precoFmt}</span>
+              </div>
+            </div>
+            <div class="admin-card-badges">
+              <span class="badge badge-gold">${formatarCategoria(produto.categoria)}</span>
+              <span class="badge ${eAtivo ? "badge-active" : "badge-inactive"}">
+                ${eAtivo ? "Ativo" : "Inativo"}
+              </span>
+              ${produto.mais_vendidos ? '<span class="badge badge-red">🔥 Mais Vendido</span>' : ''}
+              ${produto.cortes_especiais ? '<span class="badge badge-gold">👑 Especial</span>' : ''}
+            </div>
+            <div class="admin-card-actions">
+              <button class="btn-admin btn-edit" onclick="editarProduto(${produto.id})">
+                <i class="fa-solid fa-pen-to-square"></i> Editar
+              </button>
+              <button class="btn-admin btn-delete" onclick="abrirConfirmacaoDeletar(${produto.id}, '${produto.nome.replace(/'/g, "\\'")}')">
+                <i class="fa-solid fa-trash-can"></i> Deletar
+              </button>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+  }
 }
 
 function formatarCategoria(categoria) {
@@ -374,17 +476,17 @@ function formatarCategoria(categoria) {
 // FILTROS
 // ============================================================
 
-filtroBusca.addEventListener("input", aplicarFiltros);
-filtroCategoria.addEventListener("change", aplicarFiltros);
+if (filtroBusca) filtroBusca.addEventListener("input", aplicarFiltros);
+if (filtroCategoria) filtroCategoria.addEventListener("change", aplicarFiltros);
 
 function aplicarFiltros() {
-  const textoBusca = filtroBusca.value.toLowerCase();
-  const categoriaSelecionada = filtroCategoria.value;
+  const textoBusca = filtroBusca ? filtroBusca.value.toLowerCase() : "";
+  const categoriaSelecionada = filtroCategoria ? filtroCategoria.value : "";
 
   const produtosFiltrados = todasOsStatus.filter((produto) => {
     const matchBusca =
       produto.nome.toLowerCase().includes(textoBusca) ||
-      produto.descricao?.toLowerCase().includes(textoBusca);
+      (produto.descricao && produto.descricao.toLowerCase().includes(textoBusca));
     const matchCategoria =
       categoriaSelecionada === "" || produto.categoria === categoriaSelecionada;
     return matchBusca && matchCategoria;
@@ -397,91 +499,88 @@ function aplicarFiltros() {
 // CRIAR/EDITAR PRODUTO
 // ============================================================
 
-productForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (productForm) {
+  productForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const formError = document.getElementById("form-error");
-  formError.textContent = "";
-  formError.classList.remove("show");
+    const formError = document.getElementById("form-error");
+    if (formError) {
+      formError.textContent = "";
+      formError.classList.remove("show");
+    }
 
-  const imageFile = prodImgInput.files[0];
+    const imageFile = prodImgInput.files[0];
 
-  // Validações básicas
-  const produtoData = {
-    nome: document.getElementById("prod-nome").value.trim(),
-    preco: parseFloat(document.getElementById("prod-preco").value),
-    categoria: document.getElementById("prod-categoria").value,
-    mais_vendidos: document.getElementById("prod-mais-vendido").checked,
-    cortes_especiais: document.getElementById("prod-especial").checked,
-    descricao: document.getElementById("prod-descricao").value.trim(),
-    ativo: document.getElementById("prod-ativo").checked,
-  };
+    const produtoData = {
+      nome: document.getElementById("prod-nome").value.trim(),
+      preco: parseFloat(document.getElementById("prod-preco").value),
+      categoria: document.getElementById("prod-categoria").value,
+      mais_vendidos: document.getElementById("prod-mais-vendido").checked,
+      cortes_especiais: document.getElementById("prod-especial").checked,
+      descricao: document.getElementById("prod-descricao").value.trim(),
+      ativo: document.getElementById("prod-ativo").checked,
+    };
 
-  if (!produtoData.nome || isNaN(produtoData.preco) || !produtoData.categoria) {
-    formError.textContent = "Preencha todos os campos obrigatórios (*)";
-    formError.classList.add("show");
-    return;
-  }
+    if (!produtoData.nome || isNaN(produtoData.preco) || !produtoData.categoria) {
+      if (formError) {
+        formError.textContent = "Preencha todos os campos obrigatórios (*)";
+        formError.classList.add("show");
+      }
+      return;
+    }
 
-  try {
-    // Se houver novo arquivo, fazer upload
-    if (imageFile) {
-      const imgUrl = await uploadImagem(imageFile);
+    try {
+      if (imageFile) {
+        const imgUrl = await uploadImagem(imageFile);
 
-      // Se estamos editando e havia uma imagem antiga, remover após upload bem-sucedido
-      if (produtoEmEdicao && produtoEmEdicao.img) {
-        await removerImagemDoStorage(produtoEmEdicao.img);
+        if (produtoEmEdicao && produtoEmEdicao.img) {
+          await removerImagemDoStorage(produtoEmEdicao.img);
+        }
+
+        produtoData.img = imgUrl;
       }
 
-      produtoData.img = imgUrl;
+      if (produtoEmEdicao) {
+        const { error } = await supabase
+          .from("carnes")
+          .update(produtoData)
+          .eq("id", produtoEmEdicao.id);
+
+        if (error) throw error;
+        showToast("Produto atualizado com sucesso!", "success");
+      } else {
+        const { error } = await supabase
+          .from("carnes")
+          .insert([{ ...produtoData, created_at: new Date().toISOString() }]);
+
+        if (error) throw error;
+        showToast("Produto criado com sucesso!", "success");
+      }
+
+      limparFormulario();
+      produtoEmEdicao = null;
+      await carregarProdutos();
+      mudarSecao("produtos");
+    } catch (erro) {
+      console.error("Erro ao salvar produto:", erro);
+      if (formError) {
+        formError.textContent = erro.message || "Erro ao salvar o produto.";
+        formError.classList.add("show");
+      }
+      showToast(erro.message || "Erro ao salvar produto", "error");
     }
-
-    let result;
-
-    if (produtoEmEdicao) {
-      // EDITAR
-      const { data, error } = await supabase
-        .from("carnes")
-        .update(produtoData)
-        .eq("id", produtoEmEdicao.id)
-        .select();
-
-      if (error) throw error;
-      result = data;
-      showToast("Produto atualizado com sucesso!", "success");
-    } else {
-      // CRIAR
-      const { data, error } = await supabase
-        .from("carnes")
-        .insert([{ ...produtoData, created_at: new Date().toISOString() }])
-        .select();
-
-      if (error) throw error;
-      result = data;
-      showToast("Produto criado com sucesso!", "success");
-    }
-
-    limparFormulario();
-    produtoEmEdicao = null;
-    carregarProdutos();
-    mudarSecao("produtos");
-  } catch (erro) {
-    console.error("Erro ao salvar produto:", erro);
-    formError.textContent =
-      erro.message || "Erro ao salvar o produto. Tente novamente.";
-    formError.classList.add("show");
-    showToast(erro.message || "Erro ao salvar produto", "error");
-  }
-});
+  });
+}
 
 function limparFormulario() {
-  productForm.reset();
-  document.getElementById("prod-ativo").checked = true;
-  prodImgInput.value = "";
-  previewContainer.style.display = "none";
-  imagePreview.src = "";
-  formTitle.textContent = "Novo Produto";
-  btnSubmitText.textContent = "Criar Produto";
+  if (productForm) productForm.reset();
+  const elAtivo = document.getElementById("prod-ativo");
+  if (elAtivo) elAtivo.checked = true;
+  if (prodImgInput) prodImgInput.value = "";
+  if (previewContainer) previewContainer.style.display = "none";
+  if (imagePreview) imagePreview.src = "";
+  if (formTitle) formTitle.textContent = "Cadastrar Novo Produto";
+  if (btnSubmitText) btnSubmitText.textContent = "Criar Produto";
 }
 
 async function editarProduto(id) {
@@ -496,32 +595,26 @@ async function editarProduto(id) {
 
     produtoEmEdicao = data;
 
-    // PREENCHER FORMULÁRIO
-    document.getElementById("prod-nome").value = data.nome;
-    document.getElementById("prod-preco").value = data.preco;
-    document.getElementById("prod-categoria").value = data.categoria;
-    document.getElementById("prod-mais-vendido").checked =
-      data.mais_vendidos || false;
-    document.getElementById("prod-especial").checked =
-      data.cortes_especiais || false;
+    document.getElementById("prod-nome").value = data.nome || "";
+    document.getElementById("prod-preco").value = data.preco || "";
+    document.getElementById("prod-categoria").value = data.categoria || "";
+    document.getElementById("prod-mais-vendido").checked = !!data.mais_vendidos;
+    document.getElementById("prod-especial").checked = !!data.cortes_especiais;
     document.getElementById("prod-descricao").value = data.descricao || "";
-    document.getElementById("prod-ativo").checked = true;
+    document.getElementById("prod-ativo").checked = data.ativo !== false;
 
-    // Limpar input de arquivo e mostrar preview da imagem atual
-    prodImgInput.value = "";
-    previewContainer.style.display = "block";
-    imagePreview.src = data.img || "imagens/Favicon.png";
+    if (prodImgInput) prodImgInput.value = "";
+    if (previewContainer) previewContainer.style.display = "block";
+    if (imagePreview) imagePreview.src = data.img || "imagens/Favicon.png";
 
-    formTitle.textContent = "Editar Produto";
-    btnSubmitText.textContent = "Atualizar Produto";
+    if (formTitle) formTitle.textContent = "Editar Produto";
+    if (btnSubmitText) btnSubmitText.textContent = "Atualizar Produto";
 
     mudarSecao("novo-produto");
-    document
-      .querySelectorAll(".menu-item")
-      .forEach((m) => m.classList.remove("active"));
+    document.querySelectorAll(".menu-item").forEach((m) => m.classList.remove("active"));
   } catch (erro) {
     console.error("Erro ao carregar produto:", erro);
-    showToast("Erro ao carregar produto", "error");
+    showToast("Erro ao carregar dados do produto", "error");
   }
 }
 
@@ -531,64 +624,64 @@ async function editarProduto(id) {
 
 function abrirConfirmacaoDeletar(id, nome) {
   produtoParaDeletar = id;
-  deleteProductName.textContent = nome;
-  deleteModal.style.display = "flex";
+  if (deleteProductName) deleteProductName.textContent = nome;
+  if (deleteModal) deleteModal.style.display = "flex";
 }
 
-btnConfirmDelete.addEventListener("click", async () => {
-  if (!produtoParaDeletar) return;
+if (btnConfirmDelete) {
+  btnConfirmDelete.addEventListener("click", async () => {
+    if (!produtoParaDeletar) return;
 
-  try {
-    // Primeiro, obter dados do produto para acessar a imagem
-    const { data: produtoData, error: erroFetch } = await supabase
-      .from("carnes")
-      .select("img")
-      .eq("id", produtoParaDeletar)
-      .single();
+    try {
+      const { data: produtoData, error: erroFetch } = await supabase
+        .from("carnes")
+        .select("img")
+        .eq("id", produtoParaDeletar)
+        .single();
 
-    if (erroFetch) {
-      throw erroFetch;
+      if (erroFetch) throw erroFetch;
+
+      if (produtoData && produtoData.img) {
+        await removerImagemDoStorage(produtoData.img);
+      }
+
+      const { error } = await supabase
+        .from("carnes")
+        .delete()
+        .eq("id", produtoParaDeletar);
+
+      if (error) throw error;
+
+      showToast("Produto deletado com sucesso!", "success");
+      if (deleteModal) deleteModal.style.display = "none";
+      produtoParaDeletar = null;
+      await carregarProdutos();
+    } catch (erro) {
+      console.error("Erro ao deletar produto:", erro);
+      showToast("Erro ao deletar produto", "error");
     }
+  });
+}
 
-    // Remover imagem do storage (se existir)
-    if (produtoData && produtoData.img) {
-      await removerImagemDoStorage(produtoData.img);
-    }
-
-    // Deletar produto do banco de dados
-    const { error } = await supabase
-      .from("carnes")
-      .delete()
-      .eq("id", produtoParaDeletar);
-
-    if (error) throw error;
-
-    showToast("Produto deletado com sucesso!", "success");
-    deleteModal.style.display = "none";
+if (btnCancelDelete) {
+  btnCancelDelete.addEventListener("click", () => {
+    if (deleteModal) deleteModal.style.display = "none";
     produtoParaDeletar = null;
-    carregarProdutos();
-  } catch (erro) {
-    console.error("Erro ao deletar produto:", erro);
-    showToast("Erro ao deletar produto", "error");
-  }
-});
-
-btnCancelDelete.addEventListener("click", () => {
-  deleteModal.style.display = "none";
-  produtoParaDeletar = null;
-});
+  });
+}
 
 // ============================================================
 // TOAST NOTIFICATIONS
 // ============================================================
 
 function showToast(mensagem, tipo = "success") {
+  if (!toast) return;
   toast.textContent = mensagem;
   toast.className = `toast ${tipo} show`;
 
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 3000);
+  }, 3200);
 }
 
 // ============================================================
@@ -603,7 +696,8 @@ window.addEventListener("click", (e) => {
 });
 
 // ============================================================
-// EXPORTANDO FUNÇÕES PARA O HTML (Devido ao type="module")
+// EXPORTANDO FUNÇÕES PARA O HTML
 // ============================================================
 window.editarProduto = editarProduto;
 window.abrirConfirmacaoDeletar = abrirConfirmacaoDeletar;
+window.limparFormulario = limparFormulario;

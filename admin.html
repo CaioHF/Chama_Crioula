@@ -3,158 +3,248 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin - Chama Crioula</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Painel Administrativo - Chama Crioula</title>
   <link rel="shortcut icon" href="imagens/Favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="estilos/style.css" />
   <link rel="stylesheet" href="estilos/admin.css" />
-  <link rel="stylesheet" href="estilos/celular.css" media="(max-width: 732px)" />
+  <link rel="stylesheet" href="estilos/celular.css" media="(max-width: 768px)" />
   <script src="https://kit.fontawesome.com/a13ae5a66e.js" crossorigin="anonymous"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;700&display=swap"
     rel="stylesheet" />
 </head>
 
 <body>
-  <!-- LOGIN PAGE -->
+  <!-- ============================================================
+       PÁGINA DE LOGIN DE ADMINISTRADOR
+       ============================================================ -->
   <div id="login-page" class="page-admin">
     <div class="login-container">
       <div class="login-box">
         <div class="logo-admin">
-          <img src="imagens/Favicon.png" alt="Chama Crioula" />
+          <img src="imagens/Favicon.png" alt="Chama Crioula Logo" class="login-brand-icon" />
           <h1>Admin Chama Crioula</h1>
+          <p class="login-sub">Gerenciador de Cardápio & Estoque</p>
         </div>
 
         <form id="login-form" class="form-admin">
           <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" placeholder="seu@email.com" required />
+            <label for="email"><i class="fa-solid fa-envelope"></i> E-mail de Acesso</label>
+            <div class="input-with-icon">
+              <input type="email" id="email" placeholder="admin@chamacrioula.com.br" required />
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="password">Senha</label>
-            <input type="password" id="password" placeholder="•••••••" required />
+            <label for="password"><i class="fa-solid fa-lock"></i> Senha</label>
+            <div class="input-with-icon">
+              <input type="password" id="password" placeholder="••••••••" required />
+            </div>
           </div>
 
-          <button type="submit" class="btn-admin btn-primary">Entrar</button>
+          <button type="submit" class="btn-admin btn-primary btn-block">
+            <i class="fa-solid fa-right-to-bracket"></i> Entrar no Painel
+          </button>
           <div id="login-error" class="error-message"></div>
         </form>
 
         <div class="login-footer-actions">
-          <a href="index.html" class="btn-admin btn-secondary" style="
-                display: inline-block;
-                text-decoration: none;
-                text-align: center;
-                margin-top: 15px;
-                width: 100%;
-                box-sizing: border-box;
-              ">
-            <i class="fas fa-arrow-left"></i> Voltar para o site
+          <a href="index.html" class="btn-admin btn-secondary btn-block">
+            <i class="fa-solid fa-arrow-left"></i> Voltar para a Loja
           </a>
         </div>
 
         <p class="login-footer">
-          © 2024 Chama Crioula. Todos os direitos reservados.
+          © Chama Crioula · Painel de Controle Seguro
         </p>
       </div>
     </div>
   </div>
 
-  <!-- DASHBOARD PAGE -->
+  <!-- ============================================================
+       PAINEL DASHBOARD (AUTENTICADO)
+       ============================================================ -->
   <div id="dashboard-page" class="page-admin" style="display: none">
-    <nav class="admin-navbar">
+    <!-- NAVBAR SUPERIOR -->
+    <header class="admin-navbar">
       <div class="navbar-left">
-        <h2 class="navbar-title">Painel Admin</h2>
+        <img src="imagens/Favicon.png" alt="Logo Chama Crioula" class="admin-nav-logo" />
+        <div class="admin-nav-titles">
+          <h2 class="navbar-title">Chama Crioula</h2>
+          <span class="navbar-subtitle">Painel do Administrador</span>
+        </div>
       </div>
-      <div class="navbar-right">
-        <span id="user-email" class="user-info"></span>
-        <button id="logout-btn" class="btn-admin btn-secondary">Sair</button>
-      </div>
-    </nav>
 
+      <div class="navbar-right">
+        <a href="index.html" class="nav-action-btn" title="Ver Loja Pública">
+          <i class="fa-solid fa-store"></i> <span class="hide-mobile">Ver Loja</span>
+        </a>
+        <button id="btn-tema-admin" class="nav-action-btn" title="Alternar Tema (Claro/Escuro)">
+          <i class="fa-solid fa-moon" id="icon-tema-admin"></i>
+        </button>
+        <div class="user-badge" id="user-badge">
+          <i class="fa-solid fa-user-shield"></i>
+          <span id="user-email" class="user-info"></span>
+        </div>
+        <button id="logout-btn" class="btn-admin btn-logout" title="Encerrar Sessão">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="hide-mobile">Sair</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- LAYOUT PRINCIPAL (SIDEBAR + CONTEÚDO) -->
     <div class="admin-container">
-      <!-- SIDEBAR -->
+      <!-- SIDEBAR / NAVEGAÇÃO MOBILE -->
       <aside class="admin-sidebar">
+        <div class="sidebar-title">Menu Principal</div>
         <ul class="menu">
           <li>
             <a href="#" class="menu-item active" data-section="produtos">
-              <i class="fas fa-list"></i> Produtos
+              <i class="fa-solid fa-boxes-stacked"></i> <span>Produtos</span>
             </a>
           </li>
           <li>
             <a href="#" class="menu-item" data-section="novo-produto">
-              <i class="fas fa-plus"></i> Novo Produto
+              <i class="fa-solid fa-circle-plus"></i> <span>Novo Produto</span>
             </a>
           </li>
         </ul>
       </aside>
 
-      <!-- MAIN CONTENT -->
+      <!-- ÁREA DE CONTEÚDO -->
       <main class="admin-main">
         <!-- SEÇÃO: LISTA DE PRODUTOS -->
         <section id="produtos-section" class="admin-section active">
+          <!-- CARDS DE ESTATÍSTICAS DO PAINEL -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon bg-gold">
+                <i class="fa-solid fa-cubes"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Total de Produtos</span>
+                <strong class="stat-value" id="stat-total">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon bg-green">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Produtos Ativos</span>
+                <strong class="stat-value" id="stat-ativos">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon bg-red">
+                <i class="fa-solid fa-fire"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Mais Vendidos</span>
+                <strong class="stat-value" id="stat-mais-vendidos">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon bg-amber">
+                <i class="fa-solid fa-crown"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Cortes Especiais</span>
+                <strong class="stat-value" id="stat-especiais">0</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- CABEÇALHO DA SEÇÃO DE PRODUTOS -->
           <div class="section-header">
-            <h3>Gerenciar Produtos</h3>
+            <div>
+              <h3>Gerenciador de Produtos</h3>
+              <p class="section-desc">Cadastre, edite e organize os produtos exibidos na loja.</p>
+            </div>
             <button id="btn-novo-produto" class="btn-admin btn-primary">
-              <i class="fas fa-plus"></i> Novo Produto
+              <i class="fa-solid fa-plus"></i> Novo Produto
             </button>
           </div>
 
+          <!-- FILTROS E BUSCA -->
           <div class="products-filters">
-            <input type="text" id="filtro-busca" placeholder="Buscar produto..." class="input-admin" />
-            <select id="filtro-categoria" class="input-admin">
-              <option value="">Todas as categorias</option>
-              <option value="bovino">Bovino</option>
-              <option value="suino">Suíno</option>
-              <option value="frango">Frango</option>
-              <option value="acompanhamentos">Acompanhamentos</option>
-            </select>
+            <div class="search-box-admin">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="filtro-busca" placeholder="Buscar por nome ou descrição..." class="input-admin" />
+            </div>
+            <div class="select-box-admin">
+              <i class="fa-solid fa-filter"></i>
+              <select id="filtro-categoria" class="input-admin">
+                <option value="">Todas as categorias</option>
+                <option value="bovino">Bovino</option>
+                <option value="suino">Suíno</option>
+                <option value="frango">Frango</option>
+                <option value="acompanhamentos">Acompanhamentos</option>
+              </select>
+            </div>
           </div>
 
-          <table class="table-admin">
-            <thead>
-              <tr>
-                <th>Imagem</th>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Categoria</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="produtos-tbody">
-              <tr class="loading-row">
-                <td colspan="6">Carregando produtos...</td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- VISUALIZAÇÃO DESKTOP: TABELA DA LOJA -->
+          <div class="table-responsive-wrapper">
+            <table class="table-admin">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">Imagem</th>
+                  <th>Produto</th>
+                  <th>Preço</th>
+                  <th>Categoria</th>
+                  <th>Status</th>
+                  <th style="width: 160px; text-align: right;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="produtos-tbody">
+                <tr class="loading-row">
+                  <td colspan="6">
+                    <div class="table-loader">
+                      <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos do Supabase...
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- VISUALIZAÇÃO MOBILE: CARDS RESPONSIVOS -->
+          <div id="produtos-cards-mobile" class="admin-cards-mobile"></div>
         </section>
 
         <!-- SEÇÃO: CRIAR/EDITAR PRODUTO -->
         <section id="novo-produto-section" class="admin-section">
           <div class="section-header">
-            <h3 id="form-title">Novo Produto</h3>
+            <div>
+              <h3 id="form-title">Cadastrar Novo Produto</h3>
+              <p class="section-desc">Preencha as informações do produto abaixo.</p>
+            </div>
             <button class="btn-admin btn-secondary" id="btn-voltar-produtos">
-              Voltar
+              <i class="fa-solid fa-arrow-left"></i> Voltar à Lista
             </button>
           </div>
 
           <form id="product-form" class="form-admin-large">
             <div class="form-row">
               <div class="form-group">
-                <label for="prod-nome">Nome *</label>
-                <input type="text" id="prod-nome" required />
+                <label for="prod-nome"><i class="fa-solid fa-tag"></i> Nome do Produto *</label>
+                <input type="text" id="prod-nome" placeholder="Ex: Picanha Premium" required />
               </div>
               <div class="form-group">
-                <label for="prod-preco">Preço (R$) *</label>
-                <input type="number" id="prod-preco" step="0.01" min="0" required />
+                <label for="prod-preco"><i class="fa-solid fa-brazilian-real-sign"></i> Preço (R$) *</label>
+                <input type="number" id="prod-preco" step="0.01" min="0" placeholder="0.00" required />
               </div>
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="prod-categoria">Categoria *</label>
+                <label for="prod-categoria"><i class="fa-solid fa-layer-group"></i> Categoria *</label>
                 <select id="prod-categoria" required>
-                  <option value="">-- Selecione --</option>
+                  <option value="">-- Selecione uma Categoria --</option>
                   <option value="bovino">Bovino</option>
                   <option value="suino">Suíno</option>
                   <option value="frango">Frango</option>
@@ -162,60 +252,66 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="prod-img">Imagem do Produto</label>
-                <input type="file" id="prod-img" accept="image/*" />
-                <small style="color: #666; margin-top: 5px; display: block">Selecione uma imagem do seu computador
-                  (opcional)</small>
+                <label for="prod-img"><i class="fa-solid fa-image"></i> Imagem do Produto</label>
+                <div class="file-upload-box">
+                  <input type="file" id="prod-img" accept="image/*" />
+                  <div class="upload-dummy">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Clique ou arraste uma foto (Máx 5MB)</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row" id="preview-row">
               <div class="form-group full-width" id="preview-container" style="display: none">
-                <label>Preview da Imagem</label>
-                <img id="image-preview" src="" alt="Preview" style="
-                      max-width: 200px;
-                      max-height: 200px;
-                      object-fit: contain;
-                      border: 1px solid #ddd;
-                      padding: 8px;
-                      border-radius: 4px;
-                    " />
+                <label><i class="fa-solid fa-eye"></i> Pré-visualização da Imagem</label>
+                <div class="preview-card">
+                  <img id="image-preview" src="" alt="Preview da Imagem" />
+                </div>
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group checkbox-group">
-                <label>
-                  <input type="checkbox" id="prod-mais-vendido" />
-                  Mais vendido
-                </label>
-              </div>
-              <div class="form-group checkbox-group">
-                <label>
-                  <input type="checkbox" id="prod-especial" />
-                  Corte especial
-                </label>
-              </div>
+            <div class="form-group-switches">
+              <label class="switch-card">
+                <input type="checkbox" id="prod-mais-vendido" />
+                <span class="switch-custom"></span>
+                <span class="switch-text">
+                  <strong><i class="fa-solid fa-fire text-red"></i> Mais Vendido</strong>
+                  <small>Exibe destaque especial de popularidade</small>
+                </span>
+              </label>
 
-              <div class="form-group checkbox-group">
-                <label>
-                  <input type="checkbox" id="prod-ativo" checked />
-                  Produto Ativo
-                </label>
-              </div>
+              <label class="switch-card">
+                <input type="checkbox" id="prod-especial" />
+                <span class="switch-custom"></span>
+                <span class="switch-text">
+                  <strong><i class="fa-solid fa-crown text-gold"></i> Corte Especial</strong>
+                  <small>Destaca o item como seleção gourmet</small>
+                </span>
+              </label>
+
+              <label class="switch-card">
+                <input type="checkbox" id="prod-ativo" checked />
+                <span class="switch-custom"></span>
+                <span class="switch-text">
+                  <strong><i class="fa-solid fa-eye text-green"></i> Produto Ativo</strong>
+                  <small>Item visível para compra no cardápio</small>
+                </span>
+              </label>
             </div>
 
             <div class="form-group full-width">
-              <label for="prod-descricao">Descrição</label>
-              <textarea id="prod-descricao" rows="8" placeholder="Descrição detalhada do produto..."></textarea>
+              <label for="prod-descricao"><i class="fa-solid fa-align-left"></i> Descrição Detalhada</label>
+              <textarea id="prod-descricao" rows="4" placeholder="Descreva os detalhes da carne, maciez, sugestões de preparo..."></textarea>
             </div>
 
             <div class="form-actions">
-              <button type="submit" class="btn-admin btn-primary">
-                <span id="btn-submit-text">Criar Produto</span>
+              <button type="submit" class="btn-admin btn-primary btn-save">
+                <i class="fa-solid fa-floppy-disk"></i> <span id="btn-submit-text">Salvar Produto</span>
               </button>
-              <button type="reset" class="btn-admin btn-secondary">
-                Limpar
+              <button type="reset" class="btn-admin btn-secondary" onclick="window.limparFormulario && window.limparFormulario()">
+                <i class="fa-solid fa-rotate-left"></i> Limpar
               </button>
             </div>
             <div id="form-error" class="error-message"></div>
@@ -225,17 +321,20 @@
     </div>
   </div>
 
-  <!-- MODAL: Confirmação de Exclusão -->
+  <!-- MODAL: CONFIRMAÇÃO DE EXCLUSÃO -->
   <div id="delete-modal" class="modal" style="display: none">
     <div class="modal-content">
-      <h4>Confirmar Exclusão</h4>
+      <div class="modal-header-danger">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h4>Confirmar Exclusão</h4>
+      </div>
       <p>
-        Tem certeza que deseja deletar
-        <strong id="delete-product-name"></strong>?
+        Você tem certeza que deseja excluir permanentemente o produto
+        <strong id="delete-product-name"></strong>? Esta ação não pode ser desfeita.
       </p>
       <div class="modal-actions">
         <button id="btn-confirm-delete" class="btn-admin btn-danger">
-          Deletar
+          <i class="fa-solid fa-trash-can"></i> Sim, Deletar
         </button>
         <button id="btn-cancel-delete" class="btn-admin btn-secondary">
           Cancelar
@@ -244,7 +343,7 @@
     </div>
   </div>
 
-  <!-- TOAST Notifications -->
+  <!-- TOAST NOTIFICAÇÃO -->
   <div id="toast" class="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
