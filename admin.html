@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Painel Administrativo - Chama Crioula</title>
+  <link rel="shortcut icon" href="imagens/Favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="estilos/style.css" />
+  <link rel="stylesheet" href="estilos/admin.css" />
+  <script src="https://kit.fontawesome.com/a13ae5a66e.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;700&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body class="modo-claro">
+  <!-- ============================================================
+       PÁGINA DE LOGIN DE ADMINISTRADOR
+       ============================================================ -->
+  <div id="login-page" class="page-admin">
+    <div class="login-container">
+      <div class="login-box">
+        <div class="logo-admin">
+          <img src="imagens/Favicon.png" alt="Chama Crioula Logo" class="login-brand-icon" />
+          <h1>Admin Chama Crioula</h1>
+          <p class="login-sub">Gerenciador de Cardápio & Estoque</p>
+        </div>
+
+        <form id="login-form" class="form-admin">
+          <div class="form-group">
+            <label for="email"><i class="fa-solid fa-envelope"></i> E-mail de Acesso</label>
+            <div class="input-with-icon">
+              <input type="email" id="email" placeholder="admin@chamacrioula.com.br" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password"><i class="fa-solid fa-lock"></i> Senha</label>
+            <div class="input-with-icon">
+              <input type="password" id="password" placeholder="••••••••" required />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-admin btn-primary btn-block">
+            <i class="fa-solid fa-right-to-bracket"></i> Entrar no Painel
+          </button>
+          <div id="login-error" class="error-message"></div>
+        </form>
+
+        <div class="login-footer-actions">
+          <a href="index.html" class="btn-admin btn-secondary btn-block">
+            <i class="fa-solid fa-arrow-left"></i> Voltar para a Loja
+          </a>
+        </div>
+
+        <p class="login-footer">
+          © Chama Crioula · Painel de Controle Seguro
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PAINEL DASHBOARD (AUTENTICADO)
+       ============================================================ -->
+  <div id="dashboard-page" class="page-admin" style="display: none">
+    <!-- NAVBAR SUPERIOR -->
+    <header class="admin-navbar">
+      <div class="navbar-left">
+        <img src="imagens/Favicon.png" alt="Logo Chama Crioula" class="admin-nav-logo" />
+        <div class="admin-nav-titles">
+          <h2 class="navbar-title">Chama Crioula</h2>
+          <span class="navbar-subtitle">Painel do Administrador</span>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <a href="index.html" class="nav-action-btn" title="Ver Loja Pública">
+          <i class="fa-solid fa-store"></i> <span class="hide-mobile">Ver Loja</span>
+        </a>
+        <button id="btn-tema-admin" class="nav-action-btn" title="Alternar Tema (Claro/Escuro)">
+          <i class="fa-solid fa-moon" id="icon-tema-admin"></i>
+        </button>
+        <div class="user-badge" id="user-badge">
+          <i class="fa-solid fa-user-shield"></i>
+          <span id="user-email" class="user-info"></span>
+        </div>
+        <button id="logout-btn" class="btn-admin btn-logout" title="Encerrar Sessão">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> <span class="hide-mobile">Sair</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- LAYOUT PRINCIPAL (SIDEBAR + CONTEÚDO) -->
+    <div class="admin-container">
+      <!-- SIDEBAR / NAVEGAÇÃO MOBILE -->
+      <aside class="admin-sidebar">
+        <div class="sidebar-title">Menu Principal</div>
+        <ul class="menu">
+          <li>
+            <a href="#" class="menu-item active" data-section="produtos">
+              <i class="fa-solid fa-boxes-stacked"></i> <span>Produtos</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="menu-item" data-section="novo-produto">
+              <i class="fa-solid fa-circle-plus"></i> <span>Novo Produto</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- ÁREA DE CONTEÚDO -->
+      <main class="admin-main">
+        <!-- SEÇÃO: LISTA DE PRODUTOS -->
+        <section id="produtos-section" class="admin-section active">
+          <!-- CARDS DE ESTATÍSTICAS DO PAINEL (APENAS TOTAL E ATIVOS) -->
+          <div class="stats-grid stats-grid-two">
+            <div class="stat-card">
+              <div class="stat-icon bg-gold">
+                <i class="fa-solid fa-cubes"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Total de Produtos</span>
+                <strong class="stat-value" id="stat-total">0</strong>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon bg-green">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <div class="stat-info">
+                <span class="stat-label">Produtos Ativos</span>
+                <strong class="stat-value" id="stat-ativos">0</strong>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- FILTROS E BUSCA (ESTILO LOJA CLIENTE) -->
+          <div class="products-filters">
+            <div class="search-box-admin">
+              <input type="text" id="filtro-busca" placeholder="Buscar produto pelo nome..." class="input-admin-pill" />
+              <i class="fa-solid fa-magnifying-glass search-icon-right"></i>
+            </div>
+            <div class="select-box-admin">
+              <select id="filtro-categoria" class="select-admin-pill">
+                <option value="">Todas as categorias</option>
+                <option value="bovino">Bovino</option>
+                <option value="suino">Suíno</option>
+                <option value="frango">Frango</option>
+                <option value="acompanhamentos">Acompanhamentos</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-icon-right"></i>
+            </div>
+          </div>
+
+          <!-- LISTA DE PRODUTOS ESTILO CLEAN (iOS DESIGN) -->
+          <div class="ios-list-container">
+            <div id="ios-product-list" class="ios-product-list">
+              <div class="table-loader">
+                <i class="fa-solid fa-spinner fa-spin"></i> Carregando produtos...
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEÇÃO: CRIAR/EDITAR PRODUTO -->
+        <section id="novo-produto-section" class="admin-section">
+          <div class="section-header">
+            <div>
+              <h3 id="form-title">Cadastrar Novo Produto</h3>
+              <p class="section-desc">Preencha as informações abaixo e gerencie o produto.</p>
+            </div>
+            <button class="btn-admin btn-secondary" id="btn-voltar-produtos">
+              <i class="fa-solid fa-arrow-left"></i> Voltar à Lista
+            </button>
+          </div>
+
+          <form id="product-form" class="form-admin-large">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prod-nome"><i class="fa-solid fa-tag"></i> Nome do Produto *</label>
+                <input type="text" id="prod-nome" placeholder="Ex: Picanha Premium" required />
+              </div>
+              <div class="form-group">
+                <label for="prod-preco"><i class="fa-solid fa-brazilian-real-sign"></i> Preço (R$) *</label>
+                <input type="number" id="prod-preco" step="0.01" min="0" placeholder="0.00" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prod-categoria"><i class="fa-solid fa-layer-group"></i> Categoria *</label>
+                <select id="prod-categoria" required>
+                  <option value="">-- Selecione uma Categoria --</option>
+                  <option value="bovino">Bovino</option>
+                  <option value="suino">Suíno</option>
+                  <option value="frango">Frango</option>
+                  <option value="acompanhamentos">Acompanhamentos</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="prod-img"><i class="fa-solid fa-image"></i> Imagem do Produto</label>
+                <div class="file-upload-box">
+                  <input type="file" id="prod-img" accept="image/*" />
+                  <div class="upload-dummy">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Clique ou arraste uma foto (Máx 5MB)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row" id="preview-row">
+              <div class="form-group full-width" id="preview-container" style="display: none">
+                <label><i class="fa-solid fa-eye"></i> Pré-visualização da Imagem</label>
+                <div class="preview-card">
+                  <img id="image-preview" src="" alt="Preview da Imagem" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group-switches">
+              <label class="switch-card">
+                <input type="checkbox" id="prod-mais-vendido" />
+                <span class="switch-custom"></span>
+                <span class="switch-text">
+                  <strong><i class="fa-solid fa-fire text-red"></i> Mais Vendido</strong>
+                  <small>Exibe destaque especial de popularidade</small>
+                </span>
+              </label>
+
+              <label class="switch-card">
+                <input type="checkbox" id="prod-especial" />
+                <span class="switch-custom"></span>
+                <span class="switch-text">
+                  <strong><i class="fa-solid fa-crown text-gold"></i> Corte Especial</strong>
+                  <small>Destaca o item como seleção gourmet</small>
+                </span>
+              </label>
+
+              <label class="switch-card">
+                <input type="checkbox" id="prod-ativo" checked />
+                <span class="switch-custom"></span>
+                <span class="switch-text">
+                  <strong><i class="fa-solid fa-eye text-green"></i> Produto Ativo</strong>
+                  <small>Item visível para compra no cardápio</small>
+                </span>
+              </label>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="prod-descricao"><i class="fa-solid fa-align-left"></i> Descrição Detalhada</label>
+              <textarea id="prod-descricao" rows="4" placeholder="Descreva os detalhes da carne, maciez, sugestões de preparo..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-admin btn-primary btn-save">
+                <i class="fa-solid fa-floppy-disk"></i> <span id="btn-submit-text">Salvar Produto</span>
+              </button>
+              
+              <button type="button" id="btn-deletar-no-form" class="btn-admin btn-danger" style="display: none;">
+                <i class="fa-solid fa-trash-can"></i> Excluir Produto
+              </button>
+
+              <button type="button" class="btn-admin btn-secondary" id="btn-cancelar-form">
+                <i class="fa-solid fa-xmark"></i> Cancelar
+              </button>
+            </div>
+            <div id="form-error" class="error-message"></div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMAÇÃO DE EXCLUSÃO -->
+  <div id="delete-modal" class="modal" style="display: none">
+    <div class="modal-content">
+      <div class="modal-header-danger">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h4>Confirmar Exclusão</h4>
+      </div>
+      <p>
+        Você tem certeza que deseja excluir permanentemente o produto
+        <strong id="delete-product-name"></strong>? Esta ação não pode ser desfeita.
+      </p>
+      <div class="modal-actions">
+        <button id="btn-confirm-delete" class="btn-admin btn-danger">
+          <i class="fa-solid fa-trash-can"></i> Sim, Excluir
+        </button>
+        <button id="btn-cancel-delete" class="btn-admin btn-secondary">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICAÇÃO -->
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="admin.js"></script>
+</body>
+
+</html>
