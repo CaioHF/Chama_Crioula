@@ -80,7 +80,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function inicializarTema() {
   const temaSalvo = localStorage.getItem("modoNoturnoChamaCrioula");
+<<<<<<< HEAD
   const usarModoClaro = temaSalvo !== "true";
+=======
+  const usarModoClaro = temaSalvo === "false";
+>>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
 
   if (usarModoClaro) {
     document.body.classList.add("modo-claro");
