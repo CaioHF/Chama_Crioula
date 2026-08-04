@@ -323,15 +323,9 @@
         <div class="banner-track">
 
             <div class="banner-slide"
-<<<<<<< HEAD
-                style="background-image: linear-gradient(to right, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3)), url('imagens/banner-costela.jpg');">
-                <div>
-                    <h2>Açougue Delivery</h2>
-=======
                 style="background-image: linear-gradient(to right, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.2)), url('imagens/banner-costela.jpg');">
                 <div>
                     <h2><span class="destaque-ouro">Açougue</span> Delivery</h2>
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
                     <p>Carnes para o dia a dia e cortes especiais!</p>
                     <div class="banner-badges">
                         <span class="banner-badge"><i class="fa-solid fa-medal"></i> 33 Anos</span>
@@ -342,15 +336,9 @@
             </div>
 
             <div class="banner-slide"
-<<<<<<< HEAD
-                style="background-image: linear-gradient(to right, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3)), url('imagens/banner-entrega.jpg');">
-                <div>
-                    <h2>Entrega Grátis</h2>
-=======
                 style="background-image: linear-gradient(to right, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.2)), url('imagens/banner-entrega.jpg');">
                 <div>
                     <h2>Entrega <span class="destaque-ouro">Grátis</span></h2>
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
                     <p>Receba no conforto da sua casa sem taxas!</p>
                     <div class="banner-badges">
                         <span class="banner-badge"><i class="fa-solid fa-location-dot"></i> Ouro Verde do Oeste</span>
@@ -360,29 +348,17 @@
             </div>
 
             <div class="banner-slide"
-<<<<<<< HEAD
-                style="background-image: linear-gradient(to right, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3)), url('imagens/banner-corte.jpg');">
-                <div>
-                    <h2>Pedidos Personalizados</h2>
-=======
                 style="background-image: linear-gradient(to right, rgba(0,0,0,0.78) 50%, rgba(0,0,0,0.2)), url('imagens/banner-corte.jpg');">
                 <div>
                     <h2>Pedidos <span class="destaque-vermelho">Personalizados</span></h2>
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
                     <p>Escolha o corte e o peso que você precisa!</p>
                 </div>
             </div>
 
             <div class="banner-slide"
-<<<<<<< HEAD
-                style="background-image: linear-gradient(to right, rgba(0,0,0,0.88) 50%, rgba(0,0,0,0.3)), url('imagens/banner-carne.jpg');">
-                <div>
-                    <h2>Faça sua Reserva</h2>
-=======
                 style="background-image: linear-gradient(to right, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.25)), url('imagens/banner-carne.jpg');">
                 <div>
                     <h2>Faça sua <span class="destaque-ouro">Reserva</span></h2>
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
                     <ul>
                         <li>Pedidos de Seg–Sáb: 09h às 16h</li>
                         <li>Entregas de Seg–Sáb: 17h às 19h</li>
@@ -647,29 +623,44 @@
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJod3ZrZ2duamdicnhqcWdqYXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NDQzNTEsImV4cCI6MjA5MTAyMDM1MX0.3PEMI58ER8G_Yre9cVglSogd2lJEiiQFVcKaBJ_ULI0";
 
         async function carregarCarnes() {
-            const res = await fetch(`${SUPABASE_URL}/rest/v1/carnes`, {
-                method: 'GET',
-                headers: {
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": "Bearer " + SUPABASE_KEY
-                },
-                cache: 'no-store'
-            });
+            try {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/carnes?select=*&order=id.asc`, {
+                    method: 'GET',
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": "Bearer " + SUPABASE_KEY
+                    },
+                    cache: 'no-store'
+                });
 
-            const data = await res.json();
+                if (!res.ok) {
+                    console.error("Erro ao carregar produtos do Supabase:", res.status, res.statusText);
+                    return;
+                }
 
-            produtos = data.map(item => ({
-                id: item.id,
-                nome: item.nome,
-                preco: Number(item.preco),
-                categoria: item.categoria,
-                img: item.img || 'imagens/default.png',
-                descricao: item.descricao || '',
-                maisVendido: item.mais_vendidos || false,
-                especial: item.cortes_especiais || false
-            }));
+                const data = await res.json();
 
-            renderProdutos();
+                if (Array.isArray(data)) {
+                    produtos = data
+                        .filter(item => item.ativo !== false)
+                        .map(item => ({
+                            id: item.id,
+                            nome: item.nome,
+                            preco: Number(item.preco),
+                            categoria: item.categoria,
+                            img: item.img || 'imagens/default.png',
+                            descricao: item.descricao || '',
+                            maisVendido: item.mais_vendidos || false,
+                            especial: item.cortes_especiais || false
+                        }));
+
+                    renderProdutos();
+                } else {
+                    console.error("Formato de resposta inesperado do Supabase:", data);
+                }
+            } catch (err) {
+                console.error("Erro na requisição dos produtos:", err);
+            }
         }
 
         // ======================================================

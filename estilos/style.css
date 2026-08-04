@@ -320,30 +320,11 @@ header {
   }
 }
 
-<<<<<<< HEAD
-/* Botão Admin (bonequinho) e Configurações sem círculo ao redor */
-=======
 /* Botão Admin (bonequinho) */
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
 .btn-admin-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-<<<<<<< HEAD
-  background: transparent;
-  border: none;
-  color: var(--txt-muted);
-  font-size: 1.1rem;
-  text-decoration: none;
-  transition: all var(--transition-fast);
-  flex-shrink: 0;
-  padding: 4px;
-}
-
-.btn-admin-icon:hover {
-  color: var(--cor-dourada);
-  transform: scale(1.15);
-=======
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -361,7 +342,6 @@ header {
   border-color: var(--cor-dourada);
   color: var(--cor-dourada);
   transform: scale(1.08);
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
 }
 
 /* Busca + Carrinho mobile (legado, sem input no header) */
@@ -1005,20 +985,13 @@ header {
 }
 
 div.banner-slide h2 {
-<<<<<<< HEAD
-  color: #FFFFFF !important;
-=======
   color: var(--txt-white);
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
   font-family: var(--font-title);
   text-transform: uppercase;
   font-size: 3.2rem;
   line-height: 1.1;
   margin-bottom: 14px;
   letter-spacing: 1px;
-<<<<<<< HEAD
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
-=======
 }
 
 div.banner-slide h2 span.destaque-ouro {
@@ -1027,7 +1000,6 @@ div.banner-slide h2 span.destaque-ouro {
 
 div.banner-slide h2 span.destaque-vermelho {
   color: var(--cor-vermelha);
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
 }
 
 div.banner-slide p {
@@ -3406,26 +3378,16 @@ footer {
 }
 
 .config-icon {
-<<<<<<< HEAD
-  font-size: 1.4rem;
-  color: var(--cor-dourada);
-=======
   font-size: 1.3rem;
   color: var(--cor-dourada);
   width: 38px;
   height: 38px;
   border-radius: 50%;
   background: rgba(212, 168, 67, 0.12);
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-<<<<<<< HEAD
-  background: transparent;
-  border: none;
-=======
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
 }
 
 .config-info strong {
@@ -3735,7 +3697,6 @@ body.modo-claro #detalhe-descricao {
 
 body.modo-claro .radio-corte-label {
   background: #EAEBED;
-<<<<<<< HEAD
   border-color: rgba(0, 0, 0, 0.15);
   color: #333333;
   transition: all var(--transition-fast);

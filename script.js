@@ -19,6 +19,7 @@ const botoesFiltro = document.querySelectorAll('.tipos');
 // 2. ESTADO DO APLICATIVO
 // ==========================================================================
 let carrinho = [];
+let produtos = [];
 let taxaEntrega = 0;
 let lojaAberta = false; 
 
@@ -937,11 +938,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const temaSalvo = localStorage.getItem('modoNoturnoChamaCrioula');
-<<<<<<< HEAD
-    const modoInicial = temaSalvo === 'true';
-=======
     const modoInicial = temaSalvo !== null ? (temaSalvo === 'true') : true;
->>>>>>> 18f6e4488511b1aa79d6b4aa36afdf8c53e9325f
     aplicarTema(modoInicial);
 
     if (btnConfig && modalConfig) {
